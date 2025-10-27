@@ -1,0 +1,108 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Cecil\\source\\repos\\Snekken\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9D33C406-6D40-439B-A85E-9548AD655757}|UnitTest\\UnitTest.csproj|c:\\users\\cecil\\source\\repos\\snekken\\unittest\\test1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9D33C406-6D40-439B-A85E-9548AD655757}|UnitTest\\UnitTest.csproj|solutionrelative:unittest\\test1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AD00E6EB-71AB-4397-9072-1C3487139380}|Models\\Models.csproj|c:\\users\\cecil\\source\\repos\\snekken\\models\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AD00E6EB-71AB-4397-9072-1C3487139380}|Models\\Models.csproj|solutionrelative:models\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC08EB89-FA29-412C-A318-5913D0B17C79}|DatabaseConsole\\DatabaseConsole.csproj|c:\\users\\cecil\\source\\repos\\snekken\\databaseconsole\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC08EB89-FA29-412C-A318-5913D0B17C79}|DatabaseConsole\\DatabaseConsole.csproj|solutionrelative:databaseconsole\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6578E0FB-4E78-4FF8-8966-EF91E03331DD}|Snekken\\Snekken.csproj|c:\\users\\cecil\\source\\repos\\snekken\\snekken\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{6578E0FB-4E78-4FF8-8966-EF91E03331DD}|Snekken\\Snekken.csproj|solutionrelative:snekken\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6578E0FB-4E78-4FF8-8966-EF91E03331DD}|Snekken\\Snekken.csproj|c:\\users\\cecil\\source\\repos\\snekken\\snekken\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6578E0FB-4E78-4FF8-8966-EF91E03331DD}|Snekken\\Snekken.csproj|solutionrelative:snekken\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Test1.cs",
+              "DocumentMoniker": "C:\\Users\\Cecil\\source\\repos\\Snekken\\UnitTest\\Test1.cs",
+              "RelativeDocumentMoniker": "UnitTest\\Test1.cs",
+              "ToolTip": "C:\\Users\\Cecil\\source\\repos\\Snekken\\UnitTest\\Test1.cs",
+              "RelativeToolTip": "UnitTest\\Test1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T10:28:11.274Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\Cecil\\source\\repos\\Snekken\\Models\\Class1.cs",
+              "RelativeDocumentMoniker": "Models\\Class1.cs",
+              "ToolTip": "C:\\Users\\Cecil\\source\\repos\\Snekken\\Models\\Class1.cs",
+              "RelativeToolTip": "Models\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T10:27:39.19Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Cecil\\source\\repos\\Snekken\\DatabaseConsole\\Program.cs",
+              "RelativeDocumentMoniker": "DatabaseConsole\\Program.cs",
+              "ToolTip": "C:\\Users\\Cecil\\source\\repos\\Snekken\\DatabaseConsole\\Program.cs",
+              "RelativeToolTip": "DatabaseConsole\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T10:21:50.75Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\Cecil\\source\\repos\\Snekken\\Snekken\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "Snekken\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\Cecil\\source\\repos\\Snekken\\Snekken\\MainWindow.xaml",
+              "RelativeToolTip": "Snekken\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-27T10:19:19.666Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Cecil\\source\\repos\\Snekken\\Snekken\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Snekken\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\Cecil\\source\\repos\\Snekken\\Snekken\\MainWindow.xaml.cs",
+              "RelativeToolTip": "Snekken\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T10:19:14.839Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
