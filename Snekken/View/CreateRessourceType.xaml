@@ -1,0 +1,53 @@
+﻿<Window x:Class="Snekken.View.CreateRessourceType"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Snekken.View"
+        mc:Ignorable="d"
+        Title="CreateRessourceType" Height="450" Width="320">
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Opret Ressource Type" 
+                       FontSize="24" 
+                       FontWeight="Bold" 
+                       Margin="20"/>
+
+            <TextBlock Text="Title" Margin="20,10,0,5"/>
+            <TextBox Margin="20,0,20,10" 
+                     Width="260" 
+                     HorizontalAlignment="Left" 
+                     Height="30" 
+                     Text="Ressource Type Navn"/>
+
+            <TextBlock Text="Enhed" Margin="20,0,0,5"/>
+            <ComboBox Margin="20,0,20,10" 
+                          HorizontalAlignment="Left"
+                          Width="260"
+                          Height="30">
+                <ComboBoxItem Content="Båd"/>
+                <ComboBoxItem Content="Trailer"/>
+                <ComboBoxItem Content="Mødelokal"/>
+            </ComboBox>
+
+            <TextBlock Text="Krav" 
+                       Margin="20,0,0,5"/>
+            <TextBox Margin="20,0,20,10" 
+                     Width="260" 
+                     HorizontalAlignment="Left" 
+                     Height="100" 
+                     Text="Noter" 
+                     TextWrapping="Wrap" 
+                     AcceptsReturn="True"/>
+
+            <Button Content="Opret" 
+                    HorizontalAlignment="Left"                    
+                    Command="{Binding CreateRessourceCommand}"
+                    Height="30"
+                    Width="260"
+                    Margin="20,10"
+                    Background="Salmon"
+                    Foreground="White"/>
+        </StackPanel>
+    </Grid>
+</Window>
