@@ -5,8 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Snekken"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="450">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel>
+            <TextBlock Grid.Row="0"
+                   Text="Dagens bookinger" 
+                   Margin="20,20,0,0"
+                   FontSize="32"
+                   HorizontalAlignment="Left"/>
+
+            <ListBox Grid.Row="0" 
+                 Margin="20"
+                 Height="400">
+                <ListBoxItem Content="Booking 1"/>
+                <ListBoxItem Content="Booking 2"/>
+                <ListBoxItem Content="Booking 3"/>
+            </ListBox>
+
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" 
+                    Content="Ressourcer" 
+                    Margin="5"
+                    Click="RessourcerButton_Click"/>
+            <Button Grid.Column="1" 
+                    Content="Bookinger" 
+                    Margin="5"/>
+            <Button Grid.Column="2" 
+                    Content="Brugere" 
+                    Margin="5"/>
+        </Grid>
 
     </Grid>
 </Window>
