@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.Extensions.Configuration;
+using Models;
+
 
 namespace DatabaseConsole;
 
 internal class Program
 {
+
+    private static DB db;
     static void Main(string[] args)
     {
+        string connectionString = ConfigHelper.GetConnectionString();
+        db = new DB(connectionString);
+    
         bool running = true;
         while (running)
         {
@@ -32,28 +40,27 @@ internal class Program
                     Pause();
                     break;
             }
-
         }
     }
 
     static void RunMigration()
     {
-        Console.WriteLine("Running migration...");
-        // TODO: Call migration logic from model library
+        string response = db.Migrate();
+        Console.WriteLine(response);
         Pause();
     }
 
     static void RollbackMigration()
     {
-        Console.WriteLine("Rolling back database...");
-        // TODO: Call rollback logic
+        string response = db.Truncate();
+        Console.WriteLine(response);
         Pause();
     }
 
     static void SeedDatabase()
     {
-        Console.WriteLine("Seeding database...");
-        // TODO: Call seeding logic
+        string response = db.Seed();
+        Console.WriteLine(response);
         Pause();
     }
 
