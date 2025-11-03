@@ -1,0 +1,18 @@
+@startuml
+actor Administrator
+participant View
+participant Controller
+participant Repository
+database Database
+
+Administrator -> View: Opret ny ressource
+View -> Administrator: Vis formular
+Administrator -> View: Indtast data + Gem
+View -> Controller: OpretRessource(data)
+Controller -> Repository: Add(Ressource)
+Repository -> Database: Gem(r)
+Database --> Repository: OK
+Repository --> Controller: Bekræftelse
+Controller -> View: Opdater oversigt
+View -> Administrator: Bekræft oprettelse
+@enduml
