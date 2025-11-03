@@ -1,0 +1,3 @@
+﻿CREATE TABLE TEST(
+	Id INT Identity(1,1) PRIMARY KEY
+);
