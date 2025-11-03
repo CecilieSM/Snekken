@@ -14,6 +14,6 @@ public static class ConfigHelper
     {
         IConfigurationRoot config = new ConfigurationBuilder().AddJsonFile("appSettings.json").Build();
         string? ConnectionString = config.GetConnectionString("DefaultConnection");
-        return "ConnectionString";
+        return ConnectionString;
     }
 }

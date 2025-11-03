@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
+using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace Models;
 
@@ -17,12 +20,33 @@ public class DB
 
     public string Migrate()
     {
-        return $"Migration completed";
+        int numbRows = 0;
+        // Henter sql filen til en string
+        string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Schema", "Schema.sql");
+        string query = File.ReadAllText(path);
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            SqlCommand command = new SqlCommand(query, connection);
+            connection.Open();
+            numbRows = command.ExecuteNonQuery();
+        }
+
+        return $"Migration completed: Number of affected rows: {numbRows}";
     }
 
     public string Truncate()
     {
-        return $"Rollback completed";
+        int numbRows = 0;
+        string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Schema", "Truncate.sql");
+        string query = File.ReadAllText(path);
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            SqlCommand command = new SqlCommand(query, connection);
+            connection.Open();
+            numbRows = command.ExecuteNonQuery();
+        }
+        return $"Rollback completed: Number of affected rows: {numbRows}";
     }
 
     public string Seed()
