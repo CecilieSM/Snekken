@@ -1,0 +1,12 @@
+sequenceDiagram
+    actor Administrator
+    participant System
+
+    Administrator->>System: creatNewResource
+    System-->>Administrator: displayForm (type, title, unitPrice, capacity, description)
+    Administrator->>System: enterData (type, title, unitPrice, capacity, description)
+    Administrator->>System: clickSave
+    System->>System: validateInformation
+    System->>Database: saveResource
+    Database-->>System: confirmSaved
+    System-->>Administrator: showConfirmationAndUpdatelist
