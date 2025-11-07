@@ -6,21 +6,40 @@ using System.Threading.Tasks;
 
 namespace Models;
 public class Person
-{
-    // PK
-    public int Id { get; set; }
-
-    // Data
-    public string Name { get; set; } = "";
-    public string? Mobile { get; set; }          // string, ikke int pga. telefonnummer 
-    public string Email { get; set; } = "";
-
-    public Person() { }
-
-    public Person(string name, string email, string? mobile = null)
     {
-        Name = name;
-        Email = email;
-        Mobile = mobile;
+        private int _id;
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+
+        private string _name = "";
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
+        private string? _mobile;
+        public string? Mobile
+        {
+            get { return _mobile; }
+            set { _mobile = value; }
+        }
+
+        private string _email = "";
+        public string Email
+        {
+            get { return _email; }
+            set { _email = value; }
+        }
+
+
+        public Person(string name, string email, string? mobile = null)
+    {
+        this.Name = name;
+        this.Email = email;
+        this.Mobile = mobile;
     }
 }

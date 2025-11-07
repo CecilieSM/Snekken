@@ -8,26 +8,46 @@ namespace Models;
 
 public class Resource
 {
-    // PK
-    public int Id { get; set; }
+    private int _id;              // PK
+    public int Id
+    {
+        get { return _id; }
+        set { _id = value; }
+    }
 
-    // Data
-    public string Title { get; set; } = "";
-    public decimal Price { get; set; }           // pris pr. Unit fra ResourceType
-    public bool IsActive { get; set; } = true;
+    private string _title = "";
+    public string Title
+    {
+        get { return _title; }
+        set { _title = value; }
+    }
 
-    // FK - ResourceType
-    public int ResourceTypeId { get; set; }
+    private decimal _price;
+    public decimal Price
+    {
+        get { return _price; }
+        set { _price = value; }
+    }
 
-    public Resource() 
-    { 
+    private bool _isActive = true;
+    public bool IsActive
+    {
+        get { return _isActive; }
+        set { _isActive = value; }
+    }
+
+    private int _resourceTypeId;
+    public int ResourceTypeId
+    {
+        get { return _resourceTypeId; }
+        set { _resourceTypeId = value; }
     }
 
     public Resource(string title, decimal price, int resourceTypeId, bool isActive = true)
     {
-        Title = title;
-        Price = price;
-        ResourceTypeId = resourceTypeId;
-        IsActive = isActive;
+        this.Title = title;
+        this.Price = price;
+        this.ResourceTypeId = resourceTypeId;
+        this.IsActive = true;
     }
 }

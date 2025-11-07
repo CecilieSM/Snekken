@@ -8,32 +8,62 @@ namespace Models;
 
 public class Booking
 {
-    // PK
-    public int Id { get; set; }
+    private int _id;
+    public int Id
+    {
+        get { return _id; }
+        set { _id = value; }
+    }
 
-    // Tidsrum for booking
-    public DateTime StartTime { get; set; }
-    public DateTime EndTime { get; set; }
+    private DateTime _startTime;
+    public DateTime StartTime
+    {
+        get { return _startTime; }
+        set { _startTime = value; }
+    }
 
-    // Statusser 
-    public bool RequirementStatus { get; set; }  // opfyldt/ikke opfyldt
-    public bool PaymentStatus { get; set; }      // depositum betalt/ikke betalt
+    private DateTime _endTime;
+    public DateTime EndTime
+    {
+        get { return _endTime; }
+        set { _endTime = value; }
+    }
 
-    // FK’er
-    public int ResourceId { get; set; }         
-    public int PersonId { get; set; }           
+    private bool _requirementStatus;
+    public bool RequirementStatus
+    {
+        get { return _requirementStatus; }
+        set { _requirementStatus = value; }
+    }
 
-    public Booking() 
-    { 
+    private bool _paymentStatus;
+    public bool PaymentStatus
+    {
+        get { return _paymentStatus; }
+        set { _paymentStatus = value; }
+    }
+
+    private int _resourceId;
+    public int ResourceId
+    {
+        get { return _resourceId; }
+        set { _resourceId = value; }
+    }
+
+    private int _personId;
+    public int PersonId
+    {
+        get { return _personId; }
+        set { _personId = value; }
     }
 
     public Booking(int resourceId, int personId, DateTime startTime, DateTime endTime, bool requirementStatus = false, bool paymentStatus = false)
     {
-        ResourceId = resourceId;
-        PersonId = personId;
-        StartTime = startTime;
-        EndTime = endTime;
-        RequirementStatus = requirementStatus;
-        PaymentStatus = paymentStatus;
+        this.ResourceId = resourceId;
+        this.PersonId = personId;
+        this.StartTime = startTime;
+        this.EndTime = endTime;
+        this.RequirementStatus = false;
+        this.PaymentStatus = false;
     }
 }
