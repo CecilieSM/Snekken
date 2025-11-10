@@ -51,6 +51,15 @@ public class DB
 
     public string Seed()
     {
+        int numbRows = 0;
+        string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Schema", "DummyData.sql");
+        string query = File.ReadAllText(path);
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            SqlCommand command = new SqlCommand(query, connection);
+            connection.Open();
+            numbRows = command.ExecuteNonQuery();
+        }
         return $"Seeding completed";
     }
 }

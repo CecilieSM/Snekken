@@ -1,6 +1,13 @@
-﻿--Create Resource, ResourceType, Person, Booking
---INSERT INTO Resource(title, price, isActive, resourceType) VALUES('Jolle', 550, true, 'båd')
---INSERT INTO ResourceType(title, timeUnit, status, requirement) VALUES('båd', 2, true)
---INSERT INTO Person(name, phone, email) VALUES('Peter Hansen', 56614525, 'peter.hansen@gmail.com')
---INSERT INTO Booking(startTime, endTime, requirementFulfilled, isPaid) VALUES(2026-07-16 10:00, 2026-07-16 12:00, true, false)
+﻿
+INSERT INTO ResourceType(title, Unit, status, requirement) 
+VALUES('båd', 2, 0, 'Husk: Check bådcertifikat');
+
+INSERT INTO Resource(title, price, isActive, resourceTypeId) 
+VALUES('Jolle', 550, 1, 1)
+
+INSERT INTO Person(name, phone, email) 
+VALUES('Peter Hansen', '56614525', 'peter.hansen@gmail.com')
+
+INSERT INTO Booking(startTime, endTime, requirementFulfilled, isPaid, resourceId, personId) 
+VALUES(current_timeStamp, current_timeStamp, 0, 1, 1, 1)
 

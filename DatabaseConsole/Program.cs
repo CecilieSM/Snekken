@@ -22,6 +22,7 @@ internal class Program
             Console.WriteLine("=== Database Migration Tool ===");
             Console.WriteLine("1. Run Migration");
             Console.WriteLine("2. Rollback Migration");
+            Console.WriteLine("3. Seed Database");
             Console.WriteLine("Q. Quit");
             Console.Write("\nSelect an option: ");
 
