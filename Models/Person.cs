@@ -21,11 +21,11 @@ public class Person
             set { _name = value; }
         }
 
-        private string? _mobile;
-        public string? Mobile
+        private string _phone;
+        public string Phone
         {
-            get { return _mobile; }
-            set { _mobile = value; }
+            get { return _phone; }
+            set { _phone = value; }
         }
 
         private string _email = "";
@@ -36,10 +36,10 @@ public class Person
         }
 
 
-        public Person(string name, string email, string? mobile = null)
+        public Person(string name, string email, string phone = "ikke oplyst")
     {
         this.Name = name;
         this.Email = email;
-        this.Mobile = mobile;
+        this.Phone = phone;
     }
 }

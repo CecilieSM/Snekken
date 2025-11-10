@@ -20,8 +20,8 @@ public class ResourceType
         get { return _title; }
         set { _title = value; }
     }
-    private string _unit = "Time";       // skal fixes med Enum fil
-    public string Unit
+    private TimeUnit _unit = TimeUnit.None;       // referer til Enum fil "TimeUnit"
+    public TimeUnit Unit
     {
         get { return _unit; }
         set { _unit = value; }
@@ -41,7 +41,7 @@ public class ResourceType
         set { _requirement = value; }
     }
 
-    public ResourceType(string title, string unit, string requirement = null)
+    public ResourceType(string title, TimeUnit unit, string requirement = null)
     {
         this.Title = title;
         this.Unit = unit;

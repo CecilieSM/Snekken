@@ -29,18 +29,18 @@ public class Booking
         set { _endTime = value; }
     }
 
-    private bool _requirementStatus;
-    public bool RequirementStatus
+    private bool _requirementFulfilled;
+    public bool RequirementFulfilled
     {
-        get { return _requirementStatus; }
-        set { _requirementStatus = value; }
+        get { return _requirementFulfilled; }
+        set { _requirementFulfilled = value; }
     }
 
-    private bool _paymentStatus;
-    public bool PaymentStatus
+    private bool _isPaid;
+    public bool IsPaid
     {
-        get { return _paymentStatus; }
-        set { _paymentStatus = value; }
+        get { return _isPaid; }
+        set { _isPaid = value; }
     }
 
     private int _resourceId;
@@ -57,13 +57,13 @@ public class Booking
         set { _personId = value; }
     }
 
-    public Booking(int resourceId, int personId, DateTime startTime, DateTime endTime, bool requirementStatus = false, bool paymentStatus = false)
+    public Booking(int resourceId, int personId, DateTime startTime, DateTime endTime, bool requirementFulfilled = false, bool isPaid = false)
     {
         this.ResourceId = resourceId;
         this.PersonId = personId;
         this.StartTime = startTime;
         this.EndTime = endTime;
-        this.RequirementStatus = false;
-        this.PaymentStatus = false;
+        this.RequirementFulfilled = false;
+        this.IsPaid = false;
     }
 }
