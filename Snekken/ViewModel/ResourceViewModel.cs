@@ -50,6 +50,7 @@ public class ResourceViewModel : BaseViewModel
 
     public enum TimeUnit //TimeUnit = enumtypen der definerer mulige værdier
     {
+        None,
         Day,
         Hour
     }
@@ -70,8 +71,8 @@ public class ResourceViewModel : BaseViewModel
     public bool Status { get => _status; set { _status = value; OnPropertyChanged(); } }
 
 
-    private string _typeFormRequirement;
-    public string TypeFormRequirement { get => _typeFormRequirement; set { _typeFormRequirement = value; OnPropertyChanged(); } }
+    private string? _typeFormRequirement;
+    public string? TypeFormRequirement { get => _typeFormRequirement; set { _typeFormRequirement = value; OnPropertyChanged(); } }
 
 
     ////PROPERTIES PERSON
@@ -79,8 +80,8 @@ public class ResourceViewModel : BaseViewModel
     //public string NewName { get => _newName; set { _newName = value; OnPropertyChanged(); } }
 
 
-    //private int _newPhoneNo;
-    //public int NewPhoneNo { get => _newPhoneNo; set { _newPhoneNo = value; OnPropertyChanged(); } }
+    //private int _newPhone;
+    //public int NewPhone { get => _newPhone; set { _newPhone = value; OnPropertyChanged(); } }
 
 
     //private string _newEmail;
@@ -142,7 +143,7 @@ public class ResourceViewModel : BaseViewModel
 
     }
 
-    //Execute og CanExecute 
+    //METODER
     private void AddResource(object? parameter)
     {
         //Eksempel på at tilføje en ny ressouce
@@ -182,7 +183,8 @@ public class ResourceViewModel : BaseViewModel
     private void AddResourceType(object? parameter)
     {
         //Eksempel på at tilføje en ny ressouce
-        ResourceType newResourceType = new ResourceType(this.TypeFormTitle, this.TypeFormUnit, this.TypeFormRequirement, this.Status);
+
+        ResourceType newResourceType = new ResourceType(this.TypeFormTitle, this.TypeFormUnit, this.TypeFormRequirement);
         int newId = _resourceTypeRepository.Add(newResourceType);
         newResourceType.ResourceTypeId = newId;
         ResourceTypes.Add(newResourceType);
@@ -209,6 +211,18 @@ public class ResourceViewModel : BaseViewModel
         return true;
     }
 
+
+    private void ClearResourceForm()
+    {
+        ResourceFormTitle = string.Empty;
+        ResourceFormType = string.Empty;
+        ResourceFormDescription = string.Empty;
+        ResourceFormUnitPrice = 0;
+        ResourceFormCapacity = 0;
+        IsActive = false;
+    }
+
+   
 
     //private void UpdateResource(object? parameter)
     //{
@@ -255,7 +269,7 @@ public class ResourceViewModel : BaseViewModel
 
     //}
 
-    //METODER
+   
 
 
 }
