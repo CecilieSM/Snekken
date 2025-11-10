@@ -63,7 +63,7 @@ public class Booking
         this.PersonId = personId;
         this.StartTime = startTime;
         this.EndTime = endTime;
-        this.RequirementFulfilled = false;
-        this.IsPaid = false;
+        this.RequirementFulfilled = requirementFulfilled;
+        this.IsPaid = isPaid;
     }
 }

@@ -22,8 +22,8 @@ public class Resource
         set { _title = value; }
     }
 
-    private decimal _price;
-    public decimal Price
+    private double _price;
+    public double Price
     {
         get { return _price; }
         set { _price = value; }
@@ -43,11 +43,11 @@ public class Resource
         set { _resourceTypeId = value; }
     }
 
-    public Resource(string title, decimal price, int resourceTypeId, bool isActive = true)
+    public Resource(string title, double price, int resourceTypeId, bool isActive = true)
     {
         this.Title = title;
         this.Price = price;
         this.ResourceTypeId = resourceTypeId;
-        this.IsActive = true;
+        this.IsActive = isActive;
     }
 }
