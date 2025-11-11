@@ -2,8 +2,7 @@
 	ResourceTypeId int IDENTITY(1,1) PRIMARY KEY,
 	Title nvarchar(50) NOT NULL,      
     Unit int NOT NULL,      
-    Status bit NOT NULL DEFAULT 1, 
-    Requirement nvarchar(255) NULL    
+    Requirement nvarchar(255)     
 );
 
 CREATE TABLE RESOURCE (
