@@ -26,14 +26,6 @@ public class ResourceType
         get { return _unit; }
         set { _unit = value; }
     }
-
-    private bool _status = true;          // Spørg Dieter
-    public bool Status
-    {
-        get { return _status; }
-        set { _status = value; }
-    }
-
     private string _requirement;          // fx "Kranfører påkrævet", "Nøgle udleveres"
     public string Requirement
     {
@@ -45,7 +37,6 @@ public class ResourceType
     {
         this.Title = title;
         this.Unit = unit;
-        this.Status = true;
         this.Requirement = requirement;
     }
 }
