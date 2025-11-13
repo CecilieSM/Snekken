@@ -1,6 +1,6 @@
 ﻿
-INSERT INTO ResourceType(title, Unit, status, requirement) 
-VALUES('båd', 2, 0, 'Husk: Check bådcertifikat');
+INSERT INTO ResourceType(title, Unit, requirement) 
+VALUES('båd', 2, 'Husk: Check bådcertifikat');
 
 INSERT INTO Resource(title, price, isActive, resourceTypeId) 
 VALUES('Jolle', 550, 1, 1)

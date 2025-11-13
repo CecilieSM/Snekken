@@ -51,6 +51,12 @@ public class DB
 
     public string Seed()
     {
+        // use repo
+        // create data
+        //ResourceType = new ResourceType( argumenter );
+
+
+
         int numbRows = 0;
         string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Schema", "DummyData.sql");
         string query = File.ReadAllText(path);

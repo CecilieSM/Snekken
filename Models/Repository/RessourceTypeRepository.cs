@@ -62,4 +62,4 @@ public class ResourceTypeRepository : IRepository<ResourceType>
         throw new NotImplementedException();
     }
 }
-}
+
