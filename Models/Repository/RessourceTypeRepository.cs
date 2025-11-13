@@ -28,7 +28,7 @@ public class ResourceTypeRepository : IRepository<ResourceType>
         using (SqlCommand command = new SqlCommand(query, connection))
         {
             command.Parameters.AddWithValue("@Title", entity.Title);
-            command.Parameters.AddWithValue("@Unit", entity.Unit.ToString());   // Enum gemmes som tekst??? dette er jeg usikker på 
+            command.Parameters.AddWithValue("@Unit", ((int)entity.Unit));   
             command.Parameters.AddWithValue("@Requirement",
                 (object?)entity.Requirement ?? DBNull.Value);
 
