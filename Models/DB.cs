@@ -6,16 +6,20 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
 using Microsoft.Data.SqlClient;
+using Models.Repository;
 
 namespace Models;
 
 public class DB
 {
+    private ResourceTypeRepository _resourceTypeRepository;
+
     private readonly string _connectionString;
 
     public DB(string connectionString)
     {
         this._connectionString = connectionString;
+        _resourceTypeRepository = new ResourceTypeRepository(connectionString);
     }
 
     public string Migrate()
@@ -51,21 +55,10 @@ public class DB
 
     public string Seed()
     {
-        // use repo
-        // create data
-        //ResourceType = new ResourceType( argumenter );
+        _resourceTypeRepository.Add(new ResourceType("Båd", TimeUnit.None, null));
+        _resourceTypeRepository.Add(new ResourceType("Lokale", TimeUnit.None, null));
+        
 
-
-
-        int numbRows = 0;
-        string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Schema", "DummyData.sql");
-        string query = File.ReadAllText(path);
-        using (SqlConnection connection = new SqlConnection(_connectionString))
-        {
-            SqlCommand command = new SqlCommand(query, connection);
-            connection.Open();
-            numbRows = command.ExecuteNonQuery();
-        }
         return $"Seeding completed";
     }
 }
