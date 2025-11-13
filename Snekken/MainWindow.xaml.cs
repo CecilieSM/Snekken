@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Snekken.View;
+using Snekken.ViewModel;
 
 namespace Snekken
 {
@@ -20,6 +21,7 @@ namespace Snekken
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new ResourceViewModel();
         }
 
 
