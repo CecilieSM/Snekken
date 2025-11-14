@@ -35,6 +35,9 @@ public class ResourceViewModel : BaseViewModel
     private double _resourceFormUnitPrice;
     public double ResourceFormUnitPrice { get => _resourceFormUnitPrice; set { _resourceFormUnitPrice = value; OnPropertyChanged(); } }
 
+    private string _resourceFormDescription;
+    public string ResourceFormDescription { get => _resourceFormDescription; set { _resourceFormDescription = value; OnPropertyChanged(); } }
+         
     private bool _isActive;
     public bool IsActive { get => _isActive; set { _isActive = value; OnPropertyChanged(); } }
 
@@ -132,7 +135,7 @@ public class ResourceViewModel : BaseViewModel
     private void AddResource(object? parameter)
     {
         //Eksempel på at tilføje en ny ressouce
-        Resource newResource = new Resource(this.ResourceFormTitle, this.ResourceFormUnitPrice, this.ResourceFormType.Id, this.IsActive);
+        Resource newResource = new Resource(this.ResourceFormTitle, this.ResourceFormUnitPrice, this.ResourceFormType.Id, this.ResourceFormDescription, this.IsActive);
         int newId = _resourceRepository.Add(newResource);
         //newResource.ResourceId = newId;
         //Resources.Add(newResource);
@@ -151,6 +154,8 @@ public class ResourceViewModel : BaseViewModel
 
         //if (ResourceFormType == null) // enum eller objekt
         //    return false;
+
+        // if (ResourceFormDescription 
 
         //if (ResourceFormUnitPrice < 0)
         //    return false;

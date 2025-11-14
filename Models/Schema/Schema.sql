@@ -10,6 +10,7 @@ CREATE TABLE RESOURCE (
     Title nvarchar(100) NOT NULL,
     Price decimal (10,2) NOT NULL,
     IsActive bit NOT NULL DEFAULT 1,
+	Description nvarchar(300),
     ResourceTypeId int NOT NULL,
     CONSTRAINT FK_Resource_ResourceType
         FOREIGN KEY (ResourceTypeId) REFERENCES RESOURCETYPE(ResourceTypeId)

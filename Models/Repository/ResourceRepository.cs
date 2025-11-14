@@ -19,9 +19,9 @@ public class ResourceRepository : IRepository<Resource>
     public int Add(Resource entity)
     {
         string query = @"
-                INSERT INTO RESOURCE (Title, Price, IsActive, ResourceTypeId)
+                INSERT INTO RESOURCE (Title, Price, IsActive, Description, ResourceTypeId)
                 OUTPUT INSERTED.ResourceId
-                VALUES (@Title, @Price, @IsActive, @ResourceTypeId);";
+                VALUES (@Title, @Price, @IsActive, @Description, @ResourceTypeId);";
 
         using (SqlConnection connection = new SqlConnection(_connectionString))
         using (SqlCommand command = new SqlCommand(query, connection))
@@ -29,6 +29,7 @@ public class ResourceRepository : IRepository<Resource>
             command.Parameters.AddWithValue("@Title", entity.Title);
             command.Parameters.AddWithValue("@Price", entity.Price);
             command.Parameters.AddWithValue("@IsActive", entity.IsActive);
+            command.Parameters.AddWithValue("@Description", entity.Description);
             command.Parameters.AddWithValue("@ResourceTypeId", entity.ResourceTypeId);
 
             connection.Open();

@@ -15,9 +15,6 @@
     <None Update="appSettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Schema\DummyData.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Schema\Schema.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

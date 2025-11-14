@@ -12,6 +12,7 @@ namespace Models;
 
 public class DB
 {
+    private ResourceRepository _resourceRepository;
     private ResourceTypeRepository _resourceTypeRepository;
 
     private readonly string _connectionString;
@@ -19,6 +20,7 @@ public class DB
     public DB(string connectionString)
     {
         this._connectionString = connectionString;
+        _resourceRepository = new ResourceRepository(connectionString);
         _resourceTypeRepository = new ResourceTypeRepository(connectionString);
     }
 
@@ -55,10 +57,12 @@ public class DB
 
     public string Seed()
     {
-        _resourceTypeRepository.Add(new ResourceType("Båd", TimeUnit.None, null));
-        _resourceTypeRepository.Add(new ResourceType("Lokale", TimeUnit.None, null));
-        
-
+        _resourceTypeRepository.Add(new ResourceType("Båd", TimeUnit.None, "Har bådcertifikat"));
+        _resourceTypeRepository.Add(new ResourceType("Lokale", TimeUnit.None));
+        _resourceRepository.Add(new Resource("Storlokale", 550.00, 2, "20 personer"));
+        _resourceRepository.Add(new Resource("Mødelokale", 350.00, 2, "10 personer"));
+        _resourceRepository.Add(new Resource("Jolle", 400.00, 1, "SS1 16 fod"));
+           
         return $"Seeding completed";
     }
 }

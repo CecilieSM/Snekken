@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +30,13 @@ public class Resource
         set { _price = value; }
     }
 
+    private string _description;
+    public string Description
+    {
+        get { return _description; }
+        set { _description = value; }
+    }
+
     private bool _isActive = true;
     public bool IsActive
     {
@@ -43,11 +51,12 @@ public class Resource
         set { _resourceTypeId = value; }
     }
 
-    public Resource(string title, double price, int resourceTypeId, bool isActive = true)
+    public Resource(string title, double price, int resourceTypeId, string description = null, bool isActive = true)
     {
         this.Title = title;
         this.Price = price;
         this.ResourceTypeId = resourceTypeId;
         this.IsActive = isActive;
+        Description = description;
     }
 }
