@@ -39,4 +39,11 @@ public class ResourceType
         this.Unit = unit;
         this.Requirement = requirement;
     }
+    public ResourceType(string title, TimeUnit unit, int id, string requirement = null)
+    {
+        this.Id = id;
+        this.Title = title;
+        this.Unit = unit;
+        this.Requirement = requirement;
+    }
 }
