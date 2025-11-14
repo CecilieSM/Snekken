@@ -93,8 +93,9 @@ public class ResourceViewModel : BaseViewModel
     public ObservableCollection<ResourceType> ResourceTypes { get; set; }
 
 
-    //Relaycommands Ressource
-    public ICommand AddResourceCommand { get; }
+
+//Relaycommands Ressource
+public ICommand AddResourceCommand { get; }
     public ICommand UpdateResourceCommand { get; }
     public ICommand DeleteResourceCommand { get; }
     public ICommand DeselectResourceCommand { get; }
@@ -117,7 +118,7 @@ public class ResourceViewModel : BaseViewModel
         _resourceTypeRepository = new ResourceTypeRepository(this._connectionString);
 
         // ObservableCollection til alle ressourcer (til ListView fx)
-        Resources = new ObservableCollection<Resource>(_resourceRepository.GetAll());
+        //Resources = new ObservableCollection<Resource>(_resourceRepository.GetAll());
 
         // ObservableCollection til resource-typer (til ComboBox fx)
         ResourceTypes = new ObservableCollection<ResourceType>(_resourceTypeRepository.GetAll());

@@ -26,8 +26,7 @@
                           Width="260"
                           Height="30"
                           ItemsSource="{Binding TimeUnitOptions}"
-                          SelectedItem="{Binding TypeFormUnit}">
-            </ComboBox>
+                          SelectedItem="{Binding TypeFormUnit}"/>
 
             <TextBlock Text="Krav" 
                        Margin="20,0,0,5"/>

@@ -28,8 +28,9 @@
                           Width="200" 
                           Height="30"
                           ItemsSource="{Binding ResourceTypes}"
-                          SelectedItem="{Binding ResourceFormType, Mode=TwoWay}">
-                </ComboBox>
+                          SelectedItem="{Binding ResourceFormType, Mode=TwoWay}"
+                          DisplayMemberPath="Title" />
+
                 <Button Content="Ny" 
                         Command="{Binding CreateRessourceTypeCommand}" 
                         Width="50" 

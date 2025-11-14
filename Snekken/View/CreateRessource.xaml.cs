@@ -29,6 +29,7 @@ namespace Snekken.View
         {
             CreateRessourceType createRessourceType = new CreateRessourceType();
             this.Visibility = Visibility.Hidden;
+            createRessourceType.DataContext = this.DataContext;
             createRessourceType.Show();
         }
     }

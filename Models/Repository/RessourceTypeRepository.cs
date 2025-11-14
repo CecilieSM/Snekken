@@ -56,7 +56,7 @@ public class ResourceTypeRepository : IRepository<ResourceType>
                         (string)reader["Title"],
                         (TimeUnit)reader["Unit"],
                         (int)reader["ResourceTypeId"],
-                        (string)reader["Requirement"]
+                        reader["Requirement"] != DBNull.Value ? (string)reader["Requirement"] : string.Empty
                      ));
                 }          
             }
