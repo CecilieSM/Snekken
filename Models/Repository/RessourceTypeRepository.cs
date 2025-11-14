@@ -41,7 +41,30 @@ public class ResourceTypeRepository : IRepository<ResourceType>
     // READ ALL - bygges senere
     public IEnumerable<ResourceType> GetAll()
     {
-        throw new NotImplementedException();
+        var resourceTypes = new List<ResourceType>();
+        string query = "SELECT * FROM ResourceType";
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            SqlCommand command = new SqlCommand(query, connection);
+            connection.Open();
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    resourceTypes.Add(new ResourceType(
+                        (string)reader["Title"],
+                        (TimeUnit)reader["Unit"],
+                        (string)reader["Requirement"]
+                        ));
+
+                }
+           
+            }
+
+        }
+     
+        return resourceTypes;
     }
 
     // READ BY ID - bygges senere

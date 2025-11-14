@@ -40,7 +40,7 @@ public class ResourceRepository : IRepository<Resource>
 
     // bygges senere
     public IEnumerable<Resource> GetAll()
-    {
+    {    
         throw new NotImplementedException();
     }
 
