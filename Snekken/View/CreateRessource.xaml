@@ -18,7 +18,7 @@
                      Width="260" 
                      HorizontalAlignment="Left" 
                      Height="30" 
-                     Text="Ressource Name"/>
+                     Text="{Binding ResourceFormTitle}"/>
             
             <TextBlock Text="Type" Margin="20,5"/>
             
@@ -26,10 +26,9 @@
                 <ComboBox Margin="20,0,10,0" 
                           HorizontalAlignment="Left" 
                           Width="200" 
-                          Height="30">
-                    <ComboBoxItem Content="Båd"/>
-                    <ComboBoxItem Content="Trailer"/>
-                    <ComboBoxItem Content="Mødelokal"/>
+                          Height="30"
+                          ItemsSource="{Binding ResourceTypes}"
+                          SelectedItem="{Binding ResourceFormType, Mode=TwoWay}">
                 </ComboBox>
                 <Button Content="Ny" 
                         Command="{Binding CreateRessourceTypeCommand}" 
@@ -46,15 +45,7 @@
                      Width="260" 
                      HorizontalAlignment="Left" 
                      Height="30" 
-                     Text="0.00"/>
-
-            <TextBlock Text="Kapacitet" 
-                       Margin="20,5"/>
-            <TextBox Margin="20,0,10,10" 
-                     Width="260" 
-                     HorizontalAlignment="Left" 
-                     Height="30" 
-                     Text="0"/>
+                     Text="{Binding ResourceFormUnitPrice}"/>
 
             <TextBlock Text="Beskrivelse" 
                        Margin="20,5"/>
@@ -62,12 +53,12 @@
                      Width="260" 
                      HorizontalAlignment="Left" 
                      Height="100" 
-                     Text="Noter" 
+                     Text="{Binding ResourceFormDescription}" 
                      TextWrapping="Wrap" 
                      AcceptsReturn="True"/>
 
             <Button Content="Opret"                    
-                    Command="{Binding CreateRessourceCommand}"
+                    Command="{Binding AddResourceCommand}"
                     Height="30"
                     Width="260"
                     HorizontalAlignment="Left" 

@@ -59,8 +59,11 @@ public class ResourceViewModel : BaseViewModel
         }
     }
 
+    public Array TimeUnitOptions => Enum.GetValues(typeof(TimeUnit));
+
     private string? _typeFormRequirement;
     public string? TypeFormRequirement { get => _typeFormRequirement; set { _typeFormRequirement = value; OnPropertyChanged(); } }
+
 
 
     ////PROPERTIES PERSON
