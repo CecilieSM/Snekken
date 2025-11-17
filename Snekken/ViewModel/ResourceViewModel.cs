@@ -230,10 +230,18 @@ public ICommand AddResourceCommand { get; }
         IsActive = true; 
     }
 
-   
+
 
     //private void UpdateResource(object? parameter)
     //{
+        //   try 
+        //{	        
+
+        //}
+        //catch (Exception)
+        //{
+        // MessageBox.Show("Der opstod en fejl ved opdatering af ressource?");
+        //}
     //    if (SelectedResource == null)
     //        return;
     //    SelectedResource.Title = ResourceFormTitle;
@@ -277,7 +285,7 @@ public ICommand AddResourceCommand { get; }
 
     //}
 
-   
+
 
 
 }
