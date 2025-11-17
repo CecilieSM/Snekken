@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -121,7 +122,16 @@ public ICommand AddResourceCommand { get; }
         //Resources = new ObservableCollection<Resource>(_resourceRepository.GetAll());
 
         // ObservableCollection til resource-typer (til ComboBox fx)
-        ResourceTypes = new ObservableCollection<ResourceType>(_resourceTypeRepository.GetAll());
+
+        try
+        {
+            ResourceTypes = new ObservableCollection<ResourceType>(_resourceTypeRepository.GetAll());
+        }
+        catch (Exception)
+        {
+            MessageBox.Show("Der opstod en fejl ved hentning af ressource-typer?");
+        }
+
 
         AddResourceCommand = new RelayCommand(AddResource, CanAddResource);
         //UpdateResourceCommand = new RelayCommand(UpdateResource, CanUpdateResource);
@@ -138,9 +148,15 @@ public ICommand AddResourceCommand { get; }
     //METODER
     private void AddResource(object? parameter)
     {
-        //Eksempel på at tilføje en ny ressouce
-        Resource newResource = new Resource(this.ResourceFormTitle, this.ResourceFormUnitPrice, this.ResourceFormType.Id, this.ResourceFormDescription, this.IsActive);
-        int newId = _resourceRepository.Add(newResource);
+        try
+        {
+            Resource newResource = new Resource(this.ResourceFormTitle, this.ResourceFormUnitPrice, this.ResourceFormType.Id, this.ResourceFormDescription, this.IsActive);
+            int newId = _resourceRepository.Add(newResource);                
+        }
+        catch (Exception)
+        {
+            MessageBox.Show("Der opstod en fejl ved oprettelse af ressource?");
+        }
         //newResource.ResourceId = newId;
         //Resources.Add(newResource);
         //ClearResourceForm();
@@ -170,10 +186,16 @@ public ICommand AddResourceCommand { get; }
 
     private void AddResourceType(object? parameter)
     {
-        //Eksempel på at tilføje en ny ressoucetype
+        try
+        {
+            ResourceType newResourceType = new ResourceType(this.TypeFormTitle, this.TypeFormUnit, this.TypeFormRequirement);
+            int newId = _resourceTypeRepository.Add(newResourceType);
+        }
+        catch (Exception)
+        {
+            MessageBox.Show("Der opstod en fejl ved oprettelse af ressource-type?");
+        }
 
-        ResourceType newResourceType = new ResourceType(this.TypeFormTitle, this.TypeFormUnit, this.TypeFormRequirement);
-        int newId = _resourceTypeRepository.Add(newResourceType);
         //newResourceType.ResourceTypeId = newId;
         //ResourceTypes.Add(newResourceType);
         //ClearResourceForm();
