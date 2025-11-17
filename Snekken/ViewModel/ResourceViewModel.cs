@@ -201,7 +201,7 @@ public class ResourceViewModel : BaseViewModel
         ResourceFormTitle = string.Empty;
         //ResourceFormType = string.Empty;
         ResourceFormUnitPrice = 0;   
-        IsActive = false;
+        IsActive = true; 
     }
 
    
