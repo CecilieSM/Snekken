@@ -55,15 +55,12 @@ public class ResourceTypeRepository : IRepository<ResourceType>
                     resourceTypes.Add(new ResourceType(
                         (string)reader["Title"],
                         (TimeUnit)reader["Unit"],
-                        (string)reader["Requirement"]
-                        ));
-
-                }
-           
+                        (int)reader["ResourceTypeId"],
+                        reader["Requirement"] != DBNull.Value ? (string)reader["Requirement"] : string.Empty
+                     ));
+                }          
             }
-
-        }
-     
+        }  
         return resourceTypes;
     }
 

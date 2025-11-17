@@ -21,7 +21,8 @@ namespace Snekken
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new ResourceViewModel();
+            ResourceViewModel vm = new ResourceViewModel();
+            this.DataContext = vm;
         }
 
 
@@ -29,6 +30,7 @@ namespace Snekken
         {
             CreateRessource objRessourceWindow = new CreateRessource();
             this.Visibility = Visibility.Hidden;
+            objRessourceWindow.DataContext = this.DataContext;
             objRessourceWindow.Show();
         }
     }
