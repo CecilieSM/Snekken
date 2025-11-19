@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Models.Repository
+namespace Snekken.Models
 {
-    public class MessageService
+    public class MessageService : IMessageService
     {
         public void Show(string message)
         {

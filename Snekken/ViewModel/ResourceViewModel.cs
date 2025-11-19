@@ -14,6 +14,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Models;
 using Models.Repository;
+using Snekken.Models;
 using Snekken.Utility;
 using Snekken.View;
 
@@ -121,7 +122,7 @@ public ICommand AddResourceCommand { get; }
     {
         _resourceRepository = resourceRepository;
         _resourceTypeRepository = resourceTypeRepository;
-        IMessageService = messageService;
+        _messageService = messageService;
         ////SKAL VI BRUGE DEM?
         //this._connectionString = ConfigHelper.GetConnectionString();
         //_resourceRepository = new ResourceRepository(this._connectionString);
@@ -138,7 +139,7 @@ public ICommand AddResourceCommand { get; }
         }
         catch (Exception)
         {
-            MessageBox.Show("Der opstod en fejl ved hentning af ressource-typer?");
+            _messageService.Show("Der opstod en fejl ved hentning af ressource-typer?");
         }
 
 
