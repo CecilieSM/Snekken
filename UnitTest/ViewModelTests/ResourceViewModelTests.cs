@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace UnitTest.ViewModelTests
 {
+    [TestClass]
     public class ResourceViewModelTests
     {
     }
