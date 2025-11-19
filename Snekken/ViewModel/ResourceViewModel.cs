@@ -22,9 +22,15 @@ namespace Snekken.ViewModel;
 public class ResourceViewModel : BaseViewModel
 {
     //DATABASEKODE
-    private string _connectionString;
-    private readonly ResourceRepository _resourceRepository;
-    private readonly ResourceTypeRepository _resourceTypeRepository;
+    //private string _connectionString;
+    //private readonly ResourceRepository _resourceRepository;
+    //private readonly ResourceTypeRepository _resourceTypeRepository;
+
+    //new fields for resourceviewmodel refactor
+    private readonly IResourceRepository _resourceRepository;
+    private readonly IResourceTypeRepository _resourceTypeRepository;
+    private readonly IMessageService _messageService;
+
 
     //PROPERTIES RESOURCE
     private string _resourceFormTitle;  
@@ -111,12 +117,15 @@ public ICommand AddResourceCommand { get; }
 
     //CONSTRUCTOR
 
-    public ResourceViewModel()
+    public ResourceViewModel(IResourceRepository resourceRepository, IResourceTypeRepository resourceTypeRepository, IMessageService messageService)
     {
+        _resourceRepository = resourceRepository;
+        _resourceTypeRepository = resourceTypeRepository;
+        IMessageService = messageService;
         ////SKAL VI BRUGE DEM?
-        this._connectionString = ConfigHelper.GetConnectionString();
-        _resourceRepository = new ResourceRepository(this._connectionString);
-        _resourceTypeRepository = new ResourceTypeRepository(this._connectionString);
+        //this._connectionString = ConfigHelper.GetConnectionString();
+        //_resourceRepository = new ResourceRepository(this._connectionString);
+        //_resourceTypeRepository = new ResourceTypeRepository(this._connectionString);
 
         // ObservableCollection til alle ressourcer (til ListView fx)
         //Resources = new ObservableCollection<Resource>(_resourceRepository.GetAll());
