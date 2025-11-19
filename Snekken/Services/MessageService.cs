@@ -10,8 +10,7 @@ namespace Snekken.Models
     public class MessageService : IMessageService
     {
         public void Show(string message)
-        {
-            // Real UI dialog (WPF / WinForms)
+        {            
             MessageBox.Show(message);
         }
     }

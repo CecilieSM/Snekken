@@ -123,6 +123,7 @@ public ICommand AddResourceCommand { get; }
         _resourceRepository = resourceRepository;
         _resourceTypeRepository = resourceTypeRepository;
         _messageService = messageService;
+
         ////SKAL VI BRUGE DEM?
         //this._connectionString = ConfigHelper.GetConnectionString();
         //_resourceRepository = new ResourceRepository(this._connectionString);
@@ -165,7 +166,7 @@ public ICommand AddResourceCommand { get; }
         }
         catch (Exception)
         {
-            MessageBox.Show("Der opstod en fejl ved oprettelse af ressource?");
+            _messageService.Show("Der opstod en fejl ved oprettelse af ressource?");
         }
         //newResource.ResourceId = newId;
         //Resources.Add(newResource);
