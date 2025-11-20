@@ -14,6 +14,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Models;
 using Models.Repository;
+using Snekken.Services;
 using Snekken.Utility;
 using Snekken.View;
 
@@ -22,9 +23,15 @@ namespace Snekken.ViewModel;
 public class ResourceViewModel : BaseViewModel
 {
     //DATABASEKODE
-    private string _connectionString;
-    private readonly ResourceRepository _resourceRepository;
-    private readonly ResourceTypeRepository _resourceTypeRepository;
+    //private string _connectionString;
+    //private readonly ResourceRepository _resourceRepository;
+    //private readonly ResourceTypeRepository _resourceTypeRepository;
+
+    //new fields for resourceviewmodel refactor
+    private readonly IResourceRepository _resourceRepository;
+    private readonly IResourceTypeRepository _resourceTypeRepository;
+    
+
 
     //PROPERTIES RESOURCE
     private string _resourceFormTitle;  
@@ -133,12 +140,15 @@ public ICommand AddResourceCommand { get; }
 
     //CONSTRUCTOR
 
-    public ResourceViewModel()
+    public ResourceViewModel(IResourceRepository resourceRepository, IResourceTypeRepository resourceTypeRepository)
     {
+        _resourceRepository = resourceRepository;
+        _resourceTypeRepository = resourceTypeRepository;
+
         ////SKAL VI BRUGE DEM?
-        this._connectionString = ConfigHelper.GetConnectionString();
-        _resourceRepository = new ResourceRepository(this._connectionString);
-        _resourceTypeRepository = new ResourceTypeRepository(this._connectionString);
+        //this._connectionString = ConfigHelper.GetConnectionString();
+        //_resourceRepository = new ResourceRepository(this._connectionString);
+        //_resourceTypeRepository = new ResourceTypeRepository(this._connectionString);
 
         // ObservableCollection til alle ressourcer (til ListView fx)
         //Resources = new ObservableCollection<Resource>(_resourceRepository.GetAll());
@@ -151,7 +161,7 @@ public ICommand AddResourceCommand { get; }
         }
         catch (Exception)
         {
-            MessageBox.Show("Der opstod en fejl ved hentning af ressource-typer?");
+            _messageService.Show("Der opstod en fejl ved hentning af ressource-typer?");
         }
 
         AddResourceCommand = new RelayCommand(AddResource, CanAddResource);
@@ -178,7 +188,7 @@ public ICommand AddResourceCommand { get; }
         }
         catch (Exception)
         {
-            MessageBox.Show("Der opstod en fejl ved oprettelse af ressource?");
+            _messageService.Show("Der opstod en fejl ved oprettelse af ressource?");
         }
         //newResource.ResourceId = newId;
         //Resources.Add(newResource);

@@ -8,8 +8,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Models.Repository;
 using Snekken.View;
 using Snekken.ViewModel;
+using Models;
 
 namespace Snekken
 {
@@ -21,7 +23,13 @@ namespace Snekken
         public MainWindow()
         {
             InitializeComponent();
-            ResourceViewModel vm = new ResourceViewModel();
+
+            //create dependencies
+            var resourceRepository = new ResourceRepository(ConfigHelper.GetConnectionString());
+            var resourceTypeRepository = new ResourceTypeRepository(ConfigHelper.GetConnectionString());
+
+            ResourceViewModel vm = new ResourceViewModel(resourceRepository, resourceTypeRepository);
+
             this.DataContext = vm;
         }
 
