@@ -14,7 +14,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Models;
 using Models.Repository;
-using Snekken.Models;
+using Snekken.Services;
 using Snekken.Utility;
 using Snekken.View;
 
@@ -30,7 +30,7 @@ public class ResourceViewModel : BaseViewModel
     //new fields for resourceviewmodel refactor
     private readonly IResourceRepository _resourceRepository;
     private readonly IResourceTypeRepository _resourceTypeRepository;
-    private readonly IMessageService _messageService;
+    
 
 
     //PROPERTIES RESOURCE
@@ -118,11 +118,10 @@ public ICommand AddResourceCommand { get; }
 
     //CONSTRUCTOR
 
-    public ResourceViewModel(IResourceRepository resourceRepository, IResourceTypeRepository resourceTypeRepository, IMessageService messageService)
+    public ResourceViewModel(IResourceRepository resourceRepository, IResourceTypeRepository resourceTypeRepository)
     {
         _resourceRepository = resourceRepository;
         _resourceTypeRepository = resourceTypeRepository;
-        _messageService = messageService;
 
         ////SKAL VI BRUGE DEM?
         //this._connectionString = ConfigHelper.GetConnectionString();
