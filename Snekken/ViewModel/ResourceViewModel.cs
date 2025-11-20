@@ -43,6 +43,19 @@ public class ResourceViewModel : BaseViewModel
     public bool IsActive { get => _isActive; set { _isActive = value; OnPropertyChanged(); } }
 
 
+    private Resource? _selectedResource;
+    public Resource? SelectedResource
+    {
+        get => _selectedResource;
+        set
+        {
+            if (_selectedResource == value) return;
+            _selectedResource = value;
+            OnPropertyChanged(nameof(SelectedResource));
+            PopulateFormFromSelectedResource();
+        }
+    }
+
     //PROPERTIES RESOURCETYPE
     private string _typeFormTitle;
     public string TypeFormTitle { get => _typeFormTitle; set { _typeFormTitle = value; OnPropertyChanged(); } }
@@ -66,7 +79,20 @@ public class ResourceViewModel : BaseViewModel
     public string? TypeFormRequirement { get => _typeFormRequirement; set { _typeFormRequirement = value; OnPropertyChanged(); } }
 
 
+    private ResourceType? _selectedResourceType;
+    public ResourceType? SelectedResourceType
+    {
+        get => _selectedResourceType;
+        set
+        {
+            if (_selectedResourceType == value) return;
+            _selectedResourceType = value;
+            OnPropertyChanged(nameof(SelectedResourceType));
+            PopulateFormFromSelectedResourceType();
+        }
+    }
 
+  
     ////PROPERTIES PERSON
     //private string _newName;
     //public string NewName { get => _newName; set { _newName = value; OnPropertyChanged(); } }
@@ -132,7 +158,6 @@ public ICommand AddResourceCommand { get; }
             MessageBox.Show("Der opstod en fejl ved hentning af ressource-typer?");
         }
 
-
         AddResourceCommand = new RelayCommand(AddResource, CanAddResource);
         //UpdateResourceCommand = new RelayCommand(UpdateResource, CanUpdateResource);
         //DeleteResourceCommand = new RelayCommand(DeleteResource, CanDeleteResouce);
@@ -144,6 +169,39 @@ public ICommand AddResourceCommand { get; }
         //DeselectResourceTypeCommand = new RelayCommand(DeselectResourceType, CanDeselectResourceType);
 
     }
+
+
+    private void PopulateFormFromSelectedResource()
+    {
+        if (SelectedResource == null)
+        {
+            ClearForm();
+            return;
+        }
+
+        ResourceFormTitle = SelectedResource.Title ?? string.Empty;
+        ResourceFormUnitPrice = SelectedResource.Price;
+        ResourceFormDescription = SelectedResource.Description ?? string.Empty;
+        IsActive = SelectedResource.IsActive;
+
+        // Sæt den valgte ressource-type
+        var found = ResourceTypes.FirstOrDefault(rt => rt.Id == SelectedResource.ResourceTypeId);
+        ResourceFormType = found;
+    }
+
+    private void PopulateFormFromSelectedResourceType()
+    {
+        if (SelectedResourceType == null)
+        {
+            ClearForm();
+            return;
+        }
+
+        TypeFormTitle = SelectedResourceType.Title ?? string.Empty;
+        TypeFormUnit = SelectedResourceType.Unit;
+        TypeFormRequirement = SelectedResourceType.Requirement ?? string.Empty;
+    }
+
 
     //METODER
     private void AddResource(object? parameter)
@@ -221,27 +279,35 @@ public ICommand AddResourceCommand { get; }
         return true;
     }
 
-
-    private void ClearResourceForm()
+    private void ClearForm()
     {
+        // Ryd Resource-form
         ResourceFormTitle = string.Empty;
-        //ResourceFormType = string.Empty;
-        ResourceFormUnitPrice = 0;   
-        IsActive = true; 
+        ResourceFormType = null;
+        ResourceFormUnitPrice = 0;
+        ResourceFormDescription = string.Empty;
+        IsActive = false;
+        SelectedResource = null;
+
+        // Ryd ResourceType-form
+        TypeFormTitle = string.Empty;
+        TypeFormUnit = TimeUnit.None;
+        TypeFormRequirement = string.Empty;      
+        SelectedResourceType = null;
     }
 
 
 
     //private void UpdateResource(object? parameter)
     //{
-        //   try 
-        //{	        
+    //   try 
+    //{	        
 
-        //}
-        //catch (Exception)
-        //{
-        // MessageBox.Show("Der opstod en fejl ved opdatering af ressource?");
-        //}
+    //}
+    //catch (Exception)
+    //{
+    // MessageBox.Show("Der opstod en fejl ved opdatering af ressource?");
+    //}
     //    if (SelectedResource == null)
     //        return;
     //    SelectedResource.Title = ResourceFormTitle;
