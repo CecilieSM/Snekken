@@ -39,9 +39,6 @@ public class ResourceViewModel : BaseViewModel
     private string _resourceFormDescription;
     public string ResourceFormDescription { get => _resourceFormDescription; set { _resourceFormDescription = value; OnPropertyChanged(); } }
          
-    private bool _isActive;
-    public bool IsActive { get => _isActive; set { _isActive = value; OnPropertyChanged(); } }
-
 
     private Resource? _selectedResource;
     public Resource? SelectedResource
@@ -51,8 +48,7 @@ public class ResourceViewModel : BaseViewModel
         {
             if (_selectedResource == value) return;
             _selectedResource = value;
-            OnPropertyChanged(nameof(SelectedResource));
-            PopulateFormFromSelectedResource();
+            OnPropertyChanged(); 
         }
     }
 
@@ -69,7 +65,7 @@ public class ResourceViewModel : BaseViewModel
         set
         {
             _typeFormUnit = value;
-            OnPropertyChanged(nameof(TypeFormUnit));
+            OnPropertyChanged();
         }
     }
 
@@ -87,8 +83,8 @@ public class ResourceViewModel : BaseViewModel
         {
             if (_selectedResourceType == value) return;
             _selectedResourceType = value;
-            OnPropertyChanged(nameof(SelectedResourceType));
-            PopulateFormFromSelectedResourceType();
+            OnPropertyChanged();
+            
         }
     }
 
@@ -171,45 +167,14 @@ public ICommand AddResourceCommand { get; }
     }
 
 
-    private void PopulateFormFromSelectedResource()
-    {
-        if (SelectedResource == null)
-        {
-            ClearForm();
-            return;
-        }
-
-        ResourceFormTitle = SelectedResource.Title ?? string.Empty;
-        ResourceFormUnitPrice = SelectedResource.Price;
-        ResourceFormDescription = SelectedResource.Description ?? string.Empty;
-        IsActive = SelectedResource.IsActive;
-
-        // Sæt den valgte ressource-type
-        var found = ResourceTypes.FirstOrDefault(rt => rt.Id == SelectedResource.ResourceTypeId);
-        ResourceFormType = found;
-    }
-
-    private void PopulateFormFromSelectedResourceType()
-    {
-        if (SelectedResourceType == null)
-        {
-            ClearForm();
-            return;
-        }
-
-        TypeFormTitle = SelectedResourceType.Title ?? string.Empty;
-        TypeFormUnit = SelectedResourceType.Unit;
-        TypeFormRequirement = SelectedResourceType.Requirement ?? string.Empty;
-    }
-
-
     //METODER
     private void AddResource(object? parameter)
     {
         try
         {
-            Resource newResource = new Resource(this.ResourceFormTitle, this.ResourceFormUnitPrice, this.ResourceFormType.Id, this.ResourceFormDescription, this.IsActive);
-            int newId = _resourceRepository.Add(newResource);                
+            Resource newResource = new Resource(this.ResourceFormTitle, this.ResourceFormUnitPrice, this.ResourceFormType.Id, this.ResourceFormDescription);
+            int newId = _resourceRepository.Add(newResource);
+            ClearResourceForm();
         }
         catch (Exception)
         {
@@ -217,7 +182,7 @@ public ICommand AddResourceCommand { get; }
         }
         //newResource.ResourceId = newId;
         //Resources.Add(newResource);
-        //ClearResourceForm();
+        
     }
 
     private bool CanAddResource()
@@ -248,6 +213,7 @@ public ICommand AddResourceCommand { get; }
         {
             ResourceType newResourceType = new ResourceType(this.TypeFormTitle, this.TypeFormUnit, this.TypeFormRequirement);
             int newId = _resourceTypeRepository.Add(newResourceType);
+            ClearResourceTypeForm();
         }
         catch (Exception)
         {
@@ -255,8 +221,7 @@ public ICommand AddResourceCommand { get; }
         }
 
         //newResourceType.ResourceTypeId = newId;
-        //ResourceTypes.Add(newResourceType);
-        //ClearResourceForm();
+        //ResourceTypes.Add(newResourceType);    
     }
 
     private bool CanAddResourceType()
@@ -274,28 +239,30 @@ public ICommand AddResourceCommand { get; }
 
         //    if (string.IsNullOrWhiteSpace(TypeFormRequirement))
         //        return false;
-
+    
         //    // Hvis alle checks er OK
         return true;
     }
 
-    private void ClearForm()
+    private void ClearResourceForm()
     {
         // Ryd Resource-form
         ResourceFormTitle = string.Empty;
         ResourceFormType = null;
         ResourceFormUnitPrice = 0;
         ResourceFormDescription = string.Empty;
-        IsActive = false;
         SelectedResource = null;
 
+    }
+
+    private void ClearResourceTypeForm()
+    {
         // Ryd ResourceType-form
         TypeFormTitle = string.Empty;
         TypeFormUnit = TimeUnit.None;
-        TypeFormRequirement = string.Empty;      
+        TypeFormRequirement = string.Empty;
         SelectedResourceType = null;
     }
-
 
 
     //private void UpdateResource(object? parameter)
