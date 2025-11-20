@@ -3,8 +3,8 @@ sequenceDiagram
     participant System
 
     Administrator->>System: creatNewResource
-    System-->>Administrator: displayForm (type, title, unitPrice, capacity, description)
-    Administrator->>System: enterData (type, title, unitPrice, capacity, description)
+    System-->>Administrator: displayForm (type, title, unitPrice, description)
+    Administrator->>System: enterData (type, title, unitPrice, description)
     Administrator->>System: clickSave
     System->>System: validateInformation
     System->>Database: saveResource
