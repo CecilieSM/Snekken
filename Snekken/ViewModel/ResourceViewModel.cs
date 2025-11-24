@@ -28,8 +28,8 @@ public class ResourceViewModel : BaseViewModel
     //private readonly ResourceTypeRepository _resourceTypeRepository;
 
     //new fields for resourceviewmodel refactor
-    private readonly IResourceRepository _resourceRepository;
-    private readonly IResourceTypeRepository _resourceTypeRepository;
+    private readonly IRepository<Resource> _resourceRepository;
+    private readonly IRepository<ResourceType> _resourceTypeRepository;
     
 
 
@@ -140,7 +140,7 @@ public ICommand AddResourceCommand { get; }
 
     //CONSTRUCTOR
 
-    public ResourceViewModel(IResourceRepository resourceRepository, IResourceTypeRepository resourceTypeRepository)
+    public ResourceViewModel(IRepository<Resource> resourceRepository, IRepository<ResourceType> resourceTypeRepository)
     {
         _resourceRepository = resourceRepository;
         _resourceTypeRepository = resourceTypeRepository;

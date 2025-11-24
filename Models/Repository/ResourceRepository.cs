@@ -7,7 +7,7 @@ using Microsoft.Data.SqlClient;
 
 namespace Models.Repository;
 
-public class ResourceRepository : IResourceRepository
+public class ResourceRepository : IRepository<Resource>
 {
     private readonly string _connectionString;
     public ResourceRepository(string connectionString)

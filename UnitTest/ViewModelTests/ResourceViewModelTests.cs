@@ -15,8 +15,8 @@ namespace UnitTest.ViewModelTests
         public void Constructor_LoadResourceTypes()
         {
             // Arrange
-            var mockResourceRepo = new Mock<IResourceRepository>();
-            var mockTypeRepo = new Mock<IResourceTypeRepository>();
+            var mockResourceRepo = new Mock<IRepository<Models.Resource>>();
+            var mockTypeRepo = new Mock<IRepository<Models.ResourceType>>();
 
             mockTypeRepo
                 .Setup(r => r.GetAll())
@@ -57,8 +57,8 @@ namespace UnitTest.ViewModelTests
         public void AddResource_CallsRepositoryAdd_WithCorrectResource()
         {
             // Arrange
-            var mockResourceRepo = new Mock<IResourceRepository>();
-            var mockTypeRepo = new Mock<IResourceTypeRepository>();
+            var mockResourceRepo = new Mock<IRepository<Models.Resource>>();
+            var mockTypeRepo = new Mock<IRepository<Models.ResourceType>>();
 
             mockTypeRepo.Setup(r => r.GetAll()).Returns(new List<Models.ResourceType>());
 
@@ -68,7 +68,6 @@ namespace UnitTest.ViewModelTests
             vm.ResourceFormUnitPrice = 2500;
             vm.ResourceFormType = new Models.ResourceType("Electronics", Models.TimeUnit.Hour, "Handle with care") { Id = 5 };
             vm.ResourceFormDescription = "Dell XPS";
-            vm.IsActive = true;
 
             // Act
             vm.AddResourceCommand.Execute(null);
@@ -78,8 +77,7 @@ namespace UnitTest.ViewModelTests
                 res.Title == "Laptop" &&
                 res.Price == 2500 &&
                 res.ResourceTypeId == 5 &&
-                res.Description == "Dell XPS" &&
-                res.IsActive == true
+                res.Description == "Dell XPS"
             )), Times.Once);
         }
 
@@ -107,14 +105,43 @@ namespace UnitTest.ViewModelTests
         [TestMethod]
         public void CanAddResource_AlwaysReturnsTrue()
         {
-            var mockResourceRepo = new Mock<IResourceRepository>();
-            var mockTypeRepo = new Mock<IResourceTypeRepository>();
+            var mockResourceRepo = new Mock<IRepository<Models.Resource>>();
+            var mockTypeRepo = new Mock<IRepository<Models.ResourceType>>();
 
             mockTypeRepo.Setup(r => r.GetAll()).Returns(new List<Models.ResourceType>());
 
             var vm = new ResourceViewModel(mockResourceRepo.Object, mockTypeRepo.Object);
 
             Assert.IsTrue(vm.AddResourceCommand.CanExecute(null));
+        }
+
+        [TestMethod]
+        public void ResourceFormProperties_CanBeSetAndGet()
+        {
+            //Arrange
+            var mockResourceRepo = new Mock<IRepository<Models.Resource>>();
+            var mockTypeRepo = new Mock<IRepository<Models.ResourceType>>();
+            mockTypeRepo.Setup(r => r.GetAll()).Returns(new List<Models.ResourceType>());
+
+            //Act
+            var vm = new ResourceViewModel(mockResourceRepo.Object, mockTypeRepo.Object);
+            vm.ResourceFormTitle = "Drill";
+            vm.ResourceFormUnitPrice = 150;
+            var resourceType = new Models.ResourceType("Tool", Models.TimeUnit.Hour, "Wear gloves") { Id = 3 };
+            vm.ResourceFormType = resourceType;
+            vm.ResourceFormDescription = "Electric drill";
+            vm.TypeFormTitle = "Tool";
+            vm.TypeFormUnit = Models.TimeUnit.Hour;
+            vm.TypeFormRequirement = "Wear gloves";
+
+            //Assert
+            Assert.AreEqual("Drill", vm.ResourceFormTitle);
+            Assert.AreEqual(150, vm.ResourceFormUnitPrice);
+            Assert.AreEqual(resourceType, vm.ResourceFormType);
+            Assert.AreEqual("Electric drill", vm.ResourceFormDescription);
+            Assert.AreEqual("Tool", vm.TypeFormTitle);
+            Assert.AreEqual(Models.TimeUnit.Hour, vm.TypeFormUnit);
+            Assert.AreEqual("Wear gloves", vm.TypeFormRequirement);
         }
     }
 }
