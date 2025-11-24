@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace UnitTest.ModelTests.RepositoryTests
 {
-    internal class ResourceTypeRepositoryTests
+    [TestClass]
+    public class ResourceTypeRepositoryTests
     {
     }
 }
