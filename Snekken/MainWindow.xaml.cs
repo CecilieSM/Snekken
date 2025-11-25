@@ -39,6 +39,12 @@ namespace Snekken
             CreateRessource objRessourceWindow = new CreateRessource();
             this.Visibility = Visibility.Hidden;
             objRessourceWindow.DataContext = this.DataContext;
+
+            objRessourceWindow.Closed += (s, args) =>
+            {
+                this.Visibility = Visibility.Visible;
+            };
+
             objRessourceWindow.Show();
         }
     }
