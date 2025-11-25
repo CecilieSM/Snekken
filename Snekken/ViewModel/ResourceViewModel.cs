@@ -14,9 +14,10 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Models;
 using Models.Repository;
-using Snekken.Services;
-using Snekken.Utility;
 using Snekken.View;
+using WPFLib.Services;
+using WPFLib.Utility;
+using WPFLib.ViewModel;
 
 namespace Snekken.ViewModel;
 
@@ -117,7 +118,7 @@ public class ResourceViewModel : BaseViewModel
         }
         catch (Exception)
         {
-            _messageService.Show("Der opstod en fejl ved hentning af ressource-typer?");
+            MessageService.Show("Der opstod en fejl ved hentning af ressource-typer?");
         }
 
         AddResourceCommand = new RelayCommand(AddResource, CanAddResource);
@@ -138,7 +139,7 @@ public class ResourceViewModel : BaseViewModel
         }
         catch (Exception)
         {
-            _messageService.Show("Der opstod en fejl ved oprettelse af ressource? Måske findes der allerede en ressource med samme navn.");
+            MessageService.Show("Der opstod en fejl ved oprettelse af ressource? Måske findes der allerede en ressource med samme navn.");
         }
         //newResource.ResourceId = newId;
         //Resources.Add(newResource);
