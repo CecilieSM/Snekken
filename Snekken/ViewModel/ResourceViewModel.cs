@@ -30,7 +30,9 @@ public class ResourceViewModel : BaseViewModel
     //new fields for resourceviewmodel refactor
     private readonly IRepository<Resource> _resourceRepository;
     private readonly IRepository<ResourceType> _resourceTypeRepository;
-    
+
+    // events
+    public event EventHandler<string>? RequestClose;
 
 
     //PROPERTIES RESOURCE
@@ -186,6 +188,7 @@ public ICommand AddResourceCommand { get; }
             Resource newResource = new Resource(this.ResourceFormTitle, this.ResourceFormUnitPrice, this.ResourceFormType.Id, this.ResourceFormDescription);
             int newId = _resourceRepository.Add(newResource);
             ClearResourceForm();
+            RequestClose?.Invoke(this, "AddResource");
         }
         catch (Exception)
         {
@@ -220,6 +223,7 @@ public ICommand AddResourceCommand { get; }
             ResourceType newResourceType = new ResourceType(this.TypeFormTitle, this.TypeFormUnit, this.TypeFormRequirement);
             int newId = _resourceTypeRepository.Add(newResourceType);
             ClearResourceTypeForm();
+            RequestClose?.Invoke(this, "AddResourceType");
         }
         catch (Exception)
         {

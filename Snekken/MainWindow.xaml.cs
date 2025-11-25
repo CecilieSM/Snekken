@@ -31,6 +31,9 @@ namespace Snekken
             ResourceViewModel vm = new ResourceViewModel(resourceRepository, resourceTypeRepository);
 
             this.DataContext = vm;
+
+            
+
         }
 
 
@@ -39,6 +42,14 @@ namespace Snekken
             CreateRessource objRessourceWindow = new CreateRessource();
             this.Visibility = Visibility.Hidden;
             objRessourceWindow.DataContext = this.DataContext;
+
+            if (objRessourceWindow.DataContext is ResourceViewModel currentViewModel)
+            {
+                currentViewModel.RequestClose += (s, e) =>
+                {
+                    if (e == "AddResource") objRessourceWindow.Close();
+                };
+            }
 
             objRessourceWindow.Closed += (s, args) =>
             {
