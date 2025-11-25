@@ -197,23 +197,18 @@ public ICommand AddResourceCommand { get; }
 
     private bool CanAddResource()
     {
-        // Hvis der allerede er valgt en resource, må vi ikke oprette ny
-        //if (SelectedResource != null)
-        //    return false;
+        // Tjek, at alle felter er gyldige
+        if (string.IsNullOrWhiteSpace(ResourceFormTitle))
+            return false;
 
-        //// Tjek, at alle felter er gyldige
-        //if (string.IsNullOrWhiteSpace(ResourceFormTitle))
-        //    return false;
+        if (ResourceFormType == null) // enum eller objekt
+            return false;
 
-        //if (ResourceFormType == null) // enum eller objekt
-        //    return false;
-
-        // if (ResourceFormDescription 
 
         //if (ResourceFormUnitPrice < 0)
         //    return false;
 
-        //// Hvis alle checks er OK
+        // Hvis alle checks er OK
         return true;
     }
 
@@ -236,20 +231,14 @@ public ICommand AddResourceCommand { get; }
 
     private bool CanAddResourceType()
     {
-        //    // Hvis der allerede er valgt en resource, må vi ikke oprette ny
-        //    if (SelectedResourceType != null)
-        //        return false;
-
-        //    // Tjek, at alle felter er gyldige
-        //    if (string.IsNullOrWhiteSpace(TypeFormTitle))
-        //        return false;
+        // Tjek, at alle felter er gyldige
+        if (string.IsNullOrWhiteSpace(TypeFormTitle))
+            return false;
 
         //    if (TypeFormUnit == TimeUnit.None)
         //        return false;
 
-        //    if (string.IsNullOrWhiteSpace(TypeFormRequirement))
-        //        return false;
-    
+
         //    // Hvis alle checks er OK
         return true;
     }

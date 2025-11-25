@@ -18,7 +18,7 @@
                      Width="260" 
                      HorizontalAlignment="Left" 
                      Height="30" 
-                     Text="{Binding TypeFormTitle}"/>
+                     Text="{Binding TypeFormTitle, UpdateSourceTrigger=PropertyChanged}"/>
 
             <TextBlock Text="Enhed" Margin="20,0,0,5"/>
             <ComboBox Margin="20,0,20,10" 
