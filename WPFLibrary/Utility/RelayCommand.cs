@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Snekken.Utility;
+namespace WPFLibrary.Utility;
 
 public class RelayCommand : ICommand
 {
@@ -27,4 +27,3 @@ public class RelayCommand : ICommand
         remove { CommandManager.RequerySuggested -= value; }
     }
 }
-
