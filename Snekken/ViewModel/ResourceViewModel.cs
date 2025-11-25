@@ -40,7 +40,7 @@ public class ResourceViewModel : BaseViewModel
     private ResourceType _resourceFormType;
     public ResourceType ResourceFormType { get => _resourceFormType; set { _resourceFormType = value; OnPropertyChanged(); } }
 
-    private double _resourceFormUnitPrice;
+    private double _resourceFormUnitPrice = 0;
     public double ResourceFormUnitPrice { get => _resourceFormUnitPrice; set { _resourceFormUnitPrice = value; OnPropertyChanged(); } }
 
     private string _resourceFormDescription;
@@ -144,6 +144,7 @@ public ICommand AddResourceCommand { get; }
     {
         _resourceRepository = resourceRepository;
         _resourceTypeRepository = resourceTypeRepository;
+        
 
         ////SKAL VI BRUGE DEM?
         //this._connectionString = ConfigHelper.GetConnectionString();
@@ -188,7 +189,7 @@ public ICommand AddResourceCommand { get; }
         }
         catch (Exception)
         {
-            _messageService.Show("Der opstod en fejl ved oprettelse af ressource?");
+            _messageService.Show("Der opstod en fejl ved oprettelse af ressource? Måske findes der allerede en ressource med samme navn.");
         }
         //newResource.ResourceId = newId;
         //Resources.Add(newResource);
@@ -222,7 +223,7 @@ public ICommand AddResourceCommand { get; }
         }
         catch (Exception)
         {
-            MessageBox.Show("Der opstod en fejl ved oprettelse af ressource-type?");
+            MessageBox.Show("Der opstod en fejl ved oprettelse af ressource-type? Måske findes der allerede en ressource-type med samme navn.");
         }
 
         //newResourceType.ResourceTypeId = newId;
