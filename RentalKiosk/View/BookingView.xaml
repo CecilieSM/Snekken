@@ -1,0 +1,318 @@
+﻿<Window x:Class="RentalKiosk.View.BookingView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RentalKiosk.View"
+        mc:Ignorable="d"
+        Title="Booking af Ressource"
+        Height="600"
+        Width="900">
+
+    <Grid>
+        <!-- titel + dropdown til RessourceType -->
+        <StackPanel Margin="20">
+
+            <!-- Overskrift -->
+            <TextBlock Text="Booking af Ressource"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Margin="0,0,0,20"/>
+
+            <!-- Vælg ressourcetype (dropdown) -->
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Top"
+                        Margin="0,0,0,20">
+                <TextBlock Text="Vælg ressource type:"
+                           VerticalAlignment="Center"
+                           Margin="0,0,10,0"/>
+
+                <ComboBox Width="200"
+                          Height="30"
+                          ItemsSource="{Binding ResourceTypes}"
+                          DisplayMemberPath="Title"
+                          SelectedItem="{Binding SelectedResourceType,
+                                                 Mode=TwoWay}" />
+            </StackPanel>
+
+            <!-- Uge-navigation -->
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,0,0,10">
+                <Button Content="⟨"
+                        Width="30"
+                        Height="25"
+                        Margin="0,0,5,0"
+                        Command="{Binding PreviousWeekCommand}"/>
+
+                <TextBlock Text="{Binding CurrentWeekText}"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"
+                           Margin="0,0,5,0"/>
+
+                <Button Content="⟩"
+                        Width="30"
+                        Height="25"
+                        Command="{Binding NextWeekCommand}"/>
+            </StackPanel>
+
+            <!-- Uge-kalender (datoer på Y-akse, lokaler på X-akse) -->
+            <Grid>
+                <!-- Rækker: header + 7 dage -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Kolonner: dato + 3 lokaler -->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Header-række -->
+                <!-- Header-række -->
+                <Border Grid.Row="0" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="" />
+                </Border>
+
+                <!-- Kolonne 1 – dynamisk navn -->
+                <Border Grid.Row="0" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock FontWeight="Bold"
+               HorizontalAlignment="Center"
+               Text="{Binding SelectedResourceType.Title, 
+                              StringFormat='{}{0} 1'}" />
+                </Border>
+
+                <!-- Kolonne 2 – dynamisk navn -->
+                <Border Grid.Row="0" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock FontWeight="Bold"
+               HorizontalAlignment="Center"
+               Text="{Binding SelectedResourceType.Title, 
+                              StringFormat='{}{0} 2'}" />
+                </Border>
+
+                <!-- Kolonne 3 – dynamisk navn -->
+                <Border Grid.Row="0" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock FontWeight="Bold"
+               HorizontalAlignment="Center"
+               Text="{Binding SelectedResourceType.Title, 
+                              StringFormat='{}{0} 3'}" />
+                </Border>
+                <!-- Dage i ugen – lige nu statiske -->
+
+                <!-- Row 1 -->
+                <Border Grid.Row="1" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="02-03-2026" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+
+                <!-- Row 2 -->
+                <Border Grid.Row="2" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="03-03-2026" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+
+                <!-- Row 3 -->
+                <Border Grid.Row="3" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="04-03-2026" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+
+                <!-- Row 4 -->
+                <Border Grid.Row="4" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="05-03-2026" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+
+                <!-- Row 5 -->
+                <Border Grid.Row="5" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="06-03-2026" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+
+                <!-- Row 6 -->
+                <Border Grid.Row="6" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="07-03-2026" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+
+                <!-- Row 7 -->
+                <Border Grid.Row="7" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="08-03-2026" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="7" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="7" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="7" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="OpenDayView_Click">
+                        <TextBlock Text="" HorizontalAlignment="Center"/>
+                    </Button>
+                </Border>
+
+            </Grid>
+
+        </StackPanel>
+    </Grid>
+</Window>
