@@ -57,8 +57,20 @@ public class Booking
         set { _personId = value; }
     }
 
+
     public Booking(int resourceId, int personId, DateTime startTime, DateTime endTime, bool requirementFulfilled = false, bool isPaid = false)
     {
+        this.ResourceId = resourceId;
+        this.PersonId = personId;
+        this.StartTime = startTime;
+        this.EndTime = endTime;
+        this.RequirementFulfilled = requirementFulfilled;
+        this.IsPaid = isPaid;
+    }
+
+    public Booking(int id,int resourceId, int personId, DateTime startTime, DateTime endTime, bool requirementFulfilled = false, bool isPaid = false)
+    {
+        this.Id = id;
         this.ResourceId = resourceId;
         this.PersonId = personId;
         this.StartTime = startTime;
