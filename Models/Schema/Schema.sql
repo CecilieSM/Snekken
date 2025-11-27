@@ -1,13 +1,13 @@
 ﻿CREATE TABLE RESOURCETYPE ( 
 	ResourceTypeId int IDENTITY(1,1) PRIMARY KEY,
-	Title nvarchar(50) NOT NULL,      
+	Title nvarchar(50) NOT NULL UNIQUE,      
     Unit int NOT NULL,      
     Requirement nvarchar(255)     
 );
 
 CREATE TABLE RESOURCE (
     ResourceId int IDENTITY(1,1) PRIMARY KEY,
-    Title nvarchar(100) NOT NULL,
+    Title nvarchar(100) NOT NULL UNIQUE,
     Price decimal (10,2) NOT NULL,
     IsActive bit NOT NULL DEFAULT 1,
 	Description nvarchar(300),

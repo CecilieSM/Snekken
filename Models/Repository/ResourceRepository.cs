@@ -29,7 +29,7 @@ public class ResourceRepository : IRepository<Resource>
             command.Parameters.AddWithValue("@Title", entity.Title);
             command.Parameters.AddWithValue("@Price", entity.Price);
             command.Parameters.AddWithValue("@IsActive", entity.IsActive);
-            command.Parameters.AddWithValue("@Description", entity.Description);
+            command.Parameters.AddWithValue("@Description", (object?)entity.Description ?? DBNull.Value );
             command.Parameters.AddWithValue("@ResourceTypeId", entity.ResourceTypeId);
 
             connection.Open();

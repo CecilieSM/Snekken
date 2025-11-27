@@ -1,0 +1,12 @@
+sequenceDiagram
+    actor Person
+    participant System
+
+    Person->>System: chooseResourceType (date, start- and endTime)
+    System-->>Person: displayForm (name, phoneNumber, email)
+    Person->>System: enterData (name, phoneNumber, email)
+    Person->>System: clickSave
+    System->>System: validateInformation
+    System->>Database: saveForm
+    Database-->>System: confirmSaved
+    System-->>Person: showConfirmationAndReceipt

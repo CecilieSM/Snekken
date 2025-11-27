@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Snekken.View;
+using Snekken.ViewModel;
 
 namespace Snekken.View
 {
@@ -23,6 +24,9 @@ namespace Snekken.View
         public CreateRessource()
         {
             InitializeComponent();
+
+
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -30,6 +34,20 @@ namespace Snekken.View
             CreateRessourceType createRessourceType = new CreateRessourceType();
             this.Visibility = Visibility.Hidden;
             createRessourceType.DataContext = this.DataContext;
+
+            if (createRessourceType.DataContext is ResourceViewModel currentViewModel)
+            {
+                currentViewModel.RequestClose += (s, e) =>
+                {
+                    if (e == "AddResourceType") createRessourceType.Close();
+                };
+            }
+
+            createRessourceType.Closed += (s, args) =>
+            {
+                this.Visibility = Visibility.Visible;
+            };
+
             createRessourceType.Show();
         }
     }
