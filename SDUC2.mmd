@@ -1,0 +1,12 @@
+sequenceDiagram
+    actor Tenant
+    participant System
+
+    Tenant->>System: chooseResourceType (date, start- and endTime)
+    System-->>Tenant: displayForm (name, address, phoneNumber, email, payment, time?)
+    Tenant->>System: enterData (name, address, phoneNumber, email, payment, time?)
+    Tenant->>System: clickSave
+    System->>System: validateInformation
+    System->>Database: saveForm
+    Database-->>System: confirmSaved
+    System-->>Tenant: showConfirmationAndReceipt
