@@ -5,25 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Snekken.Utility;
+namespace WPFLibrary.Utility;
 
 public class RelayCommand : ICommand
 {
     private readonly Action<object?> execute;
     private readonly Func<bool> canExecute;
-    private Action<object?> addResource;
-    private Func<object?, bool> canAddResource;
 
     public RelayCommand(Action<object?> execute, Func<bool> canExecute = null)
     {
         this.execute = execute;
         this.canExecute = canExecute;
-    }
-
-    public RelayCommand(Action<object?> addResource, Func<object?, bool> canAddResource)
-    {
-        this.addResource = addResource;
-        this.canAddResource = canAddResource;
     }
 
     public bool CanExecute(object parameter) => canExecute == null || canExecute();
@@ -35,4 +27,3 @@ public class RelayCommand : ICommand
         remove { CommandManager.RequerySuggested -= value; }
     }
 }
-

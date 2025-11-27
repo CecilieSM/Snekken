@@ -14,38 +14,34 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Models;
 using Models.Repository;
-using Snekken.Services;
-using Snekken.Utility;
 using Snekken.View;
+using WPFLib.Services;
+using WPFLib.Utility;
+using WPFLib.ViewModel;
 
 namespace Snekken.ViewModel;
 
 public class ResourceViewModel : BaseViewModel
 {
     //DATABASEKODE
-    //private string _connectionString;
-    //private readonly ResourceRepository _resourceRepository;
-    //private readonly ResourceTypeRepository _resourceTypeRepository;
-
-    //new fields for resourceviewmodel refactor
     private readonly IRepository<Resource> _resourceRepository;
     private readonly IRepository<ResourceType> _resourceTypeRepository;
-    
 
+    // EVENTS
+    public event EventHandler<string>? RequestClose;
 
-    //PROPERTIES RESOURCE
+    //PROPERTIES RESOURCE FORM
     private string _resourceFormTitle;  
     public string ResourceFormTitle { get => _resourceFormTitle; set { _resourceFormTitle = value; OnPropertyChanged(); } }
 
     private ResourceType _resourceFormType;
     public ResourceType ResourceFormType { get => _resourceFormType; set { _resourceFormType = value; OnPropertyChanged(); } }
 
-    private double _resourceFormUnitPrice;
+    private double _resourceFormUnitPrice = 0;
     public double ResourceFormUnitPrice { get => _resourceFormUnitPrice; set { _resourceFormUnitPrice = value; OnPropertyChanged(); } }
 
     private string _resourceFormDescription;
-    public string ResourceFormDescription { get => _resourceFormDescription; set { _resourceFormDescription = value; OnPropertyChanged(); } }
-         
+    public string ResourceFormDescription { get => _resourceFormDescription; set { _resourceFormDescription = value; OnPropertyChanged(); } }     
 
     private Resource? _selectedResource;
     public Resource? SelectedResource
@@ -59,10 +55,9 @@ public class ResourceViewModel : BaseViewModel
         }
     }
 
-    //PROPERTIES RESOURCETYPE
+    //PROPERTIES RESOURCE-TYPE FORM
     private string _typeFormTitle;
     public string TypeFormTitle { get => _typeFormTitle; set { _typeFormTitle = value; OnPropertyChanged(); } }
-
 
     private TimeUnit _typeFormUnit; //_typeFormUnit = privat felt, der indeholder værdien.
 
@@ -81,7 +76,6 @@ public class ResourceViewModel : BaseViewModel
     private string? _typeFormRequirement;
     public string? TypeFormRequirement { get => _typeFormRequirement; set { _typeFormRequirement = value; OnPropertyChanged(); } }
 
-
     private ResourceType? _selectedResourceType;
     public ResourceType? SelectedResourceType
     {
@@ -91,45 +85,20 @@ public class ResourceViewModel : BaseViewModel
             if (_selectedResourceType == value) return;
             _selectedResourceType = value;
             OnPropertyChanged();
-            
         }
     }
-
   
-    ////PROPERTIES PERSON
-    //private string _newName;
-    //public string NewName { get => _newName; set { _newName = value; OnPropertyChanged(); } }
-
-
-    //private int _newPhone;
-    //public int NewPhone { get => _newPhone; set { _newPhone = value; OnPropertyChanged(); } }
-
-
-    //private string _newEmail;
-    //public string NewEmail { get => _newEmail; set { _newEmail = value; OnPropertyChanged(); } }
-
-    ////PROPERTIES BOOKING
-    //private DateTime _startDate;
-    //public DateTime StartDate { get => _startDate; set {  _startDate = value; OnPropertyChanged(); } }
-
-    //private DateTime _endDate; 
-    //public DateTime EndDate { get => EndDate; set {  _endDate = value; OnPropertyChanged(); } } 
-
-
     //ObservableCollection Resource
     public ObservableCollection<Resource> Resources { get; set; }
 
     //ObservableCollection ResourceType
     public ObservableCollection<ResourceType> ResourceTypes { get; set; }
 
-
-
-//Relaycommands Ressource
-public ICommand AddResourceCommand { get; }
+    //Relaycommands Ressource
+    public ICommand AddResourceCommand { get; }
     public ICommand UpdateResourceCommand { get; }
     public ICommand DeleteResourceCommand { get; }
     public ICommand DeselectResourceCommand { get; }
-
 
     //Relaycommands ResourceType
     public ICommand AddResourceTypeCommand { get; }
@@ -137,43 +106,24 @@ public ICommand AddResourceCommand { get; }
     public ICommand DeleteResourceTypeCommand { get; }
     public ICommand DeselectResourceTypeCommand { get; }
 
-
     //CONSTRUCTOR
-
     public ResourceViewModel(IRepository<Resource> resourceRepository, IRepository<ResourceType> resourceTypeRepository)
     {
         _resourceRepository = resourceRepository;
         _resourceTypeRepository = resourceTypeRepository;
-
-        ////SKAL VI BRUGE DEM?
-        //this._connectionString = ConfigHelper.GetConnectionString();
-        //_resourceRepository = new ResourceRepository(this._connectionString);
-        //_resourceTypeRepository = new ResourceTypeRepository(this._connectionString);
-
-        // ObservableCollection til alle ressourcer (til ListView fx)
-        //Resources = new ObservableCollection<Resource>(_resourceRepository.GetAll());
-
-        // ObservableCollection til resource-typer (til ComboBox fx)
-
+        
         try
         {
             ResourceTypes = new ObservableCollection<ResourceType>(_resourceTypeRepository.GetAll());
         }
         catch (Exception)
         {
-            _messageService.Show("Der opstod en fejl ved hentning af ressource-typer?");
+            MessageService.Show("Der opstod en fejl ved hentning af ressource-typer?");
         }
 
         AddResourceCommand = new RelayCommand(AddResource, CanAddResource);
-        //UpdateResourceCommand = new RelayCommand(UpdateResource, CanUpdateResource);
-        //DeleteResourceCommand = new RelayCommand(DeleteResource, CanDeleteResouce);
-        //DeselectResourceCommand = new RelayCommand(DeselectResource, CanDeselectResource);
 
         AddResourceTypeCommand = new RelayCommand(AddResourceType, CanAddResourceType);
-        //UpdateResourceTypeCommand = new RelayCommand(UpdateResourceType, CanUpdateResourceType);
-        //DeleteResourceTypeCommand = new RelayCommand(DeleteResourceType, CanDeleteResouceType);
-        //DeselectResourceTypeCommand = new RelayCommand(DeselectResourceType, CanDeselectResourceType);
-
     }
 
 
@@ -185,10 +135,11 @@ public ICommand AddResourceCommand { get; }
             Resource newResource = new Resource(this.ResourceFormTitle, this.ResourceFormUnitPrice, this.ResourceFormType.Id, this.ResourceFormDescription);
             int newId = _resourceRepository.Add(newResource);
             ClearResourceForm();
+            RequestClose?.Invoke(this, "AddResource");
         }
         catch (Exception)
         {
-            _messageService.Show("Der opstod en fejl ved oprettelse af ressource?");
+            MessageService.Show("Der opstod en fejl ved oprettelse af ressource? Måske findes der allerede en ressource med samme navn.");
         }
         //newResource.ResourceId = newId;
         //Resources.Add(newResource);
@@ -197,23 +148,18 @@ public ICommand AddResourceCommand { get; }
 
     private bool CanAddResource()
     {
-        // Hvis der allerede er valgt en resource, må vi ikke oprette ny
-        //if (SelectedResource != null)
-        //    return false;
+        // Tjek, at alle felter er gyldige
+        if (string.IsNullOrWhiteSpace(ResourceFormTitle))
+            return false;
 
-        //// Tjek, at alle felter er gyldige
-        //if (string.IsNullOrWhiteSpace(ResourceFormTitle))
-        //    return false;
+        if (ResourceFormType == null) // enum eller objekt
+            return false;
 
-        //if (ResourceFormType == null) // enum eller objekt
-        //    return false;
-
-        // if (ResourceFormDescription 
 
         //if (ResourceFormUnitPrice < 0)
         //    return false;
 
-        //// Hvis alle checks er OK
+        // Hvis alle checks er OK
         return true;
     }
 
@@ -222,34 +168,28 @@ public ICommand AddResourceCommand { get; }
         try
         {
             ResourceType newResourceType = new ResourceType(this.TypeFormTitle, this.TypeFormUnit, this.TypeFormRequirement);
-            int newId = _resourceTypeRepository.Add(newResourceType);
+            int newId = _resourceTypeRepository.Add(newResourceType); // Insert to DB and recive newId
             ClearResourceTypeForm();
+            newResourceType.Id = newId;
+            this.ResourceTypes.Add(newResourceType);
+            this.RequestClose?.Invoke(this, "AddResourceType");
         }
         catch (Exception)
         {
-            MessageBox.Show("Der opstod en fejl ved oprettelse af ressource-type?");
-        }
-
-        //newResourceType.ResourceTypeId = newId;
-        //ResourceTypes.Add(newResourceType);    
+            MessageBox.Show("Der opstod en fejl ved oprettelse af ressource-type? Måske findes der allerede en ressource-type med samme navn.");
+        }    
     }
 
     private bool CanAddResourceType()
     {
-        //    // Hvis der allerede er valgt en resource, må vi ikke oprette ny
-        //    if (SelectedResourceType != null)
-        //        return false;
-
-        //    // Tjek, at alle felter er gyldige
-        //    if (string.IsNullOrWhiteSpace(TypeFormTitle))
-        //        return false;
+        // Tjek, at alle felter er gyldige
+        if (string.IsNullOrWhiteSpace(TypeFormTitle))
+            return false;
 
         //    if (TypeFormUnit == TimeUnit.None)
         //        return false;
 
-        //    if (string.IsNullOrWhiteSpace(TypeFormRequirement))
-        //        return false;
-    
+
         //    // Hvis alle checks er OK
         return true;
     }
@@ -273,62 +213,4 @@ public ICommand AddResourceCommand { get; }
         TypeFormRequirement = string.Empty;
         SelectedResourceType = null;
     }
-
-
-    //private void UpdateResource(object? parameter)
-    //{
-    //   try 
-    //{	        
-
-    //}
-    //catch (Exception)
-    //{
-    // MessageBox.Show("Der opstod en fejl ved opdatering af ressource?");
-    //}
-    //    if (SelectedResource == null)
-    //        return;
-    //    SelectedResource.Title = ResourceFormTitle;
-    //    SelectedResource.Type = ResourceFormType;
-    //    SelectedResource.Description = ResourceFormDescription;
-    //    SelectedResource.UnitPrice = ResourceFormUnitPrice;
-    //    SelectedResource.Capacity = ResourceFormCapacity;
-    //    SelectedResource.IsActive = IsActive;
-
-    //    _resourceRepository.Update(SelectedResource);
-
-    //    ResourcesView.Refresh();
-    //}
-
-    //private bool CanUpdateResource(object? parameter)
-    //{
-    //    // Hvis der allerede er valgt en resource, må vi ikke oprette ny
-    //    if (SelectedResource != null)
-
-    //        return false;
-
-    //        // Tjek, at alle felter er gyldige
-    //        if (string.IsNullOrWhiteSpace(ResourceFormTitle))
-    //        { return false; }
-
-    //        if (string.IsNullOrWhiteSpace(ResourceFormType))
-    //            return false;
-
-    //        if (string.IsNullOrWhiteSpace(ResourceFormDescription))
-    //            return false;
-
-    //        if (ResourceFormUnitPrice < 0)
-    //        { return false; }
-
-
-    //        if (ResourceFormCapacity <= 0)
-    //            return false;
-
-    //        // Hvis alle checks er OK
-    //        return true;
-
-    //}
-
-
-
-
 }

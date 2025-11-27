@@ -18,7 +18,7 @@
                      Width="260" 
                      HorizontalAlignment="Left" 
                      Height="30" 
-                     Text="{Binding ResourceFormTitle}"/>
+                     Text="{Binding ResourceFormTitle, UpdateSourceTrigger=PropertyChanged }"/>
             
             <TextBlock Text="Type" Margin="20,5"/>
             
