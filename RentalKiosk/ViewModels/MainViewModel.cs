@@ -17,6 +17,7 @@ namespace RentalKiosk.ViewModels
     public class MainViewModel : BaseViewModel
     {
         private readonly IRepository<Booking> _bookingRepository;
+        private readonly IRepository<Person> _personRepository;
 
         public ObservableCollection<Booking> Bookings { get; set; }
 
@@ -31,6 +32,12 @@ namespace RentalKiosk.ViewModels
 
         private string _name;
         public string Name { get; set; }
+
+        private string _email;
+        public string Email { get; set; }
+
+        private string _phone;
+        public string Phone { get; set; }
 
         private DateTime _startTime;
         public DateTime StartTime { get; set; }
@@ -51,6 +58,7 @@ namespace RentalKiosk.ViewModels
         public int SelectedResourceId { get; set; }
 
         public ICommand AddBooking { get; }
+        public ICommand AddPerson { get; }
 
         public MainViewModel(IRepository<Booking> bookingRepository) 
         {
@@ -66,6 +74,7 @@ namespace RentalKiosk.ViewModels
             }
 
             AddBooking = new RelayCommand(ExecuteAddBooking, CanAddBooking);
+            AddPerson = new RelayCommand(ExecuteAddPerson, CanAddPerson);
         }
 
 
@@ -94,5 +103,27 @@ namespace RentalKiosk.ViewModels
             return true;
         }
 
+        public void ExecuteAddPerson(object parameter)
+        {
+            try
+            {
+                Person newPerson = new Person(this.Name,this.Email, this.Phone);
+
+                int newId = _personRepository.Add(newPerson);
+
+                MessageService.Show($"Person #{newId} added successfully!");
+            }
+
+            catch (Exception ex)
+            {
+                MessageService.Show("An error occurred while adding a person: " + ex.Message);
+                MessageService.Log("Error in ExecuteAddPerson: " + ex.ToString());
+            }
+
+        }
+
+        public bool CanAddPerson() 
+        {
+            return true;
+        }
     }
-}
