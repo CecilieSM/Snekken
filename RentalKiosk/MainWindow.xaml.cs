@@ -9,6 +9,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using RentalKiosk.ViewModels;
+using Models.Repository;
+using Models;
 
 namespace RentalKiosk
 {
@@ -21,7 +23,11 @@ namespace RentalKiosk
         {
             InitializeComponent();
 
-            this.DataContext = new MainViewModel();
+            BookingRepository bookingRepository = new BookingRepository(ConfigHelper.GetConnectionString());
+
+            MainViewModel vm = new MainViewModel(bookingRepository);
+
+            this.DataContext = vm;
         }
     }
 }
