@@ -45,7 +45,29 @@ public class BookingRepository : IRepository<Booking>
     // READ ALL - bygges senere
     public IEnumerable<Booking> GetAll()
     {
-        throw new NotImplementedException();
+        List<Booking> booking = new List<Booking>();
+        string query = "SELECT * FROM Booking";
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            SqlCommand command = new SqlCommand(query, connection);
+            connection.Open();
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    booking.Add(new Booking(
+                        (int)reader["ResourceId"],
+                        (int)reader["PersonId"],
+                        (DateTime)reader["StartTime"],
+                        (DateTime)reader["EndTime"],
+                        (bool)reader["RequirementFulfilled"],
+                        (bool)reader["IsPaid"]
+                     ));
+                }
+            }
+        }
+        return booking;
     }
 
     // READ BY ID - bygges senere
