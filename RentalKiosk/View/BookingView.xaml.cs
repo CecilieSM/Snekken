@@ -10,30 +10,26 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace RentalKiosk.View;
 
-    /// <summary>
-    /// Interaction logic for BookingView.xaml
-    /// </summary>
-    public partial class BookingView : Window
+/// <summary>
+/// Interaction logic for BookingView.xaml
+/// </summary>
+public partial class BookingView : UserControl
 {
     public BookingView()
     {
         InitializeComponent();
     }
 
-    // Kaldes når man klikker på en celle i uge-kalenderen
-    private void OpenDayView_Click(object sender, RoutedEventArgs e)
+    // Lige nu bare en dummy – logik kommer senere
+    private void OpenDayView_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        var daySchedule = new DayScheduleView();
-        daySchedule.Owner = this;
-
-        // Genbrug samme ViewModel
-        daySchedule.DataContext = this.DataContext;
-
-        daySchedule.Show();
+        // Her kan vi i fremtiden fortælle ViewModel:
+        // "dag X og ressource-kolonne Y er valgt"
     }
 }
 

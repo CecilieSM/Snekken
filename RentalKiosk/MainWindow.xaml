@@ -3,10 +3,65 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RentalKiosk"
+        xmlns:view="clr-namespace:RentalKiosk.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Snekken Booking Kiosk"
+        Height="700"
+        Width="1400"
+        Background="White">
 
+    <!-- Hele kiosken -->
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <!-- Evt. top-bar til titel -->
+            <RowDefinition Height="Auto"/>
+            <!-- Indhold (de tre kolonner) -->
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top-overskrift -->
+        <TextBlock Grid.Row="0"
+                   Text="Bookingkiosk – Sejlklubben Snekken"
+                   FontSize="26"
+                   FontWeight="Bold"
+                   Margin="0,0,0,10"/>
+
+        <!-- Tre kolonner: uge -> dag -> formular -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <!-- Venstre: Uge-kalender -->
+                <ColumnDefinition Width="3*"/>
+                <!-- Midten: dagsoversigt -->
+                <ColumnDefinition Width="3*"/>
+                <!-- Højre: formular -->
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 1. Uge-oversigt med ressource-type -->
+            <Border Grid.Column="0"
+                    BorderBrush="LightGray"
+                    BorderThickness="1"
+                    Margin="0,0,10,0"
+                    Background="White">
+                <view:BookingView />
+            </Border>
+
+            <!-- 2. Dagsoversigt 07–22 -->
+            <Border Grid.Column="1"
+                    BorderBrush="LightGray"
+                    BorderThickness="1"
+                    Margin="0,0,10,0"
+                    Background="White">
+                <view:DayScheduleView />
+            </Border>
+
+            <!-- 3. Formular til den valgte booking -->
+            <Border Grid.Column="2"
+                    BorderBrush="LightGray"
+                    BorderThickness="1"
+                    Background="White">
+                <view:BookingFormView />
+            </Border>
+        </Grid>
     </Grid>
 </Window>

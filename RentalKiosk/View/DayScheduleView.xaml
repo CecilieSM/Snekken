@@ -1,459 +1,471 @@
-﻿<Window x:Class="RentalKiosk.View.DayScheduleView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        Title="Dagsoversigt"
-        Height="600"
-        Width="800"
-        WindowStartupLocation="CenterOwner">
+﻿<UserControl x:Class="RentalKiosk.View.DayScheduleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Background="White">
 
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <!-- Header -->
-            <RowDefinition Height="*"/>
-            <!-- Tids-tabel -->
-        </Grid.RowDefinitions>
-
-        <!-- Header-tekst (kan senere bindes til SelectedDate) -->
-        <TextBlock Grid.Row="0"
-                   Text="Dagsoversigt for valgt ressource"
-                   FontSize="20"
-                   FontWeight="Bold"
-                   Margin="0,0,0,10"/>
-
-        <!-- Dag-tabel: tider på Y-akse, lokaler på X-akse -->
-        <Grid Grid.Row="1">
-            <!-- Rækker: header + 15 tider (07-21) -->
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <!-- Ydre grid: titel + tabel -->
+        <Grid Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <!-- header -->
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <!-- Row 0: Overskrift -->
+                <RowDefinition Height="*"/>
+                <!-- Row 1: Selve dags-tabel -->
             </Grid.RowDefinitions>
 
-            <!-- Kolonner: tid + 3 ressourcer -->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <!-- tid -->
-                <ColumnDefinition Width="*"/>
-                <!-- ressource 1 -->
-                <ColumnDefinition Width="*"/>
-                <!-- ressource 2 -->
-                <ColumnDefinition Width="*"/>
-                <!-- ressource 3 -->
-            </Grid.ColumnDefinitions>
+            <!-- Overskrift -->
+            <TextBlock Grid.Row="0"
+                       Text="Dagsoversigt for valgt ressource"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Margin="0,0,0,10"/>
 
-            <!-- Header-række -->
-            <Border Grid.Row="0" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock Text="Tid"
-                           FontWeight="Bold"
-                           HorizontalAlignment="Center"/>
-            </Border>
-            <Border Grid.Row="0" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock FontWeight="Bold"
-                           HorizontalAlignment="Center"
-                           Text="{Binding SelectedResourceType.Title, StringFormat='{}{0} 1'}"/>
-            </Border>
-            <Border Grid.Row="0" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock FontWeight="Bold"
-                           HorizontalAlignment="Center"
-                           Text="{Binding SelectedResourceType.Title, StringFormat='{}{0} 2'}"/>
-            </Border>
-            <Border Grid.Row="0" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock FontWeight="Bold"
-                           HorizontalAlignment="Center"
-                           Text="{Binding SelectedResourceType.Title, StringFormat='{}{0} 3'}"/>
-            </Border>
+            <!-- Indre grid: header + time-slots -->
+            <Grid Grid.Row="1">
+                <!-- 1 header-række + 16 timerækker -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!-- Row 0: Header -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Row 1: 07:00 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Row 2: 08:00 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Row 3: 09:00 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Row 4: 10:00 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Row 5: 11:00 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Row 6: 12:00 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Row 7: 13:00 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Row 8: 14:00 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Row 9: 15:00 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Row 10: 16:00 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Row 11: 17:00 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Row 12: 18:00 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Row 13: 19:00 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Row 14: 20:00 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Row 15: 21:00 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Row 16: 22:00 -->
+                </Grid.RowDefinitions>
 
-            <!-- Hjælpe-template til én række:
-                 Row = X, Tid = "HH:00"
-                 Kolonner 1-3: klikbare knapper med Tag = "HH:00;kolonneNr"
-            -->
+                <!-- 4 kolonner: tid + 3 ressourcer -->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70"/>
+                    <!-- Tid -->
+                    <ColumnDefinition Width="*"/>
+                    <!-- Ressource 1 -->
+                    <ColumnDefinition Width="*"/>
+                    <!-- Ressource 2 -->
+                    <ColumnDefinition Width="*"/>
+                    <!-- Ressource 3 -->
+                </Grid.ColumnDefinitions>
 
-            <!-- 07:00 -->
-            <Border Grid.Row="1" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock Text="07:00" Margin="4,2"/>
-            </Border>
-            <Border Grid.Row="1" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                        Click="TimeSlot_Click" Tag="07:00;1">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="1" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                        Click="TimeSlot_Click" Tag="07:00;2">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="1" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                        Click="TimeSlot_Click" Tag="07:00;3">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
+                <!-- HEADER-RÆKKE -->
+                <Border Grid.Row="0" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="Tid"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               Text="{Binding SelectedResourceType.Title, StringFormat='{}{0} 1'}"/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               Text="{Binding SelectedResourceType.Title, StringFormat='{}{0} 2'}"/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               Text="{Binding SelectedResourceType.Title, StringFormat='{}{0} 3'}"/>
+                </Border>
 
-            <!-- 08:00 -->
-            <Border Grid.Row="2" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock Text="08:00" Margin="4,2"/>
-            </Border>
-            <Border Grid.Row="2" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                        Click="TimeSlot_Click" Tag="08:00;1">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="2" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                        Click="TimeSlot_Click" Tag="08:00;2">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="2" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                        Click="TimeSlot_Click" Tag="08:00;3">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
+                <!-- 07:00 (row 1) -->
+                <Border Grid.Row="1" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="07:00" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="07:00;1">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="07:00;2">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="07:00;3">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
 
-            <!-- 09:00 -->
-            <Border Grid.Row="3" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock Text="09:00" Margin="4,2"/>
-            </Border>
-            <Border Grid.Row="3" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                        Click="TimeSlot_Click" Tag="09:00;1">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="3" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                        Click="TimeSlot_Click" Tag="09:00;2">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="3" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                        Click="TimeSlot_Click" Tag="09:00;3">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
+                <!-- 08:00 (row 2) -->
+                <Border Grid.Row="2" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="08:00" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="08:00;1">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="08:00;2">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="08:00;3">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
 
-            <!-- 10:00 (Row 4) -->
-            <Border Grid.Row="4" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock Text="10:00" Margin="4,2"/>
-            </Border>
-            <Border Grid.Row="4" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                        Click="TimeSlot_Click" Tag="10:00;1">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="4" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                        Click="TimeSlot_Click" Tag="10:00;2">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="4" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                        Click="TimeSlot_Click" Tag="10:00;3">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
+                <!-- 09:00 (row 3) -->
+                <Border Grid.Row="3" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="09:00" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="09:00;1">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="09:00;2">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="09:00;3">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
 
-            <!-- 11:00 (Row 5) -->
-            <Border Grid.Row="5" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock Text="11:00" Margin="4,2"/>
-            </Border>
-            <Border Grid.Row="5" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-             Click="TimeSlot_Click" Tag="11:00;1">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="5" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-             Click="TimeSlot_Click" Tag="11:00;2">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="5" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-             Click="TimeSlot_Click" Tag="11:00;3">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
+                <!-- 10:00 (row 4) -->
+                <Border Grid.Row="4" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="10:00" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="10:00;1">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="10:00;2">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="10:00;3">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
 
-            <!-- 12:00 (Row 6) -->
-            <Border Grid.Row="6" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock Text="12:00" Margin="4,2"/>
-            </Border>
-            <Border Grid.Row="6" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-            Click="TimeSlot_Click" Tag="12:00;1">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="6" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-            Click="TimeSlot_Click" Tag="12:00;2">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="6" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-            Click="TimeSlot_Click" Tag="12:00;3">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
+                <!-- 11:00 (row 5) -->
+                <Border Grid.Row="5" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="11:00" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="11:00;1">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="11:00;2">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="11:00;3">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
 
-            <!-- 13:00 (Row 7) -->
-            <Border Grid.Row="7" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock Text="13:00" Margin="4,2"/>
-            </Border>
-            <Border Grid.Row="7" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="13:00;1">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="7" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="13:00;2">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="7" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                 Click="TimeSlot_Click" Tag="13:00;3">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <!-- 14:00 (row 8) -->
-            <Border Grid.Row="8" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock Text="14:00" Margin="4,2"/>
-            </Border>
-            <Border Grid.Row="8" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="14:00;1">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="8" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="14:00;2">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="8" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="14:00;3">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
+                <!-- 12:00 (row 6) -->
+                <Border Grid.Row="6" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="12:00" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="12:00;1">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="12:00;2">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="12:00;3">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
 
-            <!-- 15:00 (row 9) -->
-            <Border Grid.Row="9" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock Text="15:00" Margin="4,2"/>
-            </Border>
-            <Border Grid.Row="9" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="15:00;1">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="9" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="15:00;2">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="9" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="15:00;3">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
+                <!-- 13:00 (row 7) -->
+                <Border Grid.Row="7" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="13:00" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="7" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="13:00;1">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="7" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="13:00;2">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="7" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="13:00;3">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
 
-            <!-- 16:00 (row 10) -->
-            <Border Grid.Row="10" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock Text="16:00" Margin="4,2"/>
-            </Border>
-            <Border Grid.Row="10" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="16:00;1">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="10" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="16:00;2">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="10" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="16:00;3">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
+                <!-- 14:00 (row 8) -->
+                <Border Grid.Row="8" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="14:00" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="8" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="14:00;1">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="8" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="14:00;2">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="8" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="14:00;3">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
 
-            <!-- 17:00 (row 11) -->
-            <Border Grid.Row="11" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock Text="17:00" Margin="4,2"/>
-            </Border>
-            <Border Grid.Row="11" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="17:00;1">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="11" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="17:00;2">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="11" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="17:00;3">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
+                <!-- 15:00 (row 9) -->
+                <Border Grid.Row="9" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="15:00" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="9" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="15:00;1">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="9" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="15:00;2">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="9" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="15:00;3">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
 
-            <!-- 18:00 (row 12) -->
-            <Border Grid.Row="12" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock Text="18:00" Margin="4,2"/>
-            </Border>
-            <Border Grid.Row="12" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="18:00;1">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="12" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="18:00;2">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="12" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="18:00;3">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
+                <!-- 16:00 (row 10) -->
+                <Border Grid.Row="10" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="16:00" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="10" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="16:00;1">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="10" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="16:00;2">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="10" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="16:00;3">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
 
-            <!-- 19:00 (row 13) -->
-            <Border Grid.Row="13" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock Text="19:00" Margin="4,2"/>
-            </Border>
-            <Border Grid.Row="13" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="19:00;1">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="13" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="19:00;2">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="13" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="19:00;3">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
+                <!-- 17:00 (row 11) -->
+                <Border Grid.Row="11" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="17:00" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="11" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="17:00;1">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="11" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="17:00;2">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="11" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="17:00;3">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
 
-            <!-- 20:00 (row 14) -->
-            <Border Grid.Row="14" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock Text="20:00" Margin="4,2"/>
-            </Border>
-            <Border Grid.Row="14" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="20:00;1">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="14" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="20:00;2">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="14" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="20:00;3">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
+                <!-- 18:00 (row 12) -->
+                <Border Grid.Row="12" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="18:00" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="12" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="18:00;1">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="12" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="18:00;2">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="12" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="18:00;3">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
 
-            <!-- 21:00 (row 15) -->
-            <Border Grid.Row="15" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock Text="21:00" Margin="4,2"/>
-            </Border>
-            <Border Grid.Row="15" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="21:00;1">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="15" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="21:00;2">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="15" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="21:00;3">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
+                <!-- 19:00 (row 13) -->
+                <Border Grid.Row="13" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="19:00" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="13" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="19:00;1">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="13" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="19:00;2">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="13" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="19:00;3">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
 
-            <!-- 22:00 (row 16) -->
-            <Border Grid.Row="16" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <TextBlock Text="22:00" Margin="4,2"/>
-            </Border>
-            <Border Grid.Row="16" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="22:00;1">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="16" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="22:00;2">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
-            <Border Grid.Row="16" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
-                <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
-                Click="TimeSlot_Click" Tag="22:00;3">
-                    <TextBlock Text=""/>
-                </Button>
-            </Border>
+                <!-- 20:00 (row 14) -->
+                <Border Grid.Row="14" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="20:00" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="14" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="20:00;1">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="14" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="20:00;2">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="14" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="20:00;3">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
 
+                <!-- 21:00 (row 15) -->
+                <Border Grid.Row="15" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="21:00" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="15" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="21:00;1">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="15" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="21:00;2">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="15" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="21:00;3">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
 
+                <!-- 22:00 (row 16) -->
+                <Border Grid.Row="16" Grid.Column="0" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <TextBlock Text="22:00" Margin="4,2"/>
+                </Border>
+                <Border Grid.Row="16" Grid.Column="1" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="22:00;1">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="16" Grid.Column="2" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="22:00;2">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="16" Grid.Column="3" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Button Background="Transparent" BorderThickness="0" Cursor="Hand"
+                            Click="TimeSlot_Click" Tag="22:00;3">
+                        <TextBlock Text=""/>
+                    </Button>
+                </Border>
+
+            </Grid>
         </Grid>
-    </Grid>
-</Window>
+    </ScrollViewer>
+</UserControl>
