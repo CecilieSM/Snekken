@@ -10,18 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace RentalKiosk.View
+namespace RentalKiosk.View;
+
+/// <summary>
+/// Interaction logic for BookingFormView.xaml
+/// </summary>
+public partial class BookingFormView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for DayBookingView.xaml
-    /// </summary>
-    public partial class DayBookingView : Window
+    public BookingFormView()
     {
-        public DayBookingView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
+
+    private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+
     }
 }

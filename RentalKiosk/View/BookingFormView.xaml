@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="RentalKiosk.View.BookingFormView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Background="White">
+
+    <Grid>
+        <StackPanel Margin="20">
+
+            <!-- Øverst: valgt dato + tidsrum + ressource -->
+            <TextBlock Text="{Binding SelectedBookingHeader}" 
+                       FontSize="18"
+                       FontWeight="Bold"
+                       TextWrapping="Wrap"
+                       Margin="0,0,0,20"/>
+
+            <!-- Navn -->
+            <TextBlock Text="Navn" Margin="0,0,0,5"/>
+            <TextBox Height="28"
+                     Text="{Binding BookingName, UpdateSourceTrigger=PropertyChanged}"
+                     Margin="0,0,0,10"/>
+
+            <!-- Email -->
+            <TextBlock Text="E-mail" Margin="0,0,0,5"/>
+            <TextBox Height="28"
+                     Text="{Binding BookingEmail, UpdateSourceTrigger=PropertyChanged}"
+                     Margin="0,0,0,10"/>
+
+            <!-- Telefon -->
+            <TextBlock Text="Telefon" Margin="0,0,0,5"/>
+            <TextBox Height="28"
+                     Text="{Binding BookingPhone, UpdateSourceTrigger=PropertyChanged}"
+                     Margin="0,0,0,10"/>
+
+            <!-- Info / kommentar -->
+            <TextBlock Text="Info og krav" Margin="0,0,0,5"/>
+            <TextBlock Text="Booking registreres først endeligt, når depositum er betalt og godkendt af administrator."
+                       FontSize="12"
+                       TextWrapping="Wrap"
+                       Margin="0,0,0,10"/>
+
+
+            <!-- Beregnet pris -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="Beregnet pris:" 
+                           VerticalAlignment="Center"/>
+                <TextBox Width="120"
+                         Margin="10,0,0,0"
+                         IsReadOnly="True"
+                         Text="{Binding CalculatedPrice, StringFormat='{}{0} kr.'}"/>
+            </StackPanel>
+
+
+            <!-- Reserver-knap -->
+            <Button Content="Reserver"
+                    Height="32"
+                    Background="Salmon"
+                    Foreground="White"
+                    HorizontalAlignment="Stretch"
+                    Command="{Binding ReserveBookingCommand}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
