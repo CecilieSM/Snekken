@@ -85,6 +85,9 @@ public class BookingRepository : IRepository<Booking>
     // DELETE - bygges senere
     public void Delete(int id)
     {
+        // query to delete booking by id
+        // excecute the query 
+
         throw new NotImplementedException();
     }
 
