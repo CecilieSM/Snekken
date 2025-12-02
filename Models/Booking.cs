@@ -43,6 +43,20 @@ public class Booking
         set { _isPaid = value; }
     }
 
+    private DateTime? _handedOutAt;
+    public DateTime? HandedOutAt
+    {
+        get { return _handedOutAt; }
+        set { _handedOutAt = value; }
+    }
+
+    private DateTime? _returnedAt;
+    public DateTime? ReturnedAt
+    {
+        get { return _returnedAt; }
+        set { _returnedAt = value; }
+    }
+
     private int _resourceId;
     public int ResourceId
     {

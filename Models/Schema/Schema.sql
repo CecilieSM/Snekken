@@ -29,6 +29,8 @@ CREATE TABLE BOOKING (
 	EndTime datetime2 NOT NULL,
 	RequirementFulfilled bit NOT NULL DEFAULT 0,
 	IsPaid bit NOT NULL DEFAULT 0,
+	HandedOutAt datetime2,
+	ReturnedAt datetime2,
 	ResourceId int NOT NULL,
 	PersonId int NOT NULL,
 	CONSTRAINT FK_Booking_Resource FOREIGN KEY (ResourceId) REFERENCES RESOURCE(ResourceId),
