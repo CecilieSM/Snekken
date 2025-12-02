@@ -60,7 +60,7 @@ namespace RentalKiosk.ViewModels
         public ICommand AddBooking { get; }
         public ICommand AddPerson { get; }
 
-        public MainViewModel(IRepository<Booking> bookingRepository) 
+        public MainViewModel(IRepository<Booking> bookingRepository)
         {
             _bookingRepository = bookingRepository;
 
@@ -85,7 +85,7 @@ namespace RentalKiosk.ViewModels
                 Booking newBooking = new Booking(this.ResourceId, this.PersonId, this.StartTime, this.EndTime, this.RequirementFulfilled, this.IsPaid);
 
                 int newId = _bookingRepository.Add(newBooking);
-                
+
                 MessageService.Show($"Booking #{newId} added successfully!");
             }
 
@@ -96,7 +96,7 @@ namespace RentalKiosk.ViewModels
             }
         }
 
-        public bool CanAddBooking() 
+        public bool CanAddBooking()
         {
 
 
@@ -107,7 +107,7 @@ namespace RentalKiosk.ViewModels
         {
             try
             {
-                Person newPerson = new Person(this.Name,this.Email, this.Phone);
+                Person newPerson = new Person(this.Name, this.Email, this.Phone);
 
                 int newId = _personRepository.Add(newPerson);
 
@@ -122,8 +122,9 @@ namespace RentalKiosk.ViewModels
 
         }
 
-        public bool CanAddPerson() 
+        public bool CanAddPerson()
         {
             return true;
         }
     }
+}
