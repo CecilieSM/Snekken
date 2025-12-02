@@ -14,22 +14,31 @@ namespace Snekken.ViewModel;
 
 public class BookingViewModel : BaseViewModel
 {
-    // Properties for booking details
-    
     private readonly IRepository<Booking> _bookingRepository;
+    private readonly IRepository<Person> _personRepository;
+    private readonly IRepository<Resource> _resourceRepository;
+    private readonly IRepository<ResourceType> _resourceTypeRepository;
+
     public ObservableCollection<Booking> Bookings;
-    private Booking _selectedBooking;
-    public Booking SelectedBooking
+    public ObservableCollection<Person> Persons;
+    public ObservableCollection<Resource> Resources;
+    public ObservableCollection<ResourceType> ResourceTypes;
+
+    private Booking? _selectedBooking;
+    public Booking? SelectedBooking
     {
-        get => _selectedBooking;
+        get => _selectedBooking ;
         set
         {
             if (_selectedBooking == value) return;
             _selectedBooking = value;
+            if(_selectedBooking != null)
+            {
+                setFields(_selectedBooking);
+            }
             OnPropertyChanged();
         }
     }
-
     private string _searchText = string.Empty;
     public string SearchText
     {
@@ -59,7 +68,7 @@ public class BookingViewModel : BaseViewModel
 
     #region formfields
     // bruger fields
-    private string _formName;
+    private string _formName = "";
     public string FormName
     {
         get => _formName;
@@ -70,7 +79,7 @@ public class BookingViewModel : BaseViewModel
             OnPropertyChanged();
         }
     }
-    private string _formEmail;
+    private string _formEmail = "";
     public string FormEmail
     {
         get => _formEmail;
@@ -81,7 +90,7 @@ public class BookingViewModel : BaseViewModel
             OnPropertyChanged();
         }
     }
-    private string _formPhone;
+    private string _formPhone = "";
     public string FormPhone
     {
         get => _formPhone;
@@ -94,25 +103,25 @@ public class BookingViewModel : BaseViewModel
     }
 
     // booking fields
-    private DateTime _formStartDate;
-    public DateTime FormStartDate
+    private DateTime _formStart;
+    public DateTime FormStart
     {
-        get => _formStartDate;
+        get => _formStart;
         set
         {
-            if (_formStartDate == value) return;
-            _formStartDate = value;
+            if (_formStart == value) return;
+            _formStart = value;
             OnPropertyChanged();
         }
     }
-    private DateTime _formEndDate;
-    public DateTime FormEndDate
+    private DateTime _formEnd;
+    public DateTime FormEnd
     {
-        get => _formEndDate;
+        get => _formEnd;
         set
         {
-            if (_formEndDate == value) return;
-            _formEndDate = value;
+            if (_formEnd == value) return;
+            _formEnd = value;
             OnPropertyChanged();
         }
     }
@@ -163,16 +172,59 @@ public class BookingViewModel : BaseViewModel
         }
     }
 
+    private string _resourceTitle = "";
+    public string ResourceTitle
+    {
+        get => _resourceTitle;
+        set
+        {
+            if (_resourceTitle == value) return;
+            _resourceTitle = value;
+            OnPropertyChanged();
+        }
+    }
+    private string _requirements = "";
+    public string Requirements
+    {
+        get => _requirements;
+        set
+        {
+            if (_requirements == value) return;
+            _requirements = value;
+            OnPropertyChanged();
+        }
+    }
+    private decimal _totalPrice;
+    public decimal TotalPrice
+    {
+        get => _totalPrice;
+        set
+        {
+            if (_totalPrice == value) return;
+            _totalPrice = value;
+            OnPropertyChanged();
+        }
+    }
     #endregion
 
     public ICommand UpdateBookingCommand { get; }
     public ICommand DeleteBookingCommand { get; }
-    public BookingViewModel(IRepository<Booking> BookingRepository)
+
+    public BookingViewModel(
+        IRepository<Booking> BookingRepository, 
+        IRepository<Person> PersonRepository, 
+        IRepository<Resource> ResourceRepository, 
+        IRepository<ResourceType> ResourceTypeRepository
+        )
     {
         _bookingRepository = BookingRepository;
         Bookings = new ObservableCollection<Booking>(_bookingRepository.GetAll());
-        // need bookings with users and types included
-
+        _personRepository = PersonRepository;
+        Persons = new ObservableCollection<Person>(_personRepository.GetAll());
+        _resourceRepository = ResourceRepository;
+        Resources = new ObservableCollection<Resource>(_resourceRepository.GetAll());
+        _resourceTypeRepository = ResourceTypeRepository;
+        ResourceTypes = new ObservableCollection<ResourceType>(_resourceTypeRepository.GetAll());
 
         // add relay commands
         UpdateBookingCommand = new RelayCommand(UpdateBooking, CanUpdateBooking);
@@ -182,11 +234,14 @@ public class BookingViewModel : BaseViewModel
     #region Command methods
     private void UpdateBooking(object? parameter) 
     {   
-        _bookingRepository.Update(SelectedBooking); // Vil helt sikkert ikke virke endnu
+        _bookingRepository.Update(SelectedBooking!); // Vil helt sikkert ikke virke endnu
+
+        // update booking and person in collections and db.
     }
 
     public bool CanUpdateBooking()
     {
+        if (SelectedBooking == null) return false;
         return true;
     }
 
@@ -202,4 +257,42 @@ public class BookingViewModel : BaseViewModel
         return SelectedBooking != null;
     }
     #endregion
+
+    private void setFields(Booking _selectedBooking)
+    {
+        FormName = Persons.FirstOrDefault(p => p.Id == _selectedBooking.Id)?.Name ?? string.Empty;
+        FormEmail = Persons.FirstOrDefault(p => p.Id == _selectedBooking.Id)?.Email ?? string.Empty;
+        FormPhone = Persons.FirstOrDefault(p => p.Id == _selectedBooking.Id)?.Phone ?? string.Empty;
+
+        FormStart = _selectedBooking.StartTime;
+        FormEnd = _selectedBooking.EndTime;
+        var Resource = Resources.FirstOrDefault(r => r.Id == _selectedBooking.Id);
+        ResourceTitle = Resource?.Title ?? string.Empty;
+        Requirements = ResourceTypes.FirstOrDefault(rt => rt.Id == Resource?.ResourceTypeId)?.Requirement ?? string.Empty;
+        TotalPrice = (decimal)(Resource?.Price ?? 0);
+
+        FormIsPaid = _selectedBooking.IsPaid;
+        FormRequirementFulfilled = _selectedBooking.RequirementFulfilled;
+        IsCheckedOut = _selectedBooking.HandedOutAt.HasValue;
+        IsReturned = _selectedBooking.ReturnedAt.HasValue;
+    }
+
+    private void clearFields()
+    {
+        _selectedBooking = null;
+        FormName = string.Empty;
+        FormEmail = string.Empty;
+        FormPhone = string.Empty;
+
+        FormStart = DateTime.Now;
+        FormEnd = DateTime.Now;
+        ResourceTitle = string.Empty;
+        Requirements = string.Empty;
+        TotalPrice = 0;
+
+        FormIsPaid = false;
+        FormRequirementFulfilled = false;
+        IsCheckedOut = false;
+        IsReturned = false;
+    }
 }
