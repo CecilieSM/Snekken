@@ -20,6 +20,26 @@ namespace RentalKiosk.ViewModels
         private readonly IRepository<Person> _personRepository;
 
         public ObservableCollection<Booking> Bookings { get; set; }
+        public ObservableCollection<DateTime> WeekDays { get; } = new();
+
+        private DateTime _currentWeekStart;
+        public DateTime CurrentWeekStart 
+        {
+            get => _currentWeekStart;
+            set
+            {
+                if (_currentWeekStart != value)
+                {
+                    _currentWeekStart = value;
+                    OnPropertyChanged();
+                    UpdateWeekDays();
+                    OnPropertyChanged(nameof(CurrentWeekText));
+                }
+            }
+        }
+
+        public string CurrentWeekText =>
+            $"{CurrentWeekStart:dd.MM.yyyy} - {CurrentWeekStart.AddDays(6):dd.MM.yyyy}";
 
         private int _bookingId;
         public int BookingId { get; set; }
@@ -75,6 +95,11 @@ namespace RentalKiosk.ViewModels
 
             AddBooking = new RelayCommand(ExecuteAddBooking, CanAddBooking);
             AddPerson = new RelayCommand(ExecuteAddPerson, CanAddPerson);
+
+            // Start på ugen = mandag i denne uge
+            var today = DateTime.Today;
+            int diff = (7 + (int)today.DayOfWeek - (int)DayOfWeek.Monday) % 7;
+            CurrentWeekStart = today.AddDays(-diff);
         }
 
 
@@ -126,5 +151,15 @@ namespace RentalKiosk.ViewModels
         {
             return true;
         }
+
+        private void UpdateWeekDays() 
+        {
+            WeekDays.Clear();
+            for (int i = 0; i < 7; i++) 
+            {
+                WeekDays.Add(CurrentWeekStart.AddDays(i));
+            }
+        }
+
     }
 }
