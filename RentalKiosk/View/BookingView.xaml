@@ -118,11 +118,13 @@
                                                 <Button Background="Transparent"
                                                         BorderThickness="0"
                                                         Cursor="Hand"
-                                                        Click="OpenDayView_Click"
-                                                        Tag="{Binding DataContext,
-                                                                      RelativeSource={RelativeSource AncestorType=ContentPresenter}}">
-                                                    <!-- her kan senere vises 'X' osv. hvis booket -->
-                                                    <TextBlock Text=""/>
+                                                        Command="{Binding DataContext.SelectDateAndResourceCommand,
+                                                        RelativeSource={RelativeSource AncestorType=UserControl}}">
+
+                                                    <Button.CommandParameter>
+                                                        <Binding Path="DataContext"
+                                                         RelativeSource="{RelativeSource AncestorType=ItemsControl}" />
+                                                    </Button.CommandParameter>
                                                 </Button>
                                             </Border>
                                         </DataTemplate>

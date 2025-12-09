@@ -104,6 +104,7 @@ namespace RentalKiosk.ViewModels
         public ICommand AddPersonCommand { get; }
         public ICommand NextWeekCommand { get; }
         public ICommand PreviousWeekCommand { get; }
+        public ICommand SelectDateAndResourceCommand { get; }
 
         public MainViewModel(IRepository<Booking> bookingRepository, IRepository<ResourceType> resourceTypeRepository, IRepository<Resource> resourceRepository)
         {
@@ -141,6 +142,7 @@ namespace RentalKiosk.ViewModels
             AddPersonCommand = new RelayCommand(ExecuteAddPerson, CanAddPerson);
             NextWeekCommand = new RelayCommand(ExecuteNextWeek);
             PreviousWeekCommand = new RelayCommand(ExecutePreviousWeek);
+            SelectDateAndResourceCommand = new RelayCommand(ExecuteSelectDateAndResourceCommand);
 
             // Start på ugen = mandag i denne uge
             var today = DateTime.Today;
@@ -231,6 +233,11 @@ namespace RentalKiosk.ViewModels
                     }
                 }
             }
+        }
+
+        private void ExecuteSelectDateAndResourceCommand(object parameter)
+        {
+            MessageService.Show("SelectDateAndResourceCommand executed.");
         }
     }
 }
