@@ -237,7 +237,39 @@ namespace RentalKiosk.ViewModels
 
         private void ExecuteSelectDateAndResourceCommand(object parameter)
         {
-            MessageService.Show("SelectDateAndResourceCommand executed.");
+            if (parameter == null)
+            {
+                MessageService.Show("Parameter is null");
+                return;
+            }
+
+            // Show the runtime type
+            MessageService.Show($"Parameter type: {parameter.GetType().FullName}");
+
+            // If it's an array, dump the contents
+            if (parameter is object[] arr)
+            {
+                var values = string.Join(", ", arr.Select(v => v?.ToString() ?? "null"));
+                MessageService.Show($"Array values: {values}");
+            }
+            else
+            {
+                // Otherwise just show ToString()
+                MessageService.Show($"Parameter value: {parameter}");
+            }
+
+            //var paramString = parameter as string;
+            //if (string.IsNullOrEmpty(paramString)) { MessageService.Show("Null or empty"); return; }
+
+            //var parts = paramString.Split('|');
+            //var date = DateTime.Parse(parts[0]);
+            //var resourceId = parts[1];
+
+            //MessageService.Show($"Selected date: {date.ToShortDateString()}, Resource ID: {resourceId}");
         }
     }
+
+
+
+
 }

@@ -8,20 +8,15 @@
 
     <Grid Margin="20">
         <StackPanel>
-
-            <!-- Overskrift -->
             <TextBlock Text="Booking af Ressource"
                        FontSize="24"
                        FontWeight="Bold"
                        Margin="0,0,0,20"/>
 
-            <!-- Vælg ressourcetype -->
+            <!-- Ressourcetype -->
             <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-                <TextBlock Text="Vælg ressource type:"
-                           VerticalAlignment="Center"
-                           Margin="0,0,10,0"/>
-                <ComboBox Width="200"
-                          Height="30"
+                <TextBlock Text="Vælg ressource type:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <ComboBox Width="200" Height="30"
                           ItemsSource="{Binding ResourceTypes}"
                           DisplayMemberPath="Title"
                           SelectedItem="{Binding SelectedResourceType, Mode=TwoWay}"/>
@@ -29,81 +24,53 @@
 
             <!-- Uge-navigation -->
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <Button Content="⟨"
-                        Width="30"
-                        Height="25"
-                        Margin="0,0,5,0"
-                        Command="{Binding PreviousWeekCommand}"/>
-
-                <TextBlock Text="{Binding CurrentWeekText}"
-                           FontWeight="Bold"
-                           VerticalAlignment="Center"
-                           Margin="0,0,5,0"/>
-
-                <Button Content="⟩"
-                        Width="30"
-                        Height="25"
-                        Command="{Binding NextWeekCommand}"/>
+                <Button Content="⟨" Width="30" Height="25" Margin="0,0,5,0" Command="{Binding PreviousWeekCommand}"/>
+                <TextBlock Text="{Binding CurrentWeekText}" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                <Button Content="⟩" Width="30" Height="25" Command="{Binding NextWeekCommand}"/>
             </StackPanel>
 
-            <!-- Uge-kalender -->
+            <!-- Kalender -->
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <!-- Header -->
                     <RowDefinition Height="*"/>
-                    <!-- Rækker for ugen -->
                 </Grid.RowDefinitions>
 
-                <!-- HEADER-RÆKKE: "Dato" + dynamiske ressource-headere -->
+                <!-- Header -->
                 <DockPanel Grid.Row="0">
-                    <!-- Fast "Dato"-kolonne -->
-                    <Border Width="120"
-                            BorderBrush="Gray" BorderThickness="0,0,1,1"
-                            Margin="0,0,0,0">
-                        <TextBlock Text="Dato"
-                                   FontWeight="Bold"
-                                   HorizontalAlignment="Center"/>
+                    <Border Width="120" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                        <TextBlock Text="Dato" FontWeight="Bold" HorizontalAlignment="Center"/>
                     </Border>
 
-                    <!-- Dynamiske kolonner: én header pr. ressource -->
                     <ItemsControl ItemsSource="{Binding ResourcesForSelectedType}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
-
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Width="120"
-                                        BorderBrush="Gray" BorderThickness="0,0,1,1">
-                                    <TextBlock FontWeight="Bold"
-                                               HorizontalAlignment="Center"
-                                               Text="{Binding Title}"/>
+                                <Border Width="120" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                    <TextBlock FontWeight="Bold" HorizontalAlignment="Center" Text="{Binding Title}"/>
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </DockPanel>
 
-                <!-- DAG-RÆKKER: én række pr. dag i WeekDays -->
-                <ItemsControl Grid.Row="1"
-                              ItemsSource="{Binding WeekDays}">
+                <!-- Rows -->
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding WeekDays}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <DockPanel>
-                                <!-- Dato-kolonne -->
-                                <Border Width="120"
-                                        BorderBrush="Gray" BorderThickness="0,0,1,1">
-                                    <TextBlock Text="{Binding StringFormat=dd-MM-yyyy}"
-                                               Margin="4,2"/>
+                            <DockPanel Tag="{Binding}">
+                                <!-- Date cell -->
+                                <Border Width="120" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                    <TextBlock Text="{Binding StringFormat=dd-MM-yyyy}" Margin="4,2"/>
                                 </Border>
 
-                                <!-- Dynamiske ressource-celler pr. dag -->
-                                <ItemsControl
-                                    ItemsSource="{Binding DataContext.ResourcesForSelectedType,
-                                                         RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                <!-- Resource cells -->
+                                <ItemsControl ItemsSource="{Binding DataContext.ResourcesForSelectedType,
+                                                                  RelativeSource={RelativeSource AncestorType=UserControl}}">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Horizontal"/>
@@ -112,19 +79,23 @@
 
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Border Width="120"
-                                                    BorderBrush="Gray" BorderThickness="0,0,1,1">
-                                                <!-- Knap pr. ressource pr. dag -->
+                                            <Border Width="120" BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                                <!-- Button per resource per day -->
                                                 <Button Background="Transparent"
                                                         BorderThickness="0"
                                                         Cursor="Hand"
                                                         Command="{Binding DataContext.SelectDateAndResourceCommand,
-                                                        RelativeSource={RelativeSource AncestorType=UserControl}}">
-
-                                                    <Button.CommandParameter>
-                                                        <Binding Path="DataContext"
-                                                         RelativeSource="{RelativeSource AncestorType=ItemsControl}" />
-                                                    </Button.CommandParameter>
+                                                                  RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding Text, ElementName=ParamText}">
+                                                    <!-- TextBlock both displays and produces the string -->
+                                                    <TextBlock x:Name="ParamText">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="{}{0:yyyy-MM-dd}|{1}">
+                                                                <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType=DockPanel}" />
+                                                                <Binding Path="Id" />
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
                                                 </Button>
                                             </Border>
                                         </DataTemplate>
