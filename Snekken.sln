@@ -25,6 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SD", "SD", "{D3E6CD39-67A3-
 	ProjectSection(SolutionItems) = preProject
 		SDUC1.mmd = SDUC1.mmd
 		SDUC2.mmd = SDUC2.mmd
+		SDUC2new.mmd = SDUC2new.mmd
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFLib", "WPFLib\WPFLib.csproj", "{39309AB5-916D-DDDC-4F66-0279BD379FA8}"

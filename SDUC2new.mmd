@@ -1,0 +1,31 @@
+sequenceDiagram
+    actor Person
+    participant View as BookingView
+    participant VM as BookingViewModel
+    participant Repo as BookingRepository
+    participant DB as Database
+
+    Person->>View: chooseResourceType(date, startTime, endTime)
+    View->>VM: SelectResourceType(...)
+
+    VM-->>View: ShowForm()
+
+    Person->>View: enterData(name, phone, email)
+    Person->>View: clickSave
+
+    View->>VM: SaveBookingCommand()
+
+    VM->>VM: ValidateInformation()
+
+    VM->>Repo: CreateBooking(booking)
+
+    Repo->>DB: INSERT booking
+
+    DB-->>Repo: OK
+
+    Repo-->>VM: BookingSaved()
+
+    VM-->>View: ShowConfirmation()
+
+    View-->>Person: DisplayReceipt()
+
