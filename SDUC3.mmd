@@ -1,0 +1,42 @@
+sequenceDiagram
+    actor Admin
+
+    participant UI as BookingView (UI)
+    participant VM as BookingViewModel
+    participant BR as BookingRepository
+    participant PR as PersonRepository
+    participant DB as Database
+
+    %% --- Find booking ---
+    Admin->>UI: searchBooking(searchText)
+    UI->>VM: SearchBooking(searchText)
+    VM->>BR: GetById / FindByNameOrPhone(...)
+    BR->>DB: SELECT booking (+ person)
+    DB-->>BR: bookingData
+    BR-->>VM: Booking
+    VM-->>UI: displayBookingDetails()
+
+    %% --- Udlevering / checkout ---
+    Admin->>UI: click "Confirm checkout"
+    UI->>VM: ConfirmCheckout()
+    VM->>VM: validateBookingData()
+    VM->>BR: Update(RequirementStatus, IsPaid)
+    BR->>DB: UPDATE BOOKING SET ...
+    DB-->>BR: update OK
+    BR-->>VM: confirmUpdated
+    VM-->>UI: showCheckoutConfirmation()
+
+    %% --- Senere: returnering ---
+    Admin->>UI: click "Confirm return"
+    UI->>VM: ConfirmReturn()
+    VM->>BR: Delete(bookingId)
+    BR->>DB: DELETE FROM BOOKING WHERE BookingId=...
+    DB-->>BR: delete OK
+    VM->>BR: PersonHasOtherBookings(personId)
+    BR->>DB: SELECT COUNT(*) FROM BOOKING WHERE PersonId=...
+    DB-->>BR: 0
+    BR-->>VM: false (no more bookings)
+    VM->>PR: Delete(personId)
+    PR->>DB: DELETE FROM PERSON WHERE PersonId=...
+    DB-->>PR: delete OK
+    VM-->>UI: showReturnConfirmation()
