@@ -25,6 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SD", "SD", "{D3E6CD39-67A3-
 	ProjectSection(SolutionItems) = preProject
 		SDUC1.mmd = SDUC1.mmd
 		SDUC2.mmd = SDUC2.mmd
+		SDUC2new.mmd = SDUC2new.mmd
 		SDUC3.mmd = SDUC3.mmd
 	EndProjectSection
 EndProject
