@@ -25,7 +25,7 @@ namespace RentalKiosk.ViewModels
         public ObservableCollection<DateTime> WeekDays { get; } = new();
 
         private DateTime _currentWeekStart;
-        public DateTime CurrentWeekStart 
+        public DateTime CurrentWeekStart
         {
             get => _currentWeekStart;
             set
@@ -67,6 +67,12 @@ namespace RentalKiosk.ViewModels
         private DateTime _endTime;
         public DateTime EndTime { get; set; }
 
+        private double _price;
+        public double Price { get; set; }
+
+        private double _calculatedPrice;
+        public double CalculatedPrice { get; set; }
+
         private bool _requirementFulfilled;
         public bool RequirementFulfilled { get; set; }
 
@@ -79,8 +85,10 @@ namespace RentalKiosk.ViewModels
         private int _selectedResourceId;
         public int SelectedResourceId { get; set; }
 
-        public ICommand AddBooking { get; }
-        public ICommand AddPerson { get; }
+        public ICommand AddBookingCommand { get; }
+        public ICommand AddPersonCommand { get; }
+        public ICommand NextWeekCommand { get; }
+        public ICommand PreviousWeekCommand { get; }
 
         public MainViewModel(IRepository<Booking> bookingRepository, IRepository<ResourceType> resourceTypeRepository)
         {
@@ -97,8 +105,10 @@ namespace RentalKiosk.ViewModels
                 MessageService.Show("Der opstod en fejl ved hentning af bookinger?");
             }
 
-            AddBooking = new RelayCommand(ExecuteAddBooking, CanAddBooking);
-            AddPerson = new RelayCommand(ExecuteAddPerson, CanAddPerson);
+            AddBookingCommand = new RelayCommand(ExecuteAddBooking, CanAddBooking);
+            AddPersonCommand = new RelayCommand(ExecuteAddPerson, CanAddPerson);
+            NextWeekCommand = new RelayCommand(ExecuteNextWeek);
+            PreviousWeekCommand = new RelayCommand(ExecutePreviousWeek);
 
             // Start på ugen = mandag i denne uge
             var today = DateTime.Today;
@@ -156,14 +166,24 @@ namespace RentalKiosk.ViewModels
             return true;
         }
 
-        private void UpdateWeekDays() 
+        private void UpdateWeekDays()
         {
             WeekDays.Clear();
-            for (int i = 0; i < 7; i++) 
+            for (int i = 0; i < 7; i++)
             {
                 WeekDays.Add(CurrentWeekStart.AddDays(i));
             }
         }
 
+        public void ExecuteNextWeek(object parameter)
+        {
+            CurrentWeekStart = CurrentWeekStart.AddDays(7);
+        }
+
+        public void ExecutePreviousWeek(object parameter)
+        {
+            CurrentWeekStart = CurrentWeekStart.AddDays(-7);
+
+        }
     }
 }

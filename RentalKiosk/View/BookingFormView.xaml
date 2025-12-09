@@ -19,19 +19,19 @@
             <!-- Navn -->
             <TextBlock Text="Navn" Margin="0,0,0,5"/>
             <TextBox Height="28"
-                     Text="{Binding BookingName, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
                      Margin="0,0,0,10"/>
 
             <!-- Email -->
             <TextBlock Text="E-mail" Margin="0,0,0,5"/>
             <TextBox Height="28"
-                     Text="{Binding BookingEmail, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"
                      Margin="0,0,0,10"/>
 
             <!-- Telefon -->
             <TextBlock Text="Telefon" Margin="0,0,0,5"/>
             <TextBox Height="28"
-                     Text="{Binding BookingPhone, UpdateSourceTrigger=PropertyChanged}"
+                     Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"
                      Margin="0,0,0,10"/>
 
             <!-- Info / kommentar -->
@@ -59,7 +59,7 @@
                     Background="Salmon"
                     Foreground="White"
                     HorizontalAlignment="Stretch"
-                    Command="{Binding ReserveBookingCommand}"/>
+                    Command="{Binding AddBookingCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>
