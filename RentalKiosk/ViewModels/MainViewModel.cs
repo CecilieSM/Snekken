@@ -17,9 +17,11 @@ namespace RentalKiosk.ViewModels
     public class MainViewModel : BaseViewModel
     {
         private readonly IRepository<Booking> _bookingRepository;
+        private readonly IRepository<ResourceType> _resourceTypeRepository;
         private readonly IRepository<Person> _personRepository;
 
         public ObservableCollection<Booking> Bookings { get; set; }
+        public ObservableCollection<ResourceType> ResourceTypes { get; set; }
         public ObservableCollection<DateTime> WeekDays { get; } = new();
 
         private DateTime _currentWeekStart;
@@ -80,13 +82,15 @@ namespace RentalKiosk.ViewModels
         public ICommand AddBooking { get; }
         public ICommand AddPerson { get; }
 
-        public MainViewModel(IRepository<Booking> bookingRepository)
+        public MainViewModel(IRepository<Booking> bookingRepository, IRepository<ResourceType> resourceTypeRepository)
         {
             _bookingRepository = bookingRepository;
+            _resourceTypeRepository = resourceTypeRepository;
 
             try
             {
                 Bookings = new ObservableCollection<Booking>(_bookingRepository.GetAll());
+                ResourceTypes = new ObservableCollection<ResourceType>(_resourceTypeRepository.GetAll());
             }
             catch (Exception)
             {
