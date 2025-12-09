@@ -48,107 +48,87 @@
 
             <!-- Uge-kalender -->
             <Grid>
-                <!-- Rækker: 0 = header, 1 = liste med dag-rækker -->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <!-- Header -->
                     <RowDefinition Height="*"/>
+                    <!-- Rækker for ugen -->
                 </Grid.RowDefinitions>
 
-                <!-- Kolonner: dato + 3 ressourcer -->
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120"/>
-                    <ColumnDefinition Width="120"/>
-                    <ColumnDefinition Width="120"/>
-                    <ColumnDefinition Width="120"/>
-                </Grid.ColumnDefinitions>
+                <!-- HEADER-RÆKKE: "Dato" + dynamiske ressource-headere -->
+                <DockPanel Grid.Row="0">
+                    <!-- Fast "Dato"-kolonne -->
+                    <Border Width="120"
+                            BorderBrush="Gray" BorderThickness="0,0,1,1"
+                            Margin="0,0,0,0">
+                        <TextBlock Text="Dato"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Center"/>
+                    </Border>
 
-                <!-- Header-række -->
-                <Border Grid.Row="0" Grid.Column="0"
-                        BorderBrush="Gray" BorderThickness="0,0,1,1">
-                    <TextBlock Text="Dato"
-                               FontWeight="Bold"
-                               HorizontalAlignment="Center"/>
-                </Border>
-                <Border Grid.Row="0" Grid.Column="1"
-                        BorderBrush="Gray" BorderThickness="0,0,1,1">
-                    <TextBlock FontWeight="Bold"
-                               HorizontalAlignment="Center"
-                               Text="{Binding SelectedResourceType.Title,
-                                      StringFormat='{}{0} 1'}"/>
-                </Border>
-                <Border Grid.Row="0" Grid.Column="2"
-                        BorderBrush="Gray" BorderThickness="0,0,1,1">
-                    <TextBlock FontWeight="Bold"
-                               HorizontalAlignment="Center"
-                               Text="{Binding SelectedResourceType.Title,
-                                      StringFormat='{}{0} 2'}"/>
-                </Border>
-                <Border Grid.Row="0" Grid.Column="3"
-                        BorderBrush="Gray" BorderThickness="0,0,1,1">
-                    <TextBlock FontWeight="Bold"
-                               HorizontalAlignment="Center"
-                               Text="{Binding SelectedResourceType.Title,
-                                      StringFormat='{}{0} 3'}"/>
-                </Border>
+                    <!-- Dynamiske kolonner: én header pr. ressource -->
+                    <ItemsControl ItemsSource="{Binding ResourcesForSelectedType}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
 
-                <!-- Dag-rækker (1 pr. element i WeekDays) -->
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Width="120"
+                                        BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                    <TextBlock FontWeight="Bold"
+                                               HorizontalAlignment="Center"
+                                               Text="{Binding Title}"/>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DockPanel>
+
+                <!-- DAG-RÆKKER: én række pr. dag i WeekDays -->
                 <ItemsControl Grid.Row="1"
-                              Grid.ColumnSpan="4"
                               ItemsSource="{Binding WeekDays}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <!-- Én dagsrække -->
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="120"/>
-                                    <ColumnDefinition Width="120"/>
-                                    <ColumnDefinition Width="120"/>
-                                    <ColumnDefinition Width="120"/>
-                                </Grid.ColumnDefinitions>
-
-                                <!-- Dato -->
-                                <Border Grid.Column="0"
+                            <DockPanel>
+                                <!-- Dato-kolonne -->
+                                <Border Width="120"
                                         BorderBrush="Gray" BorderThickness="0,0,1,1">
                                     <TextBlock Text="{Binding StringFormat=dd-MM-yyyy}"
                                                Margin="4,2"/>
                                 </Border>
 
-                                <!-- Ressource 1 -->
-                                <Border Grid.Column="1"
-                                        BorderBrush="Gray" BorderThickness="0,0,1,1">
-                                    <Button Background="Transparent"
-                                            BorderThickness="0"
-                                            Cursor="Hand"
-                                            Click="OpenDayView_Click"
-                                            Tag="{Binding}">
-                                        <TextBlock Text=""/>
-                                    </Button>
-                                </Border>
+                                <!-- Dynamiske ressource-celler pr. dag -->
+                                <ItemsControl
+                                    ItemsSource="{Binding DataContext.ResourcesForSelectedType,
+                                                         RelativeSource={RelativeSource AncestorType=UserControl}}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
 
-                                <!-- Ressource 2 -->
-                                <Border Grid.Column="2"
-                                        BorderBrush="Gray" BorderThickness="0,0,1,1">
-                                    <Button Background="Transparent"
-                                            BorderThickness="0"
-                                            Cursor="Hand"
-                                            Click="OpenDayView_Click"
-                                            Tag="{Binding}">
-                                        <TextBlock Text=""/>
-                                    </Button>
-                                </Border>
-
-                                <!-- Ressource 3 -->
-                                <Border Grid.Column="3"
-                                        BorderBrush="Gray" BorderThickness="0,0,1,1">
-                                    <Button Background="Transparent"
-                                            BorderThickness="0"
-                                            Cursor="Hand"
-                                            Click="OpenDayView_Click"
-                                            Tag="{Binding}">
-                                        <TextBlock Text=""/>
-                                    </Button>
-                                </Border>
-                            </Grid>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Width="120"
+                                                    BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                                <!-- Knap pr. ressource pr. dag -->
+                                                <Button Background="Transparent"
+                                                        BorderThickness="0"
+                                                        Cursor="Hand"
+                                                        Click="OpenDayView_Click"
+                                                        Tag="{Binding DataContext,
+                                                                      RelativeSource={RelativeSource AncestorType=ContentPresenter}}">
+                                                    <!-- her kan senere vises 'X' osv. hvis booket -->
+                                                    <TextBlock Text=""/>
+                                                </Button>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </DockPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
