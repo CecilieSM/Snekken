@@ -23,6 +23,7 @@ internal class Program
             Console.WriteLine("1. Run Migration");
             Console.WriteLine("2. Rollback Migration");
             Console.WriteLine("3. Seed Database");
+            Console.WriteLine("4. Rollback, Run, Seed");
             Console.WriteLine("Q. Quit");
             Console.Write("\nSelect an option: ");
 
@@ -31,9 +32,10 @@ internal class Program
 
             switch (pressedKey)
             {
-                case '1': RunMigration(); break;
-                case '2': RollbackMigration(); break;
-                case '3': SeedDatabase(); break;
+                case '1': RunMigration(); Pause(); break;
+                case '2': RollbackMigration(); Pause(); break;
+                case '3': SeedDatabase(); Pause(); break;
+                case '4': RollbackMigration(); RunMigration(); SeedDatabase(); Pause(); break;
                 case 'q': running = false; break;
                 default:
                     Console.Clear();
@@ -48,21 +50,19 @@ internal class Program
     {
         string response = db.Migrate();
         Console.WriteLine(response);
-        Pause();
+        
     }
 
     static void RollbackMigration()
     {
         string response = db.Truncate();
         Console.WriteLine(response);
-        Pause();
     }
 
     static void SeedDatabase()
     {
         string response = db.Seed();
         Console.WriteLine(response);
-        Pause();
     }
 
     static void Pause()
