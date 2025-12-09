@@ -23,6 +23,7 @@ namespace RentalKiosk.ViewModels
         public ObservableCollection<Booking> Bookings { get; set; }
         public ObservableCollection<ResourceType> ResourceTypes { get; set; }
         public ObservableCollection<DateTime> WeekDays { get; } = new();
+        public ObservableCollection<Resource> ResourcesForSelectedType { get; }
 
         private DateTime _currentWeekStart;
         public DateTime CurrentWeekStart
@@ -84,6 +85,9 @@ namespace RentalKiosk.ViewModels
 
         private int _selectedResourceId;
         public int SelectedResourceId { get; set; }
+
+        private ResourceType _selectedResourceType;
+        public ResourceType SelectedResourceType { get; set; }
 
         public ICommand AddBookingCommand { get; }
         public ICommand AddPersonCommand { get; }
