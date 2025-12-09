@@ -19,11 +19,13 @@ namespace RentalKiosk.ViewModels
         private readonly IRepository<Booking> _bookingRepository;
         private readonly IRepository<ResourceType> _resourceTypeRepository;
         private readonly IRepository<Person> _personRepository;
+        private readonly IRepository<Resource> _resourceRepository;
 
         public ObservableCollection<Booking> Bookings { get; set; }
         public ObservableCollection<ResourceType> ResourceTypes { get; set; }
         public ObservableCollection<DateTime> WeekDays { get; } = new();
-        public ObservableCollection<Resource> ResourcesForSelectedType { get; }
+        public ObservableCollection<Resource> ResourcesForSelectedType { get; } = new();
+        public ObservableCollection<Resource> AllResources { get; set; }
 
         private DateTime _currentWeekStart;
         public DateTime CurrentWeekStart
@@ -87,28 +89,54 @@ namespace RentalKiosk.ViewModels
         public int SelectedResourceId { get; set; }
 
         private ResourceType _selectedResourceType;
-        public ResourceType SelectedResourceType { get; set; }
+        public ResourceType SelectedResourceType 
+        { 
+            get => _selectedResourceType; 
+            set
+            {
+                _selectedResourceType = value;
+                FilterResourcesByType();
+                OnPropertyChanged();
+            }
+        }
 
         public ICommand AddBookingCommand { get; }
         public ICommand AddPersonCommand { get; }
         public ICommand NextWeekCommand { get; }
         public ICommand PreviousWeekCommand { get; }
 
-        public MainViewModel(IRepository<Booking> bookingRepository, IRepository<ResourceType> resourceTypeRepository)
+        public MainViewModel(IRepository<Booking> bookingRepository, IRepository<ResourceType> resourceTypeRepository, IRepository<Resource> resourceRepository)
         {
             _bookingRepository = bookingRepository;
             _resourceTypeRepository = resourceTypeRepository;
+            _resourceRepository = resourceRepository;
 
             try
             {
                 Bookings = new ObservableCollection<Booking>(_bookingRepository.GetAll());
-                ResourceTypes = new ObservableCollection<ResourceType>(_resourceTypeRepository.GetAll());
             }
             catch (Exception)
             {
                 MessageService.Show("Der opstod en fejl ved hentning af bookinger?");
             }
 
+            try
+            {
+                ResourceTypes = new ObservableCollection<ResourceType>(_resourceTypeRepository.GetAll());
+            }
+            catch (Exception)
+            {
+                MessageService.Show("Der opstod en fejl ved hentning af resourcetypes?");
+            }
+
+            try
+            {                
+                AllResources = new ObservableCollection<Resource>(_resourceRepository.GetAll());
+            }
+            catch (Exception)
+            {
+                MessageService.Show("Der opstod en fejl ved hentning af allresources?");
+            }
             AddBookingCommand = new RelayCommand(ExecuteAddBooking, CanAddBooking);
             AddPersonCommand = new RelayCommand(ExecuteAddPerson, CanAddPerson);
             NextWeekCommand = new RelayCommand(ExecuteNextWeek);
@@ -188,6 +216,21 @@ namespace RentalKiosk.ViewModels
         {
             CurrentWeekStart = CurrentWeekStart.AddDays(-7);
 
+        }
+
+        private void FilterResourcesByType()
+        {
+            ResourcesForSelectedType.Clear();
+            if (SelectedResourceType != null)
+            {
+                foreach (var resource in AllResources)
+                {
+                    if (resource.ResourceTypeId == SelectedResourceType.Id) 
+                    {
+                        ResourcesForSelectedType.Add(resource);
+                    }
+                }
+            }
         }
     }
 }

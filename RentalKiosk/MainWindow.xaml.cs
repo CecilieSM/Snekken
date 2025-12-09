@@ -25,8 +25,9 @@ namespace RentalKiosk
 
             BookingRepository bookingRepository = new BookingRepository(ConfigHelper.GetConnectionString());
             ResourceTypeRepository resourceTypeRepository = new ResourceTypeRepository(ConfigHelper.GetConnectionString());
+            ResourceRepository resourceRepository = new ResourceRepository(ConfigHelper.GetConnectionString());
 
-            MainViewModel vm = new MainViewModel(bookingRepository, resourceTypeRepository);
+            MainViewModel vm = new MainViewModel(bookingRepository, resourceTypeRepository, resourceRepository);
 
             this.DataContext = vm;
         }

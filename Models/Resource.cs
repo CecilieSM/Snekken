@@ -59,4 +59,14 @@ public class Resource
         this.IsActive = isActive;
         Description = description;
     }
+
+    public Resource(int resourceId, string title, double price, int resourceTypeId, string description = null, bool isActive = true)
+    {
+        this.Id = resourceId;
+        this.Title = title;
+        this.Price = price;
+        this.ResourceTypeId = resourceTypeId;
+        this.IsActive = isActive;
+        Description = description;
+    }
 }

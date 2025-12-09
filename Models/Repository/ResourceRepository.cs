@@ -40,8 +40,30 @@ public class ResourceRepository : IRepository<Resource>
 
     // bygges senere
     public IEnumerable<Resource> GetAll()
-    {    
-        throw new NotImplementedException();
+    {
+        var resource = new List<Resource>();
+        string query = "SELECT * FROM Resource";
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            SqlCommand command = new SqlCommand(query, connection);
+            connection.Open();
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    resource.Add(new Resource(
+                        (int)reader["ResourceId"],
+                        (string)reader["Title"],
+                        Convert.ToDouble(reader["Price"]),
+                        (int)reader["ResourceTypeId"],
+                        (string)reader["Description"],
+                        (bool)reader["isActive"]
+                     ));
+                }
+            }
+        }
+        return resource;
     }
 
     // bygges senere
