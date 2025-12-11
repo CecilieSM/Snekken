@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using Models;
+using Models.Repository;
+using RentalKiosk.View;
 using WPFLib.Services;
 using WPFLib.Utility;
 using WPFLib.ViewModel;
-using System.Windows.Input;
-using System.Windows;
-using Models.Repository;
-using Models;
-using System.Collections.ObjectModel;
 
 namespace RentalKiosk.ViewModels
 {
@@ -26,6 +28,18 @@ namespace RentalKiosk.ViewModels
         public ObservableCollection<DateTime> WeekDays { get; } = new();
         public ObservableCollection<Resource> ResourcesForSelectedType { get; } = new();
         public ObservableCollection<Resource> AllResources { get; set; }
+        public ObservableCollection<TimeSlot> TimeSlots { get; } = new();
+
+        private IEnumerable<TimeSlot> _availableTimeSlots;
+        public IEnumerable<TimeSlot> AvailableTimeSlots
+        {
+            get => _availableTimeSlots;
+            set
+            {
+                _availableTimeSlots = value;
+                OnPropertyChanged(nameof(AvailableTimeSlots));
+            }
+        }
 
         private DateTime _currentWeekStart;
         public DateTime CurrentWeekStart
@@ -89,9 +103,9 @@ namespace RentalKiosk.ViewModels
         public int SelectedResourceId { get; set; }
 
         private ResourceType _selectedResourceType;
-        public ResourceType SelectedResourceType 
-        { 
-            get => _selectedResourceType; 
+        public ResourceType SelectedResourceType
+        {
+            get => _selectedResourceType;
             set
             {
                 _selectedResourceType = value;
@@ -100,11 +114,41 @@ namespace RentalKiosk.ViewModels
             }
         }
 
+        private Resource _selectedResource;
+        public Resource SelectedResource
+        {
+            get => _selectedResource;
+            set
+            {
+                _selectedResource = value;
+                PopulateTimeSlots();
+                OnPropertyChanged();
+
+                if (_selectedResource != null)
+                    LoadAvailableSlots(_selectedResource.Id, SelectedDate);
+            }
+        }
+
+        private DateTime _selectedDate = DateTime.Today;
+        public DateTime SelectedDate
+        {
+            get => _selectedDate;
+            set
+            {
+                _selectedDate = value;
+                OnPropertyChanged();
+
+                if (SelectedResource != null)
+                    LoadAvailableSlots(SelectedResource.Id, _selectedDate);
+            }
+        }
+
         public ICommand AddBookingCommand { get; }
         public ICommand AddPersonCommand { get; }
         public ICommand NextWeekCommand { get; }
         public ICommand PreviousWeekCommand { get; }
         public ICommand SelectDateAndResourceCommand { get; }
+        //public ICommand SelectTimeAndResourceCommand { get; }
 
         public MainViewModel(IRepository<Booking> bookingRepository, IRepository<ResourceType> resourceTypeRepository, IRepository<Resource> resourceRepository)
         {
@@ -131,7 +175,7 @@ namespace RentalKiosk.ViewModels
             }
 
             try
-            {                
+            {
                 AllResources = new ObservableCollection<Resource>(_resourceRepository.GetAll());
             }
             catch (Exception)
@@ -143,6 +187,7 @@ namespace RentalKiosk.ViewModels
             NextWeekCommand = new RelayCommand(ExecuteNextWeek);
             PreviousWeekCommand = new RelayCommand(ExecutePreviousWeek);
             SelectDateAndResourceCommand = new RelayCommand(ExecuteSelectDateAndResourceCommand);
+            //SelectTimeAndResourceCommand = new RelayCommand(ExecuteSelectTimeAndResourceCommand);
 
             // Start på ugen = mandag i denne uge
             var today = DateTime.Today;
@@ -227,7 +272,7 @@ namespace RentalKiosk.ViewModels
             {
                 foreach (var resource in AllResources)
                 {
-                    if (resource.ResourceTypeId == SelectedResourceType.Id) 
+                    if (resource.ResourceTypeId == SelectedResourceType.Id)
                     {
                         ResourcesForSelectedType.Add(resource);
                     }
@@ -237,27 +282,41 @@ namespace RentalKiosk.ViewModels
 
         private void ExecuteSelectDateAndResourceCommand(object parameter)
         {
-            if (parameter == null)
-            {
-                MessageService.Show("Parameter is null");
-                return;
-            }
+            var paramString = parameter as string;
+            if (string.IsNullOrWhiteSpace(paramString)) return;
 
-            // Show the runtime type
-            MessageService.Show($"Parameter type: {parameter.GetType().FullName}");
+            var parts = paramString.Split('|');
+            if (parts.Length != 2) return;
 
-            // If it's an array, dump the contents
-            if (parameter is object[] arr)
-            {
-                var values = string.Join(", ", arr.Select(v => v?.ToString() ?? "null"));
-                MessageService.Show($"Array values: {values}");
-            }
-            else
-            {
-                // Otherwise just show ToString()
-                MessageService.Show($"Parameter value: {parameter}");
-            }
+            SelectedDate = DateTime.Parse(parts[0]);
 
+            int id = int.Parse(parts[1]);
+            SelectedResource = ResourcesForSelectedType.First(r => r.Id == id);
+
+              // <-- IMPORTANT: populate TimeSlots
+
+            //if (parameter == null)
+            //{
+            //    MessageService.Show("Parameter is null");
+            //    return;
+            //}
+
+            //// Show the runtime type
+            //MessageService.Show($"Parameter type: {parameter.GetType().FullName}");
+
+            //// If it's an array, dump the contents
+            //if (parameter is object[] arr)
+            //{
+            //    var values = string.Join(", ", arr.Select(v => v?.ToString() ?? "null"));
+            //    MessageService.Show($"Array values: {values}");
+            //}
+            //else
+            //{
+            //    // Otherwise just show ToString()
+            //    MessageService.Show($"Parameter value: {parameter}");
+            //}
+
+            //OPRINDELIG KODE:
             //var paramString = parameter as string;
             //if (string.IsNullOrEmpty(paramString)) { MessageService.Show("Null or empty"); return; }
 
@@ -267,9 +326,66 @@ namespace RentalKiosk.ViewModels
 
             //MessageService.Show($"Selected date: {date.ToShortDateString()}, Resource ID: {resourceId}");
         }
+
+        //public ICommand SelectTimeAndResourceCommand(object parameter)
+        //{
+        //    var paramString = parameter as string;
+        //    var parts = paramString.Split('|');
+        //    var time = TimeSpan.Parse(parts[0]);
+        //    var resourceId = int.Parse(parts[1]);
+
+        //    // Handle the booking of this timeslot
+        //    BookTimeSlot(resourceId, SelectedDate, time);
+        //});
+
+
+        private void PopulateTimeSlots()
+        {
+            TimeSlots.Clear();
+            var date = DateTime.Today;
+
+            for (int hour = 7; hour <= 22; hour++)
+                TimeSlots.Add(new TimeSlot 
+                {
+                    StartTime = new DateTime(date.Year, date.Month, date.Day, hour, 0, 0)
+                });
+            MessageService.Show("Populating TimeSlots...");
+        }
+
+        public void LoadAvailableSlots(int resourceId, DateTime date)
+        {
+            var result = TimeSlots
+                .Where(ts => ts.ResourceId == resourceId
+                             && ts.StartTime.Date == date.Date
+                             && ts.IsAvailable)
+                .OrderBy(ts => ts.StartTime)
+                .ToList();
+
+                Debug.WriteLine($"Available slots: {result.Count}");
+
+            foreach (var ts in TimeSlots)
+            {
+                Debug.WriteLine($"Resource: {ts.ResourceId}, StartTime: {ts.StartTime}, IsAvailable: {ts.IsAvailable}");
+            }
+
+            MessageService.Show("Loading available slots...");
+        }
+
+        //private void BookTimeSlot(DateTime date, TimeSpan startTime, int resourceId)
+        //{
+        //    var booking = new Booking
+        //    {
+        //        ResourceId = resourceId,
+        //        Date = date,
+        //        Start = startTime,
+        //        End = startTime + TimeSpan.FromMinutes(30) // or your interval
+        //    };
+
+        //    Bookings.Add(booking);
+
+        //    // Optionally update UI (mark timeslot as booked)
+        //    MarkSlotAsBooked(startTime);
+        //}
+
     }
-
-
-
-
 }
