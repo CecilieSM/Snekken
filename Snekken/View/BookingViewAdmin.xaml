@@ -100,19 +100,19 @@
                 <!-- Name (dynamic) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
                     <TextBlock Text="Navn:" FontWeight="SemiBold" Width="100"/>
-                    <TextBox Text="{Binding SelectedBooking.Name}" Width="300" />
+                    <TextBox Text="{Binding SelectedBooking.FormName}" Width="300" />
                 </StackPanel>
 
                 <!-- Email (dynamic) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
                     <TextBlock Text="Email:" FontWeight="SemiBold" Width="100"/>
-                    <TextBox Text="{Binding SelectedBooking.Email}" Width="300"/>
+                    <TextBox Text="{Binding SelectedBooking.FormEmail}" Width="300"/>
                 </StackPanel>
 
                 <!-- Phone (dynamic) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 25">
                     <TextBlock Text="Telefon:" FontWeight="SemiBold" Width="100"/>
-                    <TextBox Text="{Binding SelectedBooking.Phone}" Width="300"/>
+                    <TextBox Text="{Binding SelectedBooking.FormPhone}" Width="300"/>
                 </StackPanel>
 
                 <!-- Resource (locked) -->
@@ -124,25 +124,25 @@
                 <!-- Booking start (dynamic) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
                     <TextBlock Text="Bookingstart:" FontWeight="SemiBold" Width="100"/>
-                    <TextBox Text="{Binding SelectedBooking.StartTime, StringFormat='{}{0:dd-MM-yyyy HH:mm}'}" Width="300"/>
+                    <TextBox Text="{Binding SelectedBooking.FormStart, StringFormat='{}{0:dd-MM-yyyy HH:mm}'}" Width="300"/>
                 </StackPanel>
 
                 <!-- Booking end (dynamic) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
                     <TextBlock Text="Bookingslut:" FontWeight="SemiBold" Width="100"/>
-                    <TextBox Text="{Binding SelectedBooking.EndTime, StringFormat='{}{0:dd-MM-yyyy HH:mm}'}" Width="300"/>
+                    <TextBox Text="{Binding SelectedBooking.FormEnd, StringFormat='{}{0:dd-MM-yyyy HH:mm}'}" Width="300"/>
                 </StackPanel>
 
                 <!-- Demands (locked) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
                     <TextBlock Text="Krav:" FontWeight="SemiBold" Width="100" Height="80"/>
-                    <TextBox Text="{Binding SelectedBooking.Description}" IsReadOnly="True" Width="300" Background="LightGray"/>
+                    <TextBox Text="{Binding SelectedBooking.Requirements}" IsReadOnly="True" Width="300" Background="LightGray"/>
                 </StackPanel>
 
                 <!-- Price (locked) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 12">
                     <TextBlock Text="Pris:" FontWeight="SemiBold" Width="100"/>
-                    <TextBox Text="{Binding SelectedBooking.Price}" IsReadOnly="True" Width="300" Background="LightGray"/>
+                    <TextBox Text="{Binding SelectedBooking.TotalPrice}" IsReadOnly="True" Width="300" Background="LightGray"/>
                 </StackPanel>
 
                 <!-- Checkboxes -->
@@ -177,7 +177,7 @@
                     <CheckBox Grid.Row="0" 
                               Grid.Column="0" 
                               VerticalAlignment="Center" 
-                              IsChecked="{Binding SelectedBooking.RequirementFulfilled}"/>
+                              IsChecked="{Binding SelectedBooking.FormRequirementFulfilled}"/>
                     <TextBlock Text="Krav opfyldt" 
                                Grid.Row="0" 
                                Grid.Column="1" 
@@ -186,7 +186,7 @@
                     <CheckBox Grid.Row="1" 
                               Grid.Column="0" 
                               VerticalAlignment="Center"
-                              IsChecked="{Binding SelectedBooking.IsPaid}"/>
+                              IsChecked="{Binding SelectedBooking.FormIsPaid}"/>
                     <TextBlock Text="Betaling ok" 
                                Grid.Row="1" 
                                Grid.Column="1" 
@@ -196,7 +196,7 @@
                     <CheckBox Grid.Row="0" 
                               Grid.Column="3" 
                               VerticalAlignment="Center"
-                              IsChecked="{Binding SelectedBooking.HandedOutAt}"/>
+                              IsChecked="{Binding SelectedBooking.IsCheckedOut}"/>
                     <TextBlock Text="Udleveret" 
                                Grid.Row="0" 
                                Grid.Column="4" 
@@ -205,7 +205,7 @@
                     <CheckBox Grid.Row="1" 
                               Grid.Column="3" 
                               VerticalAlignment="Center"
-                              IsChecked="{Binding SelectedBooking.ReturnedAt}"/>
+                              IsChecked="{Binding SelectedBooking.IsReturned}"/>
                     <TextBlock Text="Returneret" 
                                Grid.Row="1" 
                                Grid.Column="4" 
@@ -234,7 +234,7 @@
                             Height="30"   
                             Margin="50 0 10 0" 
                             Background="Salmon"
-                            Command="{Binding SaveBookingCommand}"/>
+                            Command="{Binding UpdateBookingCommand}"/>
                 </Grid>
 
 

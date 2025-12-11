@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Models;
 using Models.Repository;
+using WPFLib.Services;
 using WPFLib.Utility;
 using WPFLib.ViewModel;
 
@@ -207,6 +208,7 @@ public class BookingViewModel : BaseViewModel
     }
     #endregion
 
+    public ICommand AddBookingCommand { get; }
     public ICommand UpdateBookingCommand { get; }
     public ICommand DeleteBookingCommand { get; }
 
@@ -227,11 +229,17 @@ public class BookingViewModel : BaseViewModel
         ResourceTypes = new ObservableCollection<ResourceType>(_resourceTypeRepository.GetAll());
 
         // add relay commands
+        AddBookingCommand = new RelayCommand(AddBooking);
         UpdateBookingCommand = new RelayCommand(UpdateBooking, CanUpdateBooking);
         DeleteBookingCommand = new RelayCommand(DeleteBooking, CanDeleteBooking);
     }
 
     #region Command methods
+
+    private void AddBooking(object? parameter)
+    {
+        MessageService.Show("BookingViewModel linje 241 skal starte en kioskproces");
+    }
     private void UpdateBooking(object? parameter) 
     {   
         _bookingRepository.Update(SelectedBooking!); // Vil helt sikkert ikke virke endnu

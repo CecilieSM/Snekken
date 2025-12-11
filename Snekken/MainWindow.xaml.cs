@@ -58,5 +58,34 @@ namespace Snekken
 
             objRessourceWindow.Show();
         }
+
+        private void BookingButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            var resourceRepository = new ResourceRepository(ConfigHelper.GetConnectionString());
+            var resourceTypeRepository = new ResourceTypeRepository(ConfigHelper.GetConnectionString());
+            var personRepository = new PersonRepository(ConfigHelper.GetConnectionString());
+            var bookingRepository = new BookingRepository(ConfigHelper.GetConnectionString());
+
+            CreateRessource objBookingWindow = new CreateRessource();
+            this.Visibility = Visibility.Hidden;
+            objBookingWindow.DataContext = new BookingViewModel(bookingRepository, personRepository, resourceRepository, resourceTypeRepository);
+
+            //if (objBookingWindow.DataContext is BaseViewModel currentViewModel)
+            //{
+            //    currentViewModel.RequestClose += (s, e) =>
+            //    {
+            //        if (e == "AddBooking") objBookingWindow.Close();
+            //    };
+            //}
+
+            objBookingWindow.Closed += (s, args) =>
+            {
+                this.Visibility = Visibility.Visible;
+            };
+
+            objBookingWindow.Show();
+        }
+
     }
 }

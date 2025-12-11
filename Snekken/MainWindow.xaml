@@ -42,7 +42,9 @@
                     Click="RessourcerButton_Click"/>
             <Button Grid.Column="1" 
                     Content="Bookinger" 
-                    Margin="5"/>
+                    Margin="5"
+                    Click="BookingButton_Click"/>
+            
             <Button Grid.Column="2" 
                     Content="Brugere" 
                     Margin="5"/>
