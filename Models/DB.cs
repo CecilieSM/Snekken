@@ -14,7 +14,8 @@ public class DB
 {
     private ResourceRepository _resourceRepository;
     private ResourceTypeRepository _resourceTypeRepository;
-
+    private PersonRepository _personRepository;
+    private BookingRepository _bookingRepository;
     private readonly string _connectionString;
 
     public DB(string connectionString)
@@ -22,6 +23,8 @@ public class DB
         this._connectionString = connectionString;
         _resourceRepository = new ResourceRepository(connectionString);
         _resourceTypeRepository = new ResourceTypeRepository(connectionString);
+        _bookingRepository = new BookingRepository(connectionString);
+        _personRepository = new PersonRepository(connectionString);
     }
 
     public string Migrate()
@@ -62,7 +65,11 @@ public class DB
         _resourceRepository.Add(new Resource("Storlokale", 550.00, 2, "20 personer"));
         _resourceRepository.Add(new Resource("Mødelokale", 350.00, 2, "10 personer"));
         _resourceRepository.Add(new Resource("Jolle", 400.00, 1, "SS1 16 fod"));
-           
+        _personRepository.Add(new Person("Claus Hansen", "claus@hotmil.com"));
+        _personRepository.Add(new Person("Dorte Jensen", "dorte@gmail.com"));
+        _bookingRepository.Add(new Booking(1, 1, DateTime.Now.AddDays(1), DateTime.Now.AddDays(1).AddHours(2)));
+        _bookingRepository.Add(new Booking(2, 2, DateTime.Now.AddDays(3), DateTime.Now.AddDays(3).AddHours(5)));
+
         return $"Seeding completed";
     }
 }
