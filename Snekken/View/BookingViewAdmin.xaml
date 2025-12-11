@@ -68,7 +68,7 @@
         </Grid>
 
 
-        <Grid Margin="180 520 0 0">
+        <Grid Margin="180 500 0 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -146,7 +146,7 @@
                 </StackPanel>
 
                 <!-- Checkboxes -->
-                <Grid Margin="60 130 0 0">
+                <Grid Margin="60 100 0 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <!-- Checkbox left -->
