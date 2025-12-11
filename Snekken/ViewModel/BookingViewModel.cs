@@ -228,6 +228,9 @@ public class BookingViewModel : BaseViewModel
         _resourceTypeRepository = ResourceTypeRepository;
         ResourceTypes = new ObservableCollection<ResourceType>(_resourceTypeRepository.GetAll());
 
+        MessageService.Show($"BookingViewModel linje 223: {Bookings.Count} bookings loaded.");
+        MessageService.Show($"BookingViewModel linje 224: {Persons.Count} persons loaded.");
+
         // add relay commands
         AddBookingCommand = new RelayCommand(AddBooking);
         UpdateBookingCommand = new RelayCommand(UpdateBooking, CanUpdateBooking);
@@ -266,23 +269,24 @@ public class BookingViewModel : BaseViewModel
     }
     #endregion
 
-    private void setFields(Booking _selectedBooking)
+    private void setFields(Booking b)
     {
-        FormName = Persons.FirstOrDefault(p => p.Id == _selectedBooking.Id)?.Name ?? string.Empty;
-        FormEmail = Persons.FirstOrDefault(p => p.Id == _selectedBooking.Id)?.Email ?? string.Empty;
-        FormPhone = Persons.FirstOrDefault(p => p.Id == _selectedBooking.Id)?.Phone ?? string.Empty;
+        Person person = Persons.FirstOrDefault(p => p.Id == b.PersonId)!;
+        FormName = person?.Name ?? string.Empty;
+        FormEmail = person?.Email ?? string.Empty;
+        FormPhone = person?.Phone ?? string.Empty;
 
-        FormStart = _selectedBooking.StartTime;
-        FormEnd = _selectedBooking.EndTime;
-        var Resource = Resources.FirstOrDefault(r => r.Id == _selectedBooking.Id);
+        FormStart = b.StartTime;
+        FormEnd = b.EndTime;
+        var Resource = Resources.FirstOrDefault(r => r.Id == b.Id);
         ResourceTitle = Resource?.Title ?? string.Empty;
         Requirements = ResourceTypes.FirstOrDefault(rt => rt.Id == Resource?.ResourceTypeId)?.Requirement ?? string.Empty;
         TotalPrice = (decimal)(Resource?.Price ?? 0);
 
-        FormIsPaid = _selectedBooking.IsPaid;
-        FormRequirementFulfilled = _selectedBooking.RequirementFulfilled;
-        IsCheckedOut = _selectedBooking.HandedOutAt.HasValue;
-        IsReturned = _selectedBooking.ReturnedAt.HasValue;
+        FormIsPaid = b.IsPaid;
+        FormRequirementFulfilled = b.RequirementFulfilled;
+        IsCheckedOut = b.HandedOutAt.HasValue;
+        IsReturned = b.ReturnedAt.HasValue;
     }
 
     private void clearFields()

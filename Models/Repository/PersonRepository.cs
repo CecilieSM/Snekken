@@ -52,6 +52,7 @@ namespace Models.Repository
                     while (reader.Read())
                     {
                         persons.Add(new Person(
+                            (int)reader["PersonId"],
                             (string)reader["Name"],
                             (string)reader["Email"],
                             (string)reader["Phone"]

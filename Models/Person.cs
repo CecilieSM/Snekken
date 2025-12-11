@@ -42,4 +42,12 @@ public class Person
         this.Email = email;
         this.Phone = phone;
     }
+
+    public Person(int id, string name, string email, string phone = "ikke oplyst")
+    {
+        this.Id = id;
+        this.Name = name;
+        this.Email = email;
+        this.Phone = phone;
+    }
 }
