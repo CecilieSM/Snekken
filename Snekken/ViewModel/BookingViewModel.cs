@@ -241,10 +241,22 @@ public class BookingViewModel : BaseViewModel
         MessageService.Show("BookingViewModel linje 241 skal starte en kioskproces");
     }
     private void UpdateBooking(object? parameter) 
-    {   
-        _bookingRepository.Update(SelectedBooking!); // Vil helt sikkert ikke virke endnu
+    {
+        // update selected booking and person from form fields
+        if (SelectedBooking == null) return;
+        Person person = Persons.FirstOrDefault(p => p.Id == SelectedBooking.PersonId)!;
+        person.Name = FormName;
+        person.Email = FormEmail;
+        person.Phone = FormPhone;
+        SelectedBooking.StartTime = FormStart;
+        SelectedBooking.EndTime = FormEnd;
+        SelectedBooking.IsPaid = FormIsPaid;
+        SelectedBooking.RequirementFulfilled = FormRequirementFulfilled;
+        SelectedBooking.HandedOutAt = IsCheckedOut ? DateTime.Now : null;
+        SelectedBooking.ReturnedAt = IsReturned ? DateTime.Now : null;
 
-        // update booking and person in collections and db.
+        _bookingRepository.Update(SelectedBooking!);
+        _personRepository.Update(person!);
     }
 
     public bool CanUpdateBooking()

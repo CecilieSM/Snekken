@@ -70,10 +70,20 @@ namespace Models.Repository
 
         public void Update(Person person)
         {
-            var existingPerson = GetById(person.Id);
-            if (existingPerson != null)
+            // update person to database
+            string query = @"
+                UPDATE Person
+                SET Name = @Name, Email = @Email, Phone = @Phone
+                WHERE PersonId = @PersonId;";
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+                using (SqlCommand command = new SqlCommand(query, connection))
             {
-                existingPerson.Name = person.Name;
+                command.Parameters.AddWithValue("@Name", person.Name);
+                command.Parameters.AddWithValue("@Email", person.Email);
+                command.Parameters.AddWithValue("@Phone", person.Phone);
+                command.Parameters.AddWithValue("@PersonId", person.Id);
+                connection.Open();
+                command.ExecuteNonQuery();
             }
         }
 

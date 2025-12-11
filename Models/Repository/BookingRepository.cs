@@ -57,14 +57,16 @@ public class BookingRepository : IRepository<Booking>
                 while (reader.Read())
                 {
                     booking.Add(new Booking(
-                        (int)reader["BookingId"],
-                        (int)reader["ResourceId"],
-                        (int)reader["PersonId"],
-                        (DateTime)reader["StartTime"],
-                        (DateTime)reader["EndTime"],
-                        (bool)reader["RequirementFulfilled"],
-                        (bool)reader["IsPaid"]
-                     ));
+                    (int)reader["BookingId"],
+                    (int)reader["ResourceId"],
+                    (int)reader["PersonId"],
+                    (DateTime)reader["StartTime"],
+                    (DateTime)reader["EndTime"],
+                    (bool)reader["RequirementFulfilled"],
+                    (bool)reader["IsPaid"],
+                    reader["HandedOutAt"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["HandedOutAt"],
+                    reader["ReturnedAt"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["ReturnedAt"]
+                    ));
                 }
             }
         }
@@ -80,7 +82,29 @@ public class BookingRepository : IRepository<Booking>
     // UPDATE - bygges senere
     public void Update(Booking entity)
     {
-        throw new NotImplementedException();
+        string query = @"
+            UPDATE Booking
+            SET 
+                StartTime = @StartTime,
+                EndTime = @EndTime,
+                RequirementFulfilled = @RequirementFulfilled,
+                IsPaid = @IsPaid,
+                HandedOutAt = @HandedOutAt,
+                ReturnedAt = @ReturnedAt
+            WHERE BookingId = @BookingId;";
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlCommand command = new SqlCommand(query, connection))
+        {
+            command.Parameters.AddWithValue("@StartTime", entity.StartTime);
+            command.Parameters.AddWithValue("@EndTime", entity.EndTime);
+            command.Parameters.AddWithValue("@RequirementFulfilled", entity.RequirementFulfilled);
+            command.Parameters.AddWithValue("@IsPaid", entity.IsPaid);
+            command.Parameters.AddWithValue("@HandedOutAt", (object?)entity.HandedOutAt ?? DBNull.Value);
+            command.Parameters.AddWithValue("@ReturnedAt", (object?)entity.ReturnedAt ?? DBNull.Value);
+            command.Parameters.AddWithValue("@BookingId", entity.Id);
+            connection.Open();
+            command.ExecuteNonQuery();
+        }
     }
 
     // DELETE - bygges senere
