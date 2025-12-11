@@ -100,49 +100,49 @@
                 <!-- Name (dynamic) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
                     <TextBlock Text="Navn:" FontWeight="SemiBold" Width="100"/>
-                    <TextBox Text="{Binding SelectedBooking.FormName}" Width="300" />
+                    <TextBox Text="{Binding FormName}" Width="300" />
                 </StackPanel>
 
                 <!-- Email (dynamic) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
                     <TextBlock Text="Email:" FontWeight="SemiBold" Width="100"/>
-                    <TextBox Text="{Binding SelectedBooking.FormEmail}" Width="300"/>
+                    <TextBox Text="{Binding FormEmail}" Width="300"/>
                 </StackPanel>
 
                 <!-- Phone (dynamic) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 25">
                     <TextBlock Text="Telefon:" FontWeight="SemiBold" Width="100"/>
-                    <TextBox Text="{Binding SelectedBooking.FormPhone}" Width="300"/>
+                    <TextBox Text="{Binding FormPhone}" Width="300"/>
                 </StackPanel>
 
                 <!-- Resource (locked) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
                     <TextBlock Text="Ressource:" FontWeight="SemiBold" Width="100"/>
-                    <TextBox Text="{Binding SelectedBooking.ResourceTitle}" IsReadOnly="True" Width="300"  Background="LightGray"/>
+                    <TextBox Text="{Binding ResourceTitle}" IsReadOnly="True" Width="300"  Background="LightGray"/>
                 </StackPanel>
 
                 <!-- Booking start (dynamic) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
                     <TextBlock Text="Bookingstart:" FontWeight="SemiBold" Width="100"/>
-                    <TextBox Text="{Binding SelectedBooking.FormStart, StringFormat='{}{0:dd-MM-yyyy HH:mm}'}" Width="300"/>
+                    <TextBox Text="{Binding FormStart, StringFormat='{}{0:dd-MM-yyyy HH:mm}'}" Width="300"/>
                 </StackPanel>
 
                 <!-- Booking end (dynamic) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
                     <TextBlock Text="Bookingslut:" FontWeight="SemiBold" Width="100"/>
-                    <TextBox Text="{Binding SelectedBooking.FormEnd, StringFormat='{}{0:dd-MM-yyyy HH:mm}'}" Width="300"/>
+                    <TextBox Text="{Binding FormEnd, StringFormat='{}{0:dd-MM-yyyy HH:mm}'}" Width="300"/>
                 </StackPanel>
 
                 <!-- Demands (locked) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
                     <TextBlock Text="Krav:" FontWeight="SemiBold" Width="100" Height="80"/>
-                    <TextBox Text="{Binding SelectedBooking.Requirements}" IsReadOnly="True" Width="300" Background="LightGray"/>
+                    <TextBox Text="{Binding Requirements}" IsReadOnly="True" Width="300" Background="LightGray"/>
                 </StackPanel>
 
                 <!-- Price (locked) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 12">
                     <TextBlock Text="Pris:" FontWeight="SemiBold" Width="100"/>
-                    <TextBox Text="{Binding SelectedBooking.TotalPrice}" IsReadOnly="True" Width="300" Background="LightGray"/>
+                    <TextBox Text="{Binding TotalPrice}" IsReadOnly="True" Width="300" Background="LightGray"/>
                 </StackPanel>
 
                 <!-- Checkboxes -->
