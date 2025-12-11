@@ -31,7 +31,7 @@ public class BookingViewModel : BaseViewModel
         get => _selectedBooking ;
         set
         {
-            if (_selectedBooking == value) return;
+            if (_selectedBooking == value) return;        
             _selectedBooking = value;
             if(_selectedBooking != null)
             {
@@ -266,24 +266,33 @@ public class BookingViewModel : BaseViewModel
     }
     #endregion
 
-    private void setFields(Booking _selectedBooking)
+    private void setFields(Booking b)
     {
-        FormName = Persons.FirstOrDefault(p => p.Id == _selectedBooking.Id)?.Name ?? string.Empty;
-        FormEmail = Persons.FirstOrDefault(p => p.Id == _selectedBooking.Id)?.Email ?? string.Empty;
-        FormPhone = Persons.FirstOrDefault(p => p.Id == _selectedBooking.Id)?.Phone ?? string.Empty;
+        this.FormName = "Jens Jensen";
+        MessageService.Show("Linje 272");
 
-        FormStart = _selectedBooking.StartTime;
-        FormEnd = _selectedBooking.EndTime;
-        var Resource = Resources.FirstOrDefault(r => r.Id == _selectedBooking.Id);
-        ResourceTitle = Resource?.Title ?? string.Empty;
-        Requirements = ResourceTypes.FirstOrDefault(rt => rt.Id == Resource?.ResourceTypeId)?.Requirement ?? string.Empty;
-        TotalPrice = (decimal)(Resource?.Price ?? 0);
+        //var person = Persons.FirstOrDefault(p => p.Id == b.PersonId);
+        //FormName = person?.Name ?? string.Empty;
+    //    FormEmail = person?.Email ?? string.Empty;
+    //    FormPhone = person?.Phone ?? string.Empty;
 
-        FormIsPaid = _selectedBooking.IsPaid;
-        FormRequirementFulfilled = _selectedBooking.RequirementFulfilled;
-        IsCheckedOut = _selectedBooking.HandedOutAt.HasValue;
-        IsReturned = _selectedBooking.ReturnedAt.HasValue;
-    }
+    //    FormStart = b.StartTime;
+    //    FormEnd = b.EndTime;
+
+    //    var resource = Resources.FirstOrDefault(r => r.Id == b.ResourceId);
+    //    ResourceTitle = resource?.Title ?? string.Empty;
+
+    //    Requirements = ResourceTypes
+    //        .FirstOrDefault(rt => rt.Id == resource?.ResourceTypeId)
+    //        ?.Requirement ?? string.Empty;
+
+    //    TotalPrice = (decimal)(resource?.Price ?? 0);
+
+    //    FormIsPaid = b.IsPaid;
+    //    FormRequirementFulfilled = b.RequirementFulfilled;
+    //    IsCheckedOut = b.HandedOutAt.HasValue;
+    //    IsReturned = b.ReturnedAt.HasValue;
+   }
 
     private void clearFields()
     {

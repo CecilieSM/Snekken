@@ -57,6 +57,7 @@ public class BookingRepository : IRepository<Booking>
                 while (reader.Read())
                 {
                     booking.Add(new Booking(
+                        (int)reader["BookingId"],
                         (int)reader["ResourceId"],
                         (int)reader["PersonId"],
                         (DateTime)reader["StartTime"],
