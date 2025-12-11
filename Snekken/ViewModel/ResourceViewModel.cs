@@ -27,8 +27,7 @@ public class ResourceViewModel : BaseViewModel
     private readonly IRepository<Resource> _resourceRepository;
     private readonly IRepository<ResourceType> _resourceTypeRepository;
 
-    // EVENTS
-    public event EventHandler<string>? RequestClose;
+  
 
     //PROPERTIES RESOURCE FORM
     private string _resourceFormTitle;  
@@ -135,7 +134,8 @@ public class ResourceViewModel : BaseViewModel
             Resource newResource = new Resource(this.ResourceFormTitle, this.ResourceFormUnitPrice, this.ResourceFormType.Id, this.ResourceFormDescription);
             int newId = _resourceRepository.Add(newResource);
             ClearResourceForm();
-            RequestClose?.Invoke(this, "AddResource");
+            CloseWindowRequested("AddResource");
+            //RequestClose?.Invoke(this, "AddResource");
         }
         catch (Exception)
         {
@@ -172,7 +172,8 @@ public class ResourceViewModel : BaseViewModel
             ClearResourceTypeForm();
             newResourceType.Id = newId;
             this.ResourceTypes.Add(newResourceType);
-            this.RequestClose?.Invoke(this, "AddResourceType");
+            CloseWindowRequested("AddResourceType");
+            //this.RequestClose?.Invoke(this, "AddResourceType");
         }
         catch (Exception)
         {

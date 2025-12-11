@@ -10,17 +10,21 @@ using WPFLib.Services;
 namespace WPFLib.ViewModel
 {
     //Abstract fordi BaseViewModel skal ikke instantieres direkte
+
+
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
-        //public readonly IMessageService MessageService;
-
-        //protected BaseViewModel(IMessageService messageService) 
-        //{
-        //    MessageService = messageService;
-        //}
+        // EVENTS
+        public event EventHandler<string>? RequestClose;
+        protected void CloseWindowRequested(string message)
+        {
+            RequestClose?.Invoke(this, message);
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+
     }
 }

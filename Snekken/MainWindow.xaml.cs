@@ -67,17 +67,17 @@ namespace Snekken
             var personRepository = new PersonRepository(ConfigHelper.GetConnectionString());
             var bookingRepository = new BookingRepository(ConfigHelper.GetConnectionString());
 
-            CreateRessource objBookingWindow = new CreateRessource();
+            BookingViewAdmin objBookingWindow = new BookingViewAdmin();
             this.Visibility = Visibility.Hidden;
             objBookingWindow.DataContext = new BookingViewModel(bookingRepository, personRepository, resourceRepository, resourceTypeRepository);
 
-            //if (objBookingWindow.DataContext is BaseViewModel currentViewModel)
-            //{
-            //    currentViewModel.RequestClose += (s, e) =>
-            //    {
-            //        if (e == "AddBooking") objBookingWindow.Close();
-            //    };
-            //}
+            if (objBookingWindow.DataContext is BookingViewModel currentViewModel)
+            {
+                currentViewModel.RequestClose += (s, e) =>
+                {
+                    if (e == "AddBooking") objBookingWindow.Close();
+                };
+            }
 
             objBookingWindow.Closed += (s, args) =>
             {

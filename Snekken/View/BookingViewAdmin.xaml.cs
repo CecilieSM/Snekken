@@ -18,7 +18,7 @@ namespace Snekken.View
     /// <summary>
     /// Interaction logic for BookingViewAdmin.xaml
     /// </summary>
-    public partial class BookingViewAdmin : UserControl
+    public partial class BookingViewAdmin : Window
     {
         public BookingViewAdmin()
         {
