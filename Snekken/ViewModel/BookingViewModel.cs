@@ -275,6 +275,9 @@ public class BookingViewModel : BaseViewModel
 
     public void DeleteBooking(object? parameter = null)
     {
+        // Check if booking person has other bookings
+
+
         if (SelectedBooking == null) return;
         _bookingRepository.Delete(SelectedBooking.Id);
         Bookings.Remove(SelectedBooking);
