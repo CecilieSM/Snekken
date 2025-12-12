@@ -242,6 +242,14 @@ public class BookingViewModel : BaseViewModel
     }
     private void UpdateBooking(object? parameter) 
     {
+        //tjek if finalized, then delete booking
+        if (IsReturned && FormIsPaid)
+        {
+            DeleteBooking(SelectedBooking);
+            clearFields();
+            return;
+        }
+
         // update selected booking and person from form fields
         if (SelectedBooking == null) return;
         Person person = Persons.FirstOrDefault(p => p.Id == SelectedBooking.PersonId)!;
