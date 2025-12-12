@@ -29,17 +29,7 @@ namespace RentalKiosk.ViewModels
         public ObservableCollection<Resource> ResourcesForSelectedType { get; } = new();
         public ObservableCollection<Resource> AllResources { get; set; }
         public ObservableCollection<TimeSlot> TimeSlots { get; } = new();
-
-        private IEnumerable<TimeSlot> _availableTimeSlots;
-        public IEnumerable<TimeSlot> AvailableTimeSlots
-        {
-            get => _availableTimeSlots;
-            set
-            {
-                _availableTimeSlots = value;
-                OnPropertyChanged(nameof(AvailableTimeSlots));
-            }
-        }
+        public ObservableCollection<TimeSlot> AvailableTimeSlots { get; } = new ObservableCollection<TimeSlot>();
 
         private DateTime _currentWeekStart;
         public DateTime CurrentWeekStart
@@ -138,8 +128,11 @@ namespace RentalKiosk.ViewModels
                 _selectedDate = value;
                 OnPropertyChanged();
 
-                if (SelectedResource != null)
+                if (SelectedResource != null) 
+                {
+                    PopulateTimeSlots();
                     LoadAvailableSlots(SelectedResource.Id, _selectedDate);
+                }
             }
         }
 
@@ -341,27 +334,41 @@ namespace RentalKiosk.ViewModels
 
         private void PopulateTimeSlots()
         {
+            var random = new Random();
+            if (SelectedResource == null) 
+                return;
+
             TimeSlots.Clear();
-            var date = DateTime.Today;
+            var date = SelectedDate;
 
             for (int hour = 7; hour <= 22; hour++)
                 TimeSlots.Add(new TimeSlot 
                 {
-                    StartTime = new DateTime(date.Year, date.Month, date.Day, hour, 0, 0)
+                    ResourceId = SelectedResource.Id,
+                    StartTime = new DateTime(date.Year, date.Month, date.Day, hour, 0, 0),
+                    IsAvailable = random.Next(0, 5) != 0 // 20% chance of being unavailable
                 });
+            
             MessageService.Show("Populating TimeSlots...");
         }
 
         public void LoadAvailableSlots(int resourceId, DateTime date)
         {
-            var result = TimeSlots
-                .Where(ts => ts.ResourceId == resourceId
-                             && ts.StartTime.Date == date.Date
-                             && ts.IsAvailable)
-                .OrderBy(ts => ts.StartTime)
-                .ToList();
+            AvailableTimeSlots.Clear();
 
-                Debug.WriteLine($"Available slots: {result.Count}");
+            var slots = TimeSlots
+                .Where(ts => ts.ResourceId == resourceId
+                            && ts.StartTime.Date == date.Date
+                            && ts.IsAvailable)
+                .OrderBy(ts => ts.StartTime);
+
+            foreach (var slot in slots) 
+            {
+                AvailableTimeSlots.Add(slot);
+            }
+
+
+            //Debug.WriteLine($"Available slots: {result.Count}");
 
             foreach (var ts in TimeSlots)
             {

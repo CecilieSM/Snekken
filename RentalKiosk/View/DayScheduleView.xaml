@@ -52,7 +52,7 @@
 
                 <!-- RIGHT: RESOURCE COLUMNS (DYNAMIC) -->
                 <ItemsControl Grid.Column="1"
-              ItemsSource="{Binding AvailableSlots}">
+              ItemsSource="{Binding TimeSlots}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel/>
@@ -61,7 +61,23 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="Green" BorderThickness="0,0,0,1" Padding="4,2">
+                            <Border BorderThickness="0,0,0,1" Padding="4,2">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <!-- Default: available slot -->
+                                        <Setter Property="BorderBrush" Value="Green"/>
+                                        <Setter Property="Background" Value="White"/>
+
+                                        <Style.Triggers>
+                                            <!-- Unavailable slot -->
+                                            <DataTrigger Binding="{Binding IsAvailable}" Value="False">
+                                                <Setter Property="BorderBrush" Value="Red"/>
+                                                <Setter Property="Background" Value="#FFF0F0"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+
                                 <TextBlock Text="{Binding StartTime, StringFormat=HH\\:mm}"/>
                             </Border>
                         </DataTemplate>
