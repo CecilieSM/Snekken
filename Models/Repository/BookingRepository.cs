@@ -110,11 +110,15 @@ public class BookingRepository : IRepository<Booking>
     // DELETE - bygges senere
     public void Delete(int id)
     {
-        // query to delete booking by id
-        // excecute the query 
+        string query = "DELETE FROM Booking WHERE BookingId = @BookingId;";
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        using (SqlCommand command = new SqlCommand(query, connection))
+        {
+            command.Parameters.AddWithValue("@BookingId", id);
+            connection.Open();
+            command.ExecuteNonQuery();
 
-        throw new NotImplementedException();
+        }
     }
-
 
 }

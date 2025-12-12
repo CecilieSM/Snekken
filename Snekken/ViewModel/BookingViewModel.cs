@@ -245,7 +245,7 @@ public class BookingViewModel : BaseViewModel
         //tjek if finalized, then delete booking
         if (IsReturned && FormIsPaid)
         {
-            DeleteBooking(SelectedBooking);
+            DeleteBooking();
             clearFields();
             return;
         }
@@ -273,7 +273,7 @@ public class BookingViewModel : BaseViewModel
         return true;
     }
 
-    public void DeleteBooking(object? parameter)
+    public void DeleteBooking(object? parameter = null)
     {
         if (SelectedBooking == null) return;
         _bookingRepository.Delete(SelectedBooking.Id);
