@@ -61,25 +61,43 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderThickness="0,0,0,1" Padding="4,2">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <!-- Default: available slot -->
-                                        <Setter Property="BorderBrush" Value="Green"/>
+                            <Button Padding="4,2"
+                    Margin="0"
+                    Command="{Binding DataContext.SelectTimeSlotCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    CommandParameter="{Binding}"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center">
+
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <!-- DEFAULT (available) -->
+                                        <Setter Property="Content" Value="{Binding StartTime, StringFormat=HH\\:mm}"/>
                                         <Setter Property="Background" Value="White"/>
+                                        <Setter Property="BorderBrush" Value="Green"/>
+                                        <Setter Property="BorderThickness" Value="1"/>
+                                        <Setter Property="Foreground" Value="Black"/>
+                                        <Setter Property="IsEnabled" Value="True"/>
 
                                         <Style.Triggers>
-                                            <!-- Unavailable slot -->
+                                            <!-- UNAVAILABLE -->
                                             <DataTrigger Binding="{Binding IsAvailable}" Value="False">
+                                                <Setter Property="Background" Value="#FFEFEFEF"/>
                                                 <Setter Property="BorderBrush" Value="Red"/>
-                                                <Setter Property="Background" Value="#FFF0F0"/>
+                                                <Setter Property="Foreground" Value="#FFAAAAAA"/>
+                                                <Setter Property="IsEnabled" Value="False"/>
+                                                <Setter Property="Content" Value="X"/>
+                                            </DataTrigger>
+
+                                            <!-- SELECTED SLOT -->
+                                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                <Setter Property="Background" Value="#D0F0FF"/>
+                                                <Setter Property="BorderBrush" Value="Blue"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
-                                </Border.Style>
+                                </Button.Style>
 
-                                <TextBlock Text="{Binding StartTime, StringFormat=HH\\:mm}"/>
-                            </Border>
+                            </Button>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

@@ -141,7 +141,7 @@ namespace RentalKiosk.ViewModels
         public ICommand NextWeekCommand { get; }
         public ICommand PreviousWeekCommand { get; }
         public ICommand SelectDateAndResourceCommand { get; }
-        //public ICommand SelectTimeAndResourceCommand { get; }
+        public ICommand SelectTimeSlotCommand { get; }
 
         public MainViewModel(IRepository<Booking> bookingRepository, IRepository<ResourceType> resourceTypeRepository, IRepository<Resource> resourceRepository)
         {
@@ -180,7 +180,7 @@ namespace RentalKiosk.ViewModels
             NextWeekCommand = new RelayCommand(ExecuteNextWeek);
             PreviousWeekCommand = new RelayCommand(ExecutePreviousWeek);
             SelectDateAndResourceCommand = new RelayCommand(ExecuteSelectDateAndResourceCommand);
-            //SelectTimeAndResourceCommand = new RelayCommand(ExecuteSelectTimeAndResourceCommand);
+            SelectTimeSlotCommand = new RelayCommand(ExecuteSelectTimeSlotCommand);
 
             // Start på ugen = mandag i denne uge
             var today = DateTime.Today;
@@ -334,7 +334,7 @@ namespace RentalKiosk.ViewModels
 
         private void PopulateTimeSlots()
         {
-            var random = new Random();
+            var random = new Random();//kan slettes efter random test
             if (SelectedResource == null) 
                 return;
 
@@ -346,6 +346,7 @@ namespace RentalKiosk.ViewModels
                 {
                     ResourceId = SelectedResource.Id,
                     StartTime = new DateTime(date.Year, date.Month, date.Day, hour, 0, 0),
+                    //Laver random IsAvailable = falsk til test
                     IsAvailable = random.Next(0, 5) != 0 // 20% chance of being unavailable
                 });
             
@@ -376,6 +377,20 @@ namespace RentalKiosk.ViewModels
             }
 
             MessageService.Show("Loading available slots...");
+        }
+
+
+        public void ExecuteSelectTimeSlotCommand(object parameter)
+        {
+            if (parameter is not TimeSlot slot)
+                return;
+
+            foreach (var s in TimeSlots)
+            {
+                s.IsSelected = false;
+            }
+
+            slot.IsSelected = true;
         }
 
         //private void BookTimeSlot(DateTime date, TimeSpan startTime, int resourceId)
