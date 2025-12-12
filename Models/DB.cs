@@ -69,6 +69,7 @@ public class DB
         _personRepository.Add(new Person("Dorte Jensen", "dorte@gmail.com"));
         _bookingRepository.Add(new Booking(1, 1, DateTime.Now.AddDays(1), DateTime.Now.AddDays(1).AddHours(2)));
         _bookingRepository.Add(new Booking(2, 2, DateTime.Now.AddDays(3), DateTime.Now.AddDays(3).AddHours(5)));
+        _bookingRepository.Add(new Booking(2, 3, DateTime.Now.AddDays(6), DateTime.Now.AddDays(6).AddHours(1)));
 
         return $"Seeding completed";
     }
