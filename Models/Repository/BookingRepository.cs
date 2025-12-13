@@ -22,7 +22,7 @@ public class BookingRepository : IRepository<Booking>
         string query = @"
                 INSERT INTO Booking
                     (ResourceId, PersonId, StartTime, EndTime, RequirementFulfilled, IsPaid)
-                OUTPUT INSERTED.Id
+                OUTPUT INSERTED.BookingId
                 VALUES
                     (@ResourceId, @PersonId, @StartTime, @EndTime, @RequirementFulfilled, @IsPaid);";
 

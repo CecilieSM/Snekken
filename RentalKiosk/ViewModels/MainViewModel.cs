@@ -136,6 +136,35 @@ namespace RentalKiosk.ViewModels
             }
         }
 
+        private TimeSlot _selectedTimeSlot;
+        public TimeSlot SelectedTimeSlot 
+        {
+            get => _selectedTimeSlot;
+            set
+            {
+                _selectedTimeSlot = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectedBookingHeader));
+                UpdateCalculatedPrice();
+            }
+        }
+
+        public string SelectedBookingHeader
+        {
+            get
+            {
+                if (SelectedResource == null || SelectedTimeSlot == null)
+                    return "Valg ressource og tidspunkt";
+
+                return
+                    $"{SelectedResource.Title} " +
+                    $"{SelectedDate:dd.MM.yyyy} kl." +
+                    $"{SelectedTimeSlot.StartTime:HH:MM}-{SelectedTimeSlot.StartTime.AddHours(1):HH:MM}";
+
+            }
+        }
+
+
         public ICommand AddBookingCommand { get; }
         public ICommand AddPersonCommand { get; }
         public ICommand NextWeekCommand { get; }
@@ -143,11 +172,12 @@ namespace RentalKiosk.ViewModels
         public ICommand SelectDateAndResourceCommand { get; }
         public ICommand SelectTimeSlotCommand { get; }
 
-        public MainViewModel(IRepository<Booking> bookingRepository, IRepository<ResourceType> resourceTypeRepository, IRepository<Resource> resourceRepository)
+        public MainViewModel(IRepository<Booking> bookingRepository, IRepository<ResourceType> resourceTypeRepository, IRepository<Resource> resourceRepository, IRepository<Person> personRepository)
         {
             _bookingRepository = bookingRepository;
             _resourceTypeRepository = resourceTypeRepository;
             _resourceRepository = resourceRepository;
+            _personRepository = personRepository;
 
             try
             {
@@ -191,13 +221,41 @@ namespace RentalKiosk.ViewModels
 
         public void ExecuteAddBooking(object parameter)
         {
+            if (SelectedResource == null || SelectedTimeSlot == null)
+            {
+                MessageService.Show("Vælg venligst ressource og tidspunkt.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(Name))
+            {
+                MessageService.Show("Indtast venligst navn.");
+                return;
+            }
+
             try
             {
-                Booking newBooking = new Booking(this.ResourceId, this.PersonId, this.StartTime, this.EndTime, this.RequirementFulfilled, this.IsPaid);
+                //Booking newBooking = new Booking(this.ResourceId, this.PersonId, this.StartTime, this.EndTime, this.RequirementFulfilled, this.IsPaid);
+
+                //int newId = _bookingRepository.Add(newBooking);
+
+                //MessageService.Show($"Booking #{newId} added successfully!");
+
+                Person person = new Person(Name, Email, Phone);
+                int personId = _personRepository.Add(person);
+
+                Booking newBooking = new Booking(
+                        resourceId: SelectedResource.Id,
+                        personId: personId,
+                        startTime: SelectedTimeSlot.StartTime,
+                        endTime: SelectedTimeSlot.StartTime.AddHours(1),
+                        requirementFulfilled: false,
+                        isPaid: false
+                    );
 
                 int newId = _bookingRepository.Add(newBooking);
 
-                MessageService.Show($"Booking #{newId} added successfully!");
+                MessageService.Show($"Booking #{newId} til {Name} oprettet!");
             }
 
             catch (Exception ex)
@@ -382,7 +440,7 @@ namespace RentalKiosk.ViewModels
 
         public void ExecuteSelectTimeSlotCommand(object parameter)
         {
-            if (parameter is not TimeSlot slot)
+            if (parameter is not TimeSlot slot || !slot.IsAvailable)
                 return;
 
             foreach (var s in TimeSlots)
@@ -391,8 +449,21 @@ namespace RentalKiosk.ViewModels
             }
 
             slot.IsSelected = true;
+
+            SelectedTimeSlot = slot;
         }
 
+        private void UpdateCalculatedPrice() 
+        {
+            if (SelectedTimeSlot == null)
+            {
+                CalculatedPrice = 0;
+                return;
+            }
+
+            CalculatedPrice = 100;
+            OnPropertyChanged(nameof(CalculatedPrice));
+        }
         //private void BookTimeSlot(DateTime date, TimeSpan startTime, int resourceId)
         //{
         //    var booking = new Booking
