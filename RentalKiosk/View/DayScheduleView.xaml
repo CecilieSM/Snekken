@@ -2,9 +2,14 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:local="clr-namespace:RentalKiosk.Converters"
              mc:Ignorable="d"
              Background="White">
+
+    <UserControl.Resources>
+        <local:TimeSlotSelectedConverter x:Key="TimeSlotSelectedConverter"/>
+    </UserControl.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <!-- Ydre grid: titel + tabel -->
@@ -61,50 +66,47 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Button Padding="4,2"
-                    Margin="0"
-                    Command="{Binding DataContext.SelectTimeSlotCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                    CommandParameter="{Binding}"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center">
+                            <Button Command="{Binding DataContext.SelectTimeSlotCommand,
+                                    RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}"
+                                    Padding="4"
+                                    BorderThickness="1"
+                                    IsEnabled="{Binding IsAvailable}"
+                                    >
 
                                 <Button.Style>
                                     <Style TargetType="Button">
-                                        <!-- DEFAULT (available) -->
-                                        <Setter Property="Content" Value="{Binding StartTime, StringFormat=HH\\:mm}"/>
                                         <Setter Property="Background" Value="White"/>
-                                        <Setter Property="BorderBrush" Value="Green"/>
-                                        <Setter Property="BorderThickness" Value="1"/>
-                                        <Setter Property="Foreground" Value="Black"/>
-                                        <Setter Property="IsEnabled" Value="True"/>
-
+                                        <Setter Property="BorderBrush" Value="Gray"/>
                                         <Style.Triggers>
-                                            <!-- UNAVAILABLE -->
-                                            <DataTrigger Binding="{Binding IsAvailable}" Value="False">
-                                                <Setter Property="Background" Value="#FFEFEFEF"/>
-                                                <Setter Property="BorderBrush" Value="Red"/>
-                                                <Setter Property="Foreground" Value="#FFAAAAAA"/>
-                                                <Setter Property="IsEnabled" Value="False"/>
-                                                <Setter Property="Content" Value="X"/>
+                                            <!-- Highlight selected slots -->
+                                            <DataTrigger Value="True">
+                                                <DataTrigger.Binding>
+                                                    <MultiBinding Converter="{StaticResource TimeSlotSelectedConverter}">
+                                                        <Binding />
+                                                        <Binding RelativeSource="{RelativeSource AncestorType=UserControl}"
+                                                 Path="DataContext.SelectedTimeSlots"/>
+                                                    </MultiBinding>
+                                                </DataTrigger.Binding>
+                                                <Setter Property="Background" Value="LightGreen"/>
+                                                <Setter Property="BorderBrush" Value="Green"/>
                                             </DataTrigger>
 
-                                            <!-- SELECTED SLOT -->
-                                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                                <Setter Property="Background" Value="#D0F0FF"/>
-                                                <Setter Property="BorderBrush" Value="Blue"/>
+                                            <!-- Show unavailable slots -->
+                                            <DataTrigger Binding="{Binding IsAvailable}" Value="False">
+                                                <Setter Property="Background" Value="LightGray"/>
+                                                <Setter Property="BorderBrush" Value="DarkGray"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Button.Style>
 
+                                <TextBlock Text="{Binding StartTime, StringFormat=HH\\:mm}"/>
                             </Button>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
-
-
-
         </Grid>
     </ScrollViewer>
 </UserControl>

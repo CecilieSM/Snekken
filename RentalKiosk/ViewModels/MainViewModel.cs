@@ -30,6 +30,7 @@ namespace RentalKiosk.ViewModels
         public ObservableCollection<Resource> AllResources { get; set; }
         public ObservableCollection<TimeSlot> TimeSlots { get; } = new();
         public ObservableCollection<TimeSlot> AvailableTimeSlots { get; } = new ObservableCollection<TimeSlot>();
+        public ObservableCollection<TimeSlot> SelectedTimeSlots { get; } = new ObservableCollection<TimeSlot>();
 
         private DateTime _currentWeekStart;
         public DateTime CurrentWeekStart
@@ -153,16 +154,27 @@ namespace RentalKiosk.ViewModels
         {
             get
             {
-                if (SelectedResource == null || SelectedTimeSlot == null)
+                if (SelectedResource == null || SelectedTimeSlots == null || SelectedTimeSlots.Count == 0)
                     return "Valg ressource og tidspunkt";
 
-                return
-                    $"{SelectedResource.Title} " +
-                    $"{SelectedDate:dd.MM.yyyy} kl." +
-                    $"{SelectedTimeSlot.StartTime:HH:MM}-{SelectedTimeSlot.StartTime.AddHours(1):HH:MM}";
+                // Earliest and latest selected times
+                var start = SelectedTimeSlots.Min(s => s.StartTime);
+                var end = SelectedTimeSlots.Max(s => s.StartTime).AddHours(1);
 
+                return $"{SelectedResource.Title} " +
+                       $"{SelectedDate:dd.MM.yyyy} kl. {start:HH:mm}-{end:HH:mm}";
             }
         }
+
+        public DateTime? BookingStart =>
+            SelectedTimeSlots.Any()
+                ? SelectedTimeSlots.Min(s => s.StartTime)
+                : null;
+
+        public DateTime? BookingEnd =>
+            SelectedTimeSlots.Any()
+                ? SelectedTimeSlots.Max(s => s.StartTime).AddHours(1)
+                : null;
 
 
         public ICommand AddBookingCommand { get; }
@@ -221,7 +233,7 @@ namespace RentalKiosk.ViewModels
 
         public void ExecuteAddBooking(object parameter)
         {
-            if (SelectedResource == null || SelectedTimeSlot == null)
+            if (SelectedResource == null || SelectedTimeSlots == null || SelectedTimeSlots.Count == 0)
             {
                 MessageService.Show("Vælg venligst ressource og tidspunkt.");
                 return;
@@ -244,11 +256,14 @@ namespace RentalKiosk.ViewModels
                 Person person = new Person(Name, Email, Phone);
                 int personId = _personRepository.Add(person);
 
+                DateTime start = SelectedTimeSlots.Min(s => s.StartTime);
+                DateTime end = SelectedTimeSlots.Max(s => s.StartTime).AddHours(1); // assuming 1-hour slots
+
                 Booking newBooking = new Booking(
                         resourceId: SelectedResource.Id,
                         personId: personId,
-                        startTime: SelectedTimeSlot.StartTime,
-                        endTime: SelectedTimeSlot.StartTime.AddHours(1),
+                        startTime: start,
+                        endTime: end,
                         requirementFulfilled: false,
                         isPaid: false
                     );
@@ -408,60 +423,69 @@ namespace RentalKiosk.ViewModels
                     IsAvailable = random.Next(0, 5) != 0 // 20% chance of being unavailable
                 });
             
-            MessageService.Show("Populating TimeSlots...");
+            //MessageService.Show("Populating TimeSlots...");
         }
 
         public void LoadAvailableSlots(int resourceId, DateTime date)
         {
             AvailableTimeSlots.Clear();
 
-            var slots = TimeSlots
-                .Where(ts => ts.ResourceId == resourceId
-                            && ts.StartTime.Date == date.Date
-                            && ts.IsAvailable)
-                .OrderBy(ts => ts.StartTime);
-
-            foreach (var slot in slots) 
+            foreach (var slot in TimeSlots)
             {
-                AvailableTimeSlots.Add(slot);
+                slot.IsAvailable = slot.ResourceId == resourceId && slot.StartTime.Date == date.Date;
             }
 
+            OnPropertyChanged(nameof(TimeSlots));
 
-            //Debug.WriteLine($"Available slots: {result.Count}");
+            //foreach (var ts in TimeSlots)
+            //{
+            //    Debug.WriteLine($"Resource: {ts.ResourceId}, StartTime: {ts.StartTime}, IsAvailable: {ts.IsAvailable}");
+            //}
 
-            foreach (var ts in TimeSlots)
-            {
-                Debug.WriteLine($"Resource: {ts.ResourceId}, StartTime: {ts.StartTime}, IsAvailable: {ts.IsAvailable}");
-            }
-
-            MessageService.Show("Loading available slots...");
+            //MessageService.Show("Loading available slots...");
         }
 
 
         public void ExecuteSelectTimeSlotCommand(object parameter)
         {
-            if (parameter is not TimeSlot slot || !slot.IsAvailable)
+            if (parameter is not TimeSlot slot)
                 return;
 
-            foreach (var s in TimeSlots)
-            {
-                s.IsSelected = false;
-            }
+            if (SelectedTimeSlots.Contains(slot))
+                SelectedTimeSlots.Remove(slot);
+            else
+                SelectedTimeSlots.Add(slot);
 
-            slot.IsSelected = true;
+            OnPropertyChanged(nameof(SelectedBookingHeader));
+            UpdateCalculatedPrice();
 
-            SelectedTimeSlot = slot;
+
+            //nedunder til enkel time selecttion
+            //if (parameter is not TimeSlot slot || !slot.IsAvailable)
+            //    return;
+
+            //foreach (var s in TimeSlots)
+            //{
+            //    s.IsSelected = false;
+            //}
+
+            //slot.IsSelected = true;
+
+            //SelectedTimeSlot = slot;
         }
 
         private void UpdateCalculatedPrice() 
         {
-            if (SelectedTimeSlot == null)
+            if (SelectedResource == null || SelectedTimeSlots == null || SelectedTimeSlots.Count == 0)
             {
                 CalculatedPrice = 0;
-                return;
+            }
+            else
+            {
+                // Assuming each slot is 1 hour
+                CalculatedPrice = SelectedTimeSlots.Count * SelectedResource.Price;
             }
 
-            CalculatedPrice = 100;
             OnPropertyChanged(nameof(CalculatedPrice));
         }
         //private void BookTimeSlot(DateTime date, TimeSpan startTime, int resourceId)
