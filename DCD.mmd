@@ -1,0 +1,39 @@
+classDiagram
+    TimeUnit -- ResourceType
+    ResourceType "1" -- "1..*" Resource
+    Resource "1" -- "0..*" Booking
+    Booking "1" -- "1..*" Person
+    
+    class TimeUnit{
+      +None
+      +Day
+      +Hour
+    }
+    class ResourceType{
+      +Id: Int
+      +Title: String
+      +Unit: TimeUnit
+      +Requiremen: String
+    }
+    class Resource{
+      +Id: Int
+      +Title: String
+      +Price: Double
+      +Description: String
+      +IsActive: Bool
+    }
+    class Booking{
+      +Id: Int
+      +StartTime: DateTime
+      +EndTime: DateTime
+      +RequirementFullfilled: Bool
+      +IsPaid: Bool
+      +HandedOutAt: DateTime?
+      +ReturnedAt: DateTime?
+    }
+    class Person{
+      +Id: int
+      +Name: String
+      +Email: String
+      +Phone: int
+    }

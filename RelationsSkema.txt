@@ -1,0 +1,4 @@
+RESOURCETYPE(ResourceTypeId, Title, Unit, Requirement) 
+RESOURCE(ResourceId, Title, Price, Description, IsActive, ResourceTypeId) 
+PERSON(PersonId, Name, Email, Phone) 
+BOOKING(BookingId, StartTime, EndTime, RequirementFulfilled, IsPaid, HandedOutAt, ReturnedAt, ResourceId, PersonId)
