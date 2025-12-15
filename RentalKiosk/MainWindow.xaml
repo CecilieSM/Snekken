@@ -13,32 +13,52 @@
     <!-- Hele kiosken -->
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <!-- Evt. top-bar til titel -->
+            <!-- Top-bar -->
             <RowDefinition Height="Auto"/>
-            <!-- Indhold (de tre kolonner) -->
+            <!-- Indhold -->
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Top-overskrift -->
-        <TextBlock Grid.Row="0"
-                   Text="Bookingkiosk – Sejlklubben Snekken"
-                   FontSize="26"
-                   FontWeight="Bold"
-                   Margin="0,0,0,10"/>
+        <!-- TOP BAR -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Overskrift -->
+            <TextBlock Grid.Column="0"
+                       Text="Bookingkiosk – Sejlklubben Snekken"
+                       FontSize="26"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       Margin="0,0,20,10"/>
+
+            <!-- CLEAR ALL -->
+            <Button Grid.Column="1"
+                    Content="Ryd booking"
+                    Height="36"
+                    Padding="20,0"
+                    Margin="0,0,0,10"
+                    Background="LightGray"
+                    Command="{Binding ClearAllCommand}"/>
+        </Grid>
 
         <!-- Tre kolonner: uge -> dag -> formular -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <!-- Venstre: Uge-kalender -->
-                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="114*"/>
+                <ColumnDefinition Width="404*"/>
                 <!-- Midten: dagsoversigt -->
-                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="518*"/>
                 <!-- Højre: formular -->
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="345*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- 1. Uge-oversigt med ressource-type -->
+            <!-- 1. Uge-oversigt -->
             <Border Grid.Column="0"
+                    Grid.ColumnSpan="2"
                     BorderBrush="LightGray"
                     BorderThickness="1"
                     Margin="0,0,10,0"
@@ -46,8 +66,8 @@
                 <view:BookingView />
             </Border>
 
-            <!-- 2. Dagsoversigt 07–22 -->
-            <Border Grid.Column="1"
+            <!-- 2. Dagsoversigt -->
+            <Border Grid.Column="2"
                     BorderBrush="LightGray"
                     BorderThickness="1"
                     Margin="0,0,10,0"
@@ -55,8 +75,8 @@
                 <view:DayScheduleView />
             </Border>
 
-            <!-- 3. Formular til den valgte booking -->
-            <Border Grid.Column="2"
+            <!-- 3. Bookingformular -->
+            <Border Grid.Column="3"
                     BorderBrush="LightGray"
                     BorderThickness="1"
                     Background="White">
