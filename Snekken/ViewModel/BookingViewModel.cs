@@ -277,31 +277,10 @@ public class BookingViewModel : BaseViewModel
     {
         // Check if booking person has other bookings
 
-        //var personBookings = Bookings.Where(b => b.PersonId == SelectedBooking!.PersonId && b.Id != SelectedBooking.Id);
-        //if (personBookings.Any())
-        //{
-        //    MessageService.Show("Kan ikke slette booking. Personen har andre aktive bookinger.");
-        //    return;
-        //}
-
-        int personId = SelectedBooking!.PersonId;
 
         if (SelectedBooking == null) return;
         _bookingRepository.Delete(SelectedBooking.BookingId);
         Bookings.Remove(SelectedBooking);
-
-        // delete person if no other bookings
-        //var otherBookings = Bookings.Where(b => b.PersonId == personId);
-        //if (!otherBookings.Any())
-        //{
-        //    _personRepository.Delete(personId);
-        //    var personToRemove = Persons.FirstOrDefault(p => p.Id == personId);
-        //    if (personToRemove != null)
-        //    {
-        //        Persons.Remove(personToRemove);
-        //    }
-        //}
-
     }
 
     public bool CanDeleteBooking()
