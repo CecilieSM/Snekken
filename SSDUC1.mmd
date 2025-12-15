@@ -1,0 +1,9 @@
+sequenceDiagram
+    actor Administrator
+    participant System
+
+    Administrator ->> System: OpretNyRessource
+    System -->> Administrator: Formular til udfyldelse
+    Administrator ->> System: Indtaster (RessourceType, titel, enhedspris, beskrivelse)
+    Administrator ->> System: GemRessource
+    System -->> Administrator: Opdateret liste af ressourcer

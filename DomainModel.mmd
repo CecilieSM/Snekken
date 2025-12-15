@@ -1,4 +1,5 @@
 classDiagram
+<<<<<<< HEAD
     ResourceType "1" -- "1..*" Resource
     Resource "1" -- "0..*" Booking
     Booking "1" -- "1..*" Person
@@ -31,3 +32,41 @@ classDiagram
       Email
       TelefonNr
     }
+=======
+
+
+    class RessourceType{
+        type
+        enhed 
+        krav
+    }
+
+    class Ressource {
+        id
+        titel
+        pris
+        beskrivelse
+        erAktiv
+    }
+
+    class Booking{
+        bookingID
+        starttid
+        sluttid
+        kravStatus
+        betalingStatus
+        udleveret
+        returneret
+    }
+
+    class Person {
+        navn
+        email
+        telefon
+    }
+
+    RessourceType "1" -- "1..*" Ressource
+    Ressource "1" -- "0..*" Booking
+    Booking "1..*" -- "1" Person
+
+>>>>>>> 5ad41877941bfd80efe93ec7ea9ac784188344bb
