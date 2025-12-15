@@ -8,11 +8,11 @@ namespace Models;
 
 public class Booking
 {
-    private int _id;
-    public int Id
+    private int _bookingId;
+    public int BookingId
     {
-        get { return _id; }
-        set { _id = value; }
+        get { return _bookingId; }
+        set { _bookingId = value; }
     }
 
     private DateTime _startTime;
@@ -82,9 +82,9 @@ public class Booking
         this.IsPaid = isPaid;
     }
 
-    public Booking(int id,int resourceId, int personId, DateTime startTime, DateTime endTime, bool requirementFulfilled = false, bool isPaid = false, DateTime? issued = null, DateTime? returned = null)
+    public Booking(int bookingId,int resourceId, int personId, DateTime startTime, DateTime endTime, bool requirementFulfilled = false, bool isPaid = false, DateTime? issued = null, DateTime? returned = null)
     {
-        this.Id = id;
+        this.BookingId = bookingId;
         this.ResourceId = resourceId;
         this.PersonId = personId;
         this.StartTime = startTime;

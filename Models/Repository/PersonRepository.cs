@@ -89,14 +89,10 @@ namespace Models.Repository
 
         public void Delete(int id)
         {
-            // delete person from database
-            string query = "DELETE FROM Person WHERE PersonId = @PersonId;";
-            using (SqlConnection connection = new SqlConnection(_connectionString))
-            using (SqlCommand command = new SqlCommand(query, connection))
+            var person = GetById(id);
+            if (person != null)
             {
-                command.Parameters.AddWithValue("@PersonId", id);
-                connection.Open();
-                command.ExecuteNonQuery();
+                _persons.Remove(person);
             }
         }
     }

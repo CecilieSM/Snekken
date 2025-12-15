@@ -60,7 +60,7 @@ public class BookingViewModel : BaseViewModel
             if (string.IsNullOrWhiteSpace(SearchText))
                 return Bookings;
             var filtered = Bookings.Where(b => 
-                b.Id.ToString().Contains(SearchText, StringComparison.OrdinalIgnoreCase) // This does not search the correct fields, adjust as necessary
+                b.BookingId.ToString().Contains(SearchText, StringComparison.OrdinalIgnoreCase) // This does not search the correct fields, adjust as necessary
                                                                                          // Add other properties to search through as needed
             );
             return new ObservableCollection<Booking>(filtered);
@@ -277,31 +277,10 @@ public class BookingViewModel : BaseViewModel
     {
         // Check if booking person has other bookings
 
-        //var personBookings = Bookings.Where(b => b.PersonId == SelectedBooking!.PersonId && b.Id != SelectedBooking.Id);
-        //if (personBookings.Any())
-        //{
-        //    MessageService.Show("Kan ikke slette booking. Personen har andre aktive bookinger.");
-        //    return;
-        //}
-
-        int personId = SelectedBooking!.PersonId;
 
         if (SelectedBooking == null) return;
-        _bookingRepository.Delete(SelectedBooking.Id);
+        _bookingRepository.Delete(SelectedBooking.BookingId);
         Bookings.Remove(SelectedBooking);
-
-        // delete person if no other bookings
-        //var otherBookings = Bookings.Where(b => b.PersonId == personId);
-        //if (!otherBookings.Any())
-        //{
-        //    _personRepository.Delete(personId);
-        //    var personToRemove = Persons.FirstOrDefault(p => p.Id == personId);
-        //    if (personToRemove != null)
-        //    {
-        //        Persons.Remove(personToRemove);
-        //    }
-        //}
-
     }
 
     public bool CanDeleteBooking()
@@ -319,7 +298,7 @@ public class BookingViewModel : BaseViewModel
         
         FormStart = b.StartTime;
         FormEnd = b.EndTime;
-        var Resource = Resources.FirstOrDefault(r => r.Id == b.Id);
+        var Resource = Resources.FirstOrDefault(r => r.Id == b.BookingId);
         ResourceTitle = Resource?.Title ?? string.Empty;
         Requirements = ResourceTypes.FirstOrDefault(rt => rt.Id == Resource?.ResourceTypeId)?.Requirement ?? string.Empty;
         TotalPrice = (decimal)(Resource?.Price ?? 0);

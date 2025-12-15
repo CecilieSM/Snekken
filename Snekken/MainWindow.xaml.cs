@@ -27,8 +27,11 @@ namespace Snekken
             //create dependencies
             var resourceRepository = new ResourceRepository(ConfigHelper.GetConnectionString());
             var resourceTypeRepository = new ResourceTypeRepository(ConfigHelper.GetConnectionString());
+            var personRepository = new PersonRepository(ConfigHelper.GetConnectionString());
+            var bookingRepository = new BookingRepository(ConfigHelper.GetConnectionString());
 
             ResourceViewModel vm = new ResourceViewModel(resourceRepository, resourceTypeRepository);
+            BookingViewModel bookingVm = new BookingViewModel(bookingRepository, personRepository, resourceRepository, resourceTypeRepository);
 
             this.DataContext = vm;
 
@@ -62,14 +65,14 @@ namespace Snekken
         private void BookingButton_Click(object sender, RoutedEventArgs e)
         {
 
-            var resourceRepository = new ResourceRepository(ConfigHelper.GetConnectionString());
-            var resourceTypeRepository = new ResourceTypeRepository(ConfigHelper.GetConnectionString());
-            var personRepository = new PersonRepository(ConfigHelper.GetConnectionString());
-            var bookingRepository = new BookingRepository(ConfigHelper.GetConnectionString());
+            //var resourceRepository = new ResourceRepository(ConfigHelper.GetConnectionString());
+            //var resourceTypeRepository = new ResourceTypeRepository(ConfigHelper.GetConnectionString());
+            //var personRepository = new PersonRepository(ConfigHelper.GetConnectionString());
+            //var bookingRepository = new BookingRepository(ConfigHelper.GetConnectionString());
 
             BookingViewAdmin objBookingWindow = new BookingViewAdmin();
             this.Visibility = Visibility.Hidden;
-            objBookingWindow.DataContext = new BookingViewModel(bookingRepository, personRepository, resourceRepository, resourceTypeRepository);
+            objBookingWindow.DataContext = this.DataContext;
 
             if (objBookingWindow.DataContext is BookingViewModel currentViewModel)
             {
