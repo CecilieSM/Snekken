@@ -50,7 +50,7 @@
 
             <!-- List of bookings -->
             <ListView Grid.Row="4"
-              ItemsSource="{Binding FilteredBookings}"
+              ItemsSource="{Binding Bookings}"
               SelectedItem="{Binding SelectedBooking}"
               BorderThickness="1"
               BorderBrush="#DDD" Margin="0,3,0,0" Grid.ColumnSpan="2">
@@ -58,7 +58,7 @@
                     <DataTemplate>
                         <StackPanel Margin="5">
                             <TextBlock Text="Booking #" FontWeight="Bold"/>
-                            <TextBlock Text="{Binding Id}" />
+                            <TextBlock Text="{Binding BookingId}" />
                             <TextBlock Text="{Binding StartTime, StringFormat='Start: {0:dd-MM-yyyy HH:mm}'}"/>
                             <TextBlock Text="{Binding EndTime, StringFormat='Slut:  {0:dd-MM-yyyy HH:mm}'}"/>
                         </StackPanel>
@@ -94,7 +94,7 @@
                 <!-- Bookingno. (locked) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 8" >
                     <TextBlock Text="Bookingnr:" FontWeight="SemiBold" Width="100"/>
-                    <TextBox Text="{Binding SelectedBooking.Id}" IsReadOnly="True"  Width="300" Background="LightGray"/>
+                    <TextBox Text="{Binding SelectedBooking.BookingId}" IsReadOnly="True"  Width="300" Background="LightGray"/>
                 </StackPanel>
 
                 <!-- Name (dynamic) -->

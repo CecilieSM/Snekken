@@ -20,10 +20,10 @@ public class BookingViewModel : BaseViewModel
     private readonly IRepository<Resource> _resourceRepository;
     private readonly IRepository<ResourceType> _resourceTypeRepository;
 
-    public ObservableCollection<Booking> Bookings;
-    public ObservableCollection<Person> Persons;
-    public ObservableCollection<Resource> Resources;
-    public ObservableCollection<ResourceType> ResourceTypes;
+    public ObservableCollection<Booking> Bookings {get; set; }
+    public ObservableCollection<Person> Persons { get; set; }
+    public ObservableCollection<Resource> Resources { get; set; }
+    public ObservableCollection<ResourceType> ResourceTypes { get; set; }
 
     private Booking? _selectedBooking;
     public Booking? SelectedBooking
@@ -49,22 +49,32 @@ public class BookingViewModel : BaseViewModel
             if (_searchText == value) return;
             _searchText = value;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(FilteredBookings)); // <— add this
             // Optionally, implement search filtering logic here
         }
+
+
     }
 
     public ObservableCollection<Booking> FilteredBookings
     {
         get
         {
-            if (string.IsNullOrWhiteSpace(SearchText))
-                return Bookings;
-            var filtered = Bookings.Where(b => 
-                b.BookingId.ToString().Contains(SearchText, StringComparison.OrdinalIgnoreCase) // This does not search the correct fields, adjust as necessary
-                                                                                         // Add other properties to search through as needed
-            );
-            return new ObservableCollection<Booking>(filtered);
+
+            MessageService.Show("no search text");
+            return Bookings;
+            //if (string.IsNullOrWhiteSpace(SearchText))
+            //{
+            //    return Bookings;
+            //}
+
+            //var filtered = Bookings.Where(b => 
+            //    b.BookingId.ToString().Contains(SearchText, StringComparison.OrdinalIgnoreCase) // This does not search the correct fields, adjust as necessary
+            //                                                                             // Add other properties to search through as needed
+            //);
+            //return new ObservableCollection<Booking>(filtered);
         }
+        
     }
 
     #region formfields
@@ -298,7 +308,7 @@ public class BookingViewModel : BaseViewModel
         
         FormStart = b.StartTime;
         FormEnd = b.EndTime;
-        var Resource = Resources.FirstOrDefault(r => r.Id == b.BookingId);
+        var Resource = Resources.FirstOrDefault(r => r.Id == b.ResourceId);
         ResourceTitle = Resource?.Title ?? string.Empty;
         Requirements = ResourceTypes.FirstOrDefault(rt => rt.Id == Resource?.ResourceTypeId)?.Requirement ?? string.Empty;
         TotalPrice = (decimal)(Resource?.Price ?? 0);

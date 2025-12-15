@@ -34,11 +34,11 @@ namespace Snekken
             BookingViewModel bookingVm = new BookingViewModel(bookingRepository, personRepository, resourceRepository, resourceTypeRepository);
 
             this.DataContext = vm;
+            _bookingVm = bookingVm;
 
-            
 
         }
-
+        private readonly BookingViewModel _bookingVm;
 
         private void RessourcerButton_Click(object sender, RoutedEventArgs e)
         {
@@ -72,7 +72,7 @@ namespace Snekken
 
             BookingViewAdmin objBookingWindow = new BookingViewAdmin();
             this.Visibility = Visibility.Hidden;
-            objBookingWindow.DataContext = this.DataContext;
+            objBookingWindow.DataContext = _bookingVm;
 
             if (objBookingWindow.DataContext is BookingViewModel currentViewModel)
             {
