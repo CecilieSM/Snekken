@@ -101,7 +101,7 @@ public class BookingRepository : IRepository<Booking>
             command.Parameters.AddWithValue("@IsPaid", entity.IsPaid);
             command.Parameters.AddWithValue("@HandedOutAt", (object?)entity.HandedOutAt ?? DBNull.Value);
             command.Parameters.AddWithValue("@ReturnedAt", (object?)entity.ReturnedAt ?? DBNull.Value);
-            command.Parameters.AddWithValue("@BookingId", entity.Id);
+            command.Parameters.AddWithValue("@BookingId", entity.BookingId);
             connection.Open();
             command.ExecuteNonQuery();
         }

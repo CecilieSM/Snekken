@@ -298,7 +298,7 @@ public class BookingViewModel : BaseViewModel
         
         FormStart = b.StartTime;
         FormEnd = b.EndTime;
-        var Resource = Resources.FirstOrDefault(r => r.Id == b.Id);
+        var Resource = Resources.FirstOrDefault(r => r.Id == b.BookingId);
         ResourceTitle = Resource?.Title ?? string.Empty;
         Requirements = ResourceTypes.FirstOrDefault(rt => rt.Id == Resource?.ResourceTypeId)?.Requirement ?? string.Empty;
         TotalPrice = (decimal)(Resource?.Price ?? 0);

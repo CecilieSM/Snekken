@@ -82,7 +82,7 @@ public class Booking
         this.IsPaid = isPaid;
     }
 
-    public Booking(int id,int resourceId, int personId, DateTime startTime, DateTime endTime, bool requirementFulfilled = false, bool isPaid = false, DateTime? issued = null, DateTime? returned = null)
+    public Booking(int bookingId,int resourceId, int personId, DateTime startTime, DateTime endTime, bool requirementFulfilled = false, bool isPaid = false, DateTime? issued = null, DateTime? returned = null)
     {
         this.BookingId = bookingId;
         this.ResourceId = resourceId;
