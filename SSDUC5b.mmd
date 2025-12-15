@@ -1,0 +1,10 @@
+sequenceDiagram
+    actor Administrator
+    Administrator->>AdminSystem: FindResource
+    AdminSystem-->>Administrator: ResourceDetaljer
+    Administrator->>AdminSystem: SletResource
+    Alt Ingen fremtidige bookinger
+        AdminSystem-->>Administrator: BekræftSletning
+    else Fremtidige bookinger findes
+        AdminSystem-->>Administrator: FejlMeddelse("Der findes aktive bookinger")
+    end
