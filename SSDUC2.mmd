@@ -1,0 +1,9 @@
+sequenceDiagram
+    actor Lejer
+    participant System
+
+    Lejer ->> System: Vælg ressourceType, dato, start-, slutTid og ressource
+    System -->> Lejer: Formular til udfyldelse
+    Lejer ->> System: Indtaster (navn, tlf. og e-mail)
+    Lejer ->> System: GemFormular
+    System -->> Lejer: Vis bekræftelse og kvittering

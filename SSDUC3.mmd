@@ -1,0 +1,11 @@
+sequenceDiagram
+    actor Administrator
+    participant AdminSystem
+
+    Administrator ->> AdminSystem: FindBooking
+    AdminSystem -->> Administrator: BookingDetaljer
+    Administrator ->> AdminSystem: Opdaterer Detaljer (Krav, Betaling)
+    Administrator ->> AdminSystem: RegistrererUdlevering
+    AdminSystem -->> Administrator: Kvittering
+    Administrator ->> AdminSystem: RegistrererReturnering
+    AdminSystem -->> Administrator: Sletter booking og brugerdata
