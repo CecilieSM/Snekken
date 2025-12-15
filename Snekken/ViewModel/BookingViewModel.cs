@@ -60,7 +60,7 @@ public class BookingViewModel : BaseViewModel
             if (string.IsNullOrWhiteSpace(SearchText))
                 return Bookings;
             var filtered = Bookings.Where(b => 
-                b.Id.ToString().Contains(SearchText, StringComparison.OrdinalIgnoreCase) // This does not search the correct fields, adjust as necessary
+                b.BookingId.ToString().Contains(SearchText, StringComparison.OrdinalIgnoreCase) // This does not search the correct fields, adjust as necessary
                                                                                          // Add other properties to search through as needed
             );
             return new ObservableCollection<Booking>(filtered);
@@ -287,7 +287,7 @@ public class BookingViewModel : BaseViewModel
         int personId = SelectedBooking!.PersonId;
 
         if (SelectedBooking == null) return;
-        _bookingRepository.Delete(SelectedBooking.Id);
+        _bookingRepository.Delete(SelectedBooking.BookingId);
         Bookings.Remove(SelectedBooking);
 
         // delete person if no other bookings
