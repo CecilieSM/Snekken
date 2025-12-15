@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -248,7 +250,33 @@ public class BookingViewModel : BaseViewModel
 
     private void AddBooking(object? parameter)
     {
-        MessageService.Show("BookingViewModel linje 241 skal starte en kioskproces");
+        try
+        {
+            var baseDir = AppDomain.CurrentDomain.BaseDirectory;
+
+            // Go up *four* levels: bin -> net8.0-windows -> Debug -> project folder
+            var exePath = Path.GetFullPath(
+                Path.Combine(baseDir, @"..\..\..\..\RentalKiosk\bin\Debug\net8.0-windows\RentalKiosk.exe")
+            );
+
+            if (!File.Exists(exePath))
+            {
+                MessageService.Show($"Could not find kiosk exe at: {exePath}");
+                return;
+            }
+
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = exePath,
+                UseShellExecute = true
+            });
+
+        }
+        catch (Exception ex)
+        {
+            MessageService.Show($"Failed to start kiosk: {ex.Message}");
+        }
+
     }
     private void UpdateBooking(object? parameter) 
     {
@@ -285,12 +313,18 @@ public class BookingViewModel : BaseViewModel
 
     public void DeleteBooking(object? parameter = null)
     {
-        // Check if booking person has other bookings
-
-
         if (SelectedBooking == null) return;
+        Person person = Persons.FirstOrDefault(p => p.Id == SelectedBooking.PersonId)!;
         _bookingRepository.Delete(SelectedBooking.BookingId);
         Bookings.Remove(SelectedBooking);
+
+        var otherBookings = Bookings.Where(b => b.PersonId == person.Id);
+        if (!otherBookings.Any())
+        {
+            _personRepository.Delete(person.Id);
+            Persons.Remove(person);
+        }
+        clearFields();
     }
 
     public bool CanDeleteBooking()
