@@ -1,0 +1,10 @@
+sequenceDiagram
+    actor Administrator
+    Administrator->>AdminSystem: FindBooking(Id)
+    AdminSystem-->>Administrator: BookingDetaljer()
+    Alt Ret booking
+        Administrator->>AdminSystem: RetDetaljer(Id)
+    else Slet booking
+        Administrator->>AdminSystem: SletBookubg(Id)
+    end
+    AdminSystem-->>Administrator: OpdaterBookingListe()
