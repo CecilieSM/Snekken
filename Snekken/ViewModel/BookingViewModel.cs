@@ -60,7 +60,7 @@ public class BookingViewModel : BaseViewModel
             if (string.IsNullOrWhiteSpace(SearchText))
                 return Bookings;
             var filtered = Bookings.Where(b => 
-                b.Id.ToString().Contains(SearchText, StringComparison.OrdinalIgnoreCase) // This does not search the correct fields, adjust as necessary
+                b.BookingId.ToString().Contains(SearchText, StringComparison.OrdinalIgnoreCase) // This does not search the correct fields, adjust as necessary
                                                                                          // Add other properties to search through as needed
             );
             return new ObservableCollection<Booking>(filtered);
@@ -256,7 +256,7 @@ public class BookingViewModel : BaseViewModel
     public void DeleteBooking(object? parameter)
     {
         if (SelectedBooking == null) return;
-        _bookingRepository.Delete(SelectedBooking.Id);
+        _bookingRepository.Delete(SelectedBooking.BookingId);
         Bookings.Remove(SelectedBooking);
     }
 
@@ -268,13 +268,13 @@ public class BookingViewModel : BaseViewModel
 
     private void setFields(Booking _selectedBooking)
     {
-        FormName = Persons.FirstOrDefault(p => p.Id == _selectedBooking.Id)?.Name ?? string.Empty;
-        FormEmail = Persons.FirstOrDefault(p => p.Id == _selectedBooking.Id)?.Email ?? string.Empty;
-        FormPhone = Persons.FirstOrDefault(p => p.Id == _selectedBooking.Id)?.Phone ?? string.Empty;
+        FormName = Persons.FirstOrDefault(p => p.Id == _selectedBooking.BookingId)?.Name ?? string.Empty;
+        FormEmail = Persons.FirstOrDefault(p => p.Id == _selectedBooking.BookingId)?.Email ?? string.Empty;
+        FormPhone = Persons.FirstOrDefault(p => p.Id == _selectedBooking.BookingId)?.Phone ?? string.Empty;
 
         FormStart = _selectedBooking.StartTime;
         FormEnd = _selectedBooking.EndTime;
-        var Resource = Resources.FirstOrDefault(r => r.Id == _selectedBooking.Id);
+        var Resource = Resources.FirstOrDefault(r => r.Id == _selectedBooking.BookingId);
         ResourceTitle = Resource?.Title ?? string.Empty;
         Requirements = ResourceTypes.FirstOrDefault(rt => rt.Id == Resource?.ResourceTypeId)?.Requirement ?? string.Empty;
         TotalPrice = (decimal)(Resource?.Price ?? 0);
