@@ -20,9 +20,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentalKiosk", "RentalKiosk\RentalKiosk.csproj", "{E55215C9-74CC-4843-8921-F1C2438CF5C7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
-	ProjectSection(SolutionItems) = preProject
-		DomainModel.mmd = DomainModel.mmd
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SD", "SD", "{D3E6CD39-67A3-4D4F-8D61-9BA1402F1F98}"
 	ProjectSection(SolutionItems) = preProject
@@ -39,6 +36,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SSD", "SSD", "{F3D341BD-F23
 		SSDUC1.mmd = SSDUC1.mmd
 		SSDUC2.mmd = SSDUC2.mmd
 		SSDUC3.mmd = SSDUC3.mmd
+		SSDUC4.mmd = SSDUC4.mmd
+		SSDUC5a.mmd = SSDUC5a.mmd
+		SSDUC5b.mmd = SSDUC5b.mmd
+		SSDUC5c.mmd = SSDUC5c.mmd
 	EndProjectSection
 EndProject
 Global

@@ -245,6 +245,16 @@ namespace RentalKiosk.ViewModels
                 return;
             }
 
+            // check if email is valid format with regular expression
+            if (!Validator.IsValidEmail(Email))
+            {
+                MessageService.Show("Indtast venligst en gyldig email.");
+                return;
+            }
+
+
+
+
             try
             {
                 //Booking newBooking = new Booking(this.ResourceId, this.PersonId, this.StartTime, this.EndTime, this.RequirementFulfilled, this.IsPaid);
