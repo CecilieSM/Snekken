@@ -363,11 +363,17 @@ public class BookingViewModel : BaseViewModel
 
     public void RefreshBookings(object? parameter = null)
     {
+        // Opdater Persons først, så vi har de nyeste data
+        Persons = new ObservableCollection<Person>(_personRepository.GetAll());
+
+        // Hent alle bookinger fra databasen
+        var bookingsFromDb = _bookingRepository.GetAll();
+
+        // Clear eksisterende liste og fyld med opdaterede data
         Bookings.Clear();
-        var bookingsFromDb = _bookingRepository.GetAll(); // hent bookinger
         foreach (var b in bookingsFromDb)
         {
-            // find tilhørende person
+            // Find tilhørende person
             var person = Persons.FirstOrDefault(p => p.Id == b.PersonId);
             if (person != null)
             {
@@ -377,6 +383,20 @@ public class BookingViewModel : BaseViewModel
             }
 
             Bookings.Add(b);
+        }
+
+        // Hvis en booking var valgt før refresh, sørg for at den stadig er valgt
+        if (SelectedBooking != null)
+        {
+            var updatedBooking = Bookings.FirstOrDefault(b => b.BookingId == SelectedBooking.BookingId);
+            if (updatedBooking != null)
+            {
+                SelectedBooking = updatedBooking; // Kalder setFields og opdaterer formfelter
+            }
+            else
+            {
+                clearFields();
+            }
         }
     }
 
