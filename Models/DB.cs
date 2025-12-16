@@ -30,7 +30,7 @@ public class DB
     public string Migrate()
     {
         int numbRows = 0;
-        // Henter sql filen til en string
+
         string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Schema", "Schema.sql");
         string query = File.ReadAllText(path);
 
@@ -41,7 +41,26 @@ public class DB
             numbRows = command.ExecuteNonQuery();
         }
 
+
+
         return $"Migration completed: Number of affected rows: {numbRows}";
+    }
+
+    public string Triggers()
+    {
+        int numbRows = 0;
+
+        string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Schema", "trigger.sql");
+        string query = File.ReadAllText(path);
+
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            SqlCommand command = new SqlCommand(query, connection);
+            connection.Open();
+            numbRows = command.ExecuteNonQuery();
+        }
+
+        return $"Triggers added: Number of affected rows: {numbRows}";
     }
 
     public string Truncate()

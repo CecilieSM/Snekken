@@ -22,9 +22,9 @@ public class BookingRepository : IRepository<Booking>
         string query = @"
                 INSERT INTO Booking
                     (ResourceId, PersonId, StartTime, EndTime, RequirementFulfilled, IsPaid)
-                OUTPUT INSERTED.BookingId
                 VALUES
-                    (@ResourceId, @PersonId, @StartTime, @EndTime, @RequirementFulfilled, @IsPaid);";
+                    (@ResourceId, @PersonId, @StartTime, @EndTime, @RequirementFulfilled, @IsPaid);
+                SELECT CAST(SCOPE_IDENTITY() AS int);";
 
         using (SqlConnection connection = new SqlConnection(_connectionString))
         using (SqlCommand command = new SqlCommand(query, connection))

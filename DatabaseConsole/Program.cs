@@ -32,7 +32,7 @@ internal class Program
 
             switch (pressedKey)
             {
-                case '1': RunMigration(); Pause(); break;
+                case '1': RunMigration();  Pause(); break;
                 case '2': RollbackMigration(); Pause(); break;
                 case '3': SeedDatabase(); Pause(); break;
                 case '4': RollbackMigration(); RunMigration(); SeedDatabase(); Pause(); break;
@@ -50,7 +50,9 @@ internal class Program
     {
         string response = db.Migrate();
         Console.WriteLine(response);
-        
+        response = db.Triggers();
+        Console.WriteLine(response);
+
     }
 
     static void RollbackMigration()

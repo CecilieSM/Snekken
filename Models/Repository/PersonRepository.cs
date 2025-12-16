@@ -22,8 +22,8 @@ namespace Models.Repository
         {
             string query = @"
                 INSERT INTO PERSON (Name, Email, Phone)
-                OUTPUT INSERTED.PersonId
-                VALUES (@Name, @Email, @Phone);";
+                VALUES (@Name, @Email, @Phone);
+                SELECT CAST(SCOPE_IDENTITY() AS int);";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             using (SqlCommand command = new SqlCommand(query, connection))

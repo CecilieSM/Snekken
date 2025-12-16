@@ -20,9 +20,10 @@ public class ResourceTypeRepository : IRepository<ResourceType>
     public int Add(ResourceType entity)
     {
         string query = @"
-                INSERT INTO RESOURCETYPE (Title, Unit, Requirement)
-                OUTPUT INSERTED.ResourceTypeId
-                VALUES (@Title, @Unit, @Requirement);";
+            INSERT INTO RESOURCETYPE (Title, Unit, Requirement)
+            VALUES (@Title, @Unit, @Requirement);
+            SELECT CAST(SCOPE_IDENTITY() AS int);";
+
 
         using (SqlConnection connection = new SqlConnection(_connectionString))
         using (SqlCommand command = new SqlCommand(query, connection))

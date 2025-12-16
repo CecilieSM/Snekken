@@ -20,8 +20,8 @@ public class ResourceRepository : IRepository<Resource>
     {
         string query = @"
                 INSERT INTO RESOURCE (Title, Price, IsActive, Description, ResourceTypeId)
-                OUTPUT INSERTED.ResourceId
-                VALUES (@Title, @Price, @IsActive, @Description, @ResourceTypeId);";
+                VALUES (@Title, @Price, @IsActive, @Description, @ResourceTypeId);
+                SELECT CAST(SCOPE_IDENTITY() AS int);";
 
         using (SqlConnection connection = new SqlConnection(_connectionString))
         using (SqlCommand command = new SqlCommand(query, connection))

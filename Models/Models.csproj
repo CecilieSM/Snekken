@@ -22,6 +22,9 @@
     <None Update="Schema\Schema.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Schema\trigger.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Schema\Truncate.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
