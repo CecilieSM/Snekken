@@ -72,6 +72,29 @@ public class Booking
     }
 
 
+    //properties til Person, så databasen opdaterer UI'et
+    private string _personName = "";
+    public string PersonName
+    {
+        get { return _personName; }
+        set { _personName = value; }
+    }
+
+    private string _personEmail = "";
+    public string PersonEmail
+    {
+        get { return _personEmail; }
+        set { _personEmail = value; }
+    }
+
+    private string _personPhone = "";
+    public string PersonPhone
+    {
+        get { return _personPhone; }
+        set { _personPhone = value; }
+    }
+
+
     public Booking(int resourceId, int personId, DateTime startTime, DateTime endTime, bool requirementFulfilled = false, bool isPaid = false)
     {
         this.ResourceId = resourceId;
