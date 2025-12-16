@@ -150,19 +150,57 @@ namespace RentalKiosk.ViewModels
             }
         }
 
+        //_startSlot + _endSlot used in ExecuteSelectTimeSlotCommand
+        private TimeSlot? _startSlot;
+        public TimeSlot? StartSlot 
+        {
+            get => _startSlot;
+            private set 
+            {
+                _startSlot = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectedBookingHeader));
+            }
+        }
+        private TimeSlot? _endSlot;
+        public TimeSlot? EndSlot
+        {
+            get => _endSlot;
+            private set
+            {
+                _endSlot = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectedBookingHeader));
+            }
+        }
+
+
+
         public string SelectedBookingHeader
         {
             get
             {
-                if (SelectedResource == null || SelectedTimeSlots == null || SelectedTimeSlots.Count == 0)
-                    return "Valg ressource og tidspunkt";
+                if (StartSlot == null)
+                    return "Select a time range";
 
-                // Earliest and latest selected times
-                var start = SelectedTimeSlots.Min(s => s.StartTime);
-                var end = SelectedTimeSlots.Max(s => s.StartTime).AddHours(1);
+                if (EndSlot == null)
+                    return $"From {StartSlot.StartTime:HH:mm}";
 
-                return $"{SelectedResource.Title} " +
-                       $"{SelectedDate:dd.MM.yyyy} kl. {start:HH:mm}-{end:HH:mm}";
+                //var hours = SelectedTimeSlots.Count;
+                var duration = EndSlot.StartTime - StartSlot.StartTime;
+                var hours = (int)Math.Ceiling(duration.TotalHours) + 1;
+
+                return $"{StartSlot.StartTime:HH:mm} – {EndSlot.StartTime:HH:mm} ({hours} hour{(hours > 1 ? "s" : "")})";
+
+                //if (SelectedResource == null || SelectedTimeSlots == null || SelectedTimeSlots.Count == 0)
+                //    return "Valg ressource og tidspunkt";
+
+                //// Earliest and latest selected times
+                //var start = SelectedTimeSlots.Min(s => s.StartTime);
+                //var end = SelectedTimeSlots.Max(s => s.StartTime).AddHours(1);
+
+                //return $"{SelectedResource.Title} " +
+                //       $"{SelectedDate:dd.MM.yyyy} kl. {start:HH:mm}-{end:HH:mm}";
             }
         }
 
@@ -248,6 +286,8 @@ namespace RentalKiosk.ViewModels
             OnPropertyChanged(nameof(CalculatedPrice));
 
             // Valgte tider
+            StartSlot = null;
+            EndSlot = null;
             SelectedTimeSlots.Clear();
             OnPropertyChanged(nameof(SelectedTimeSlots));
             OnPropertyChanged(nameof(SelectedBookingHeader));
@@ -400,47 +440,146 @@ namespace RentalKiosk.ViewModels
         }
 
         private void PopulateTimeSlots()
+
         {
-            var random = new Random();//kan slettes efter random test
+
             if (SelectedResource == null)
+
                 return;
 
             TimeSlots.Clear();
+
             var date = SelectedDate;
 
+            var bookingsForResourceAndDate = Bookings.Where(b => b.ResourceId == SelectedResource.Id && b.StartTime.Date == date.Date).ToList();
+
+
             for (int hour = 7; hour <= 22; hour++)
+
+            {
+
+                bool availability = !bookingsForResourceAndDate.Any(b => (b.StartTime.Hour <= (hour + 1) && b.EndTime.Hour > hour));
+
                 TimeSlots.Add(new TimeSlot
                 {
+
                     ResourceId = SelectedResource.Id,
+
                     StartTime = new DateTime(date.Year, date.Month, date.Day, hour, 0, 0),
-                    //Laver random IsAvailable = falsk til test
-                    IsAvailable = random.Next(0, 5) != 0 // 20% chance of being unavailable
+
+                    IsAvailable = availability
+
                 });
-        }
 
-        public void LoadAvailableSlots(int resourceId, DateTime date)
-        {
-            AvailableTimeSlots.Clear();
-
-            foreach (var slot in TimeSlots)
-            {
-                slot.IsAvailable = slot.ResourceId == resourceId && slot.StartTime.Date == date.Date;
             }
 
-            OnPropertyChanged(nameof(TimeSlots));
         }
+
+        public void LoadAvailableSlots(int resourceId, DateTime date) // Bliver denne metode brugt til noget?
+
+        {
+
+            AvailableTimeSlots.Clear();
+
+            //foreach (var slot in TimeSlots)
+
+            //{
+
+            //    slot.IsAvailable = slot.ResourceId == resourceId && slot.StartTime.Date == date.Date;
+
+            //}
+
+            OnPropertyChanged(nameof(TimeSlots));
+
+        }
+
 
         public void ExecuteSelectTimeSlotCommand(object parameter)
         {
-            if (parameter is not TimeSlot slot)
+            if (parameter is not TimeSlot clicked)
                 return;
 
-            if (SelectedTimeSlots.Contains(slot))
-                SelectedTimeSlots.Remove(slot);
+            //No start yet
+            if (_startSlot == null) 
+            {
+                StartSlot = clicked;
+                EndSlot = null;
+                RebuildRange();
+                return;
+            }
+
+            // Start is set men ikke sluttid
+            if (_endSlot == null) 
+            {
+                EndSlot = clicked;
+                NormalizeAnchors();
+                RebuildRange();
+                return;
+            }
+
+            // Range Exists
+            if (clicked.StartTime < StartSlot.StartTime)
+            {
+                StartSlot = clicked;
+            }
+            else if (clicked.StartTime > EndSlot.StartTime)
+            {
+                EndSlot = clicked;
+            }
             else
+            {
+            var distToStart = Math.Abs((clicked.StartTime - StartSlot.StartTime).TotalMinutes);
+            var distToEnd = Math.Abs((clicked.StartTime - EndSlot.StartTime).TotalMinutes);
+
+                //Inside range -> move nearest edge
+                if (distToStart <= distToEnd)
+                    StartSlot = clicked;
+                else
+                    EndSlot = clicked;
+            }
+
+            NormalizeAnchors();
+            RebuildRange();
+
+        }
+
+        //helpermetoder til ExecuteSelectTimeSlotCommand
+        private void NormalizeAnchors() 
+        {
+            if (_startSlot == null || _endSlot == null)
+            return;
+
+            if (_startSlot.StartTime > _endSlot.StartTime)
+                (_startSlot, _endSlot) = (_endSlot, _startSlot);
+        }
+
+        private void RebuildRange() 
+        {
+            SelectedTimeSlots.Clear();
+
+            if (_startSlot == null)
+                return;
+
+            if (_endSlot == null) 
+            {
+                SelectedTimeSlots.Add(_startSlot);
+                UpdateCalculatedPrice();
+                return;
+            }
+
+            var min = _startSlot.StartTime;
+            var max = _endSlot.StartTime;
+
+            var range = TimeSlots
+                .Where(ts =>
+                    ts.IsAvailable &&
+                    ts.StartTime >= min &&
+                    ts.StartTime <= max)
+                .OrderBy(ts => ts.StartTime);
+
+            foreach (var slot in range)
                 SelectedTimeSlots.Add(slot);
 
-            OnPropertyChanged(nameof(SelectedBookingHeader));
             UpdateCalculatedPrice();
         }
 

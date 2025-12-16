@@ -29,8 +29,8 @@ namespace Models.Repository
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@Name", person.Name);
-                command.Parameters.AddWithValue("@Email", person.Phone);
-                command.Parameters.AddWithValue("@Phone", person.Email);
+                command.Parameters.AddWithValue("@Email", person.Email);
+                command.Parameters.AddWithValue("@Phone", person.Phone);
 
                 connection.Open();
                 int newId = (int)command.ExecuteScalar();
