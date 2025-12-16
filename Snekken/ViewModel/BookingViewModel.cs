@@ -223,6 +223,7 @@ public class BookingViewModel : BaseViewModel
     public ICommand AddBookingCommand { get; }
     public ICommand UpdateBookingCommand { get; }
     public ICommand DeleteBookingCommand { get; }
+    public ICommand RefreshBookingsCommand { get; }
 
     public BookingViewModel(
         IRepository<Booking> BookingRepository, 
@@ -244,6 +245,7 @@ public class BookingViewModel : BaseViewModel
         AddBookingCommand = new RelayCommand(AddBooking);
         UpdateBookingCommand = new RelayCommand(UpdateBooking, CanUpdateBooking);
         DeleteBookingCommand = new RelayCommand(DeleteBooking, CanDeleteBooking);
+        RefreshBookingsCommand = new RelayCommand(RefreshBookings);
     }
 
     #region Command methods
@@ -358,6 +360,27 @@ public class BookingViewModel : BaseViewModel
         IsCheckedOut = b.HandedOutAt.HasValue;
         IsReturned = b.ReturnedAt.HasValue;
     }
+
+    public void RefreshBookings(object? parameter = null)
+    {
+        Bookings.Clear();
+        var bookingsFromDb = _bookingRepository.GetAll(); // hent bookinger
+        foreach (var b in bookingsFromDb)
+        {
+            // find tilhørende person
+            var person = Persons.FirstOrDefault(p => p.Id == b.PersonId);
+            if (person != null)
+            {
+                b.PersonName = person.Name;
+                b.PersonEmail = person.Email;
+                b.PersonPhone = person.Phone;
+            }
+
+            Bookings.Add(b);
+        }
+    }
+
+
 
     private void clearFields()
     {
