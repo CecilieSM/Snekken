@@ -85,18 +85,28 @@
                                                         BorderThickness="0"
                                                         Cursor="Hand"
                                                         Command="{Binding DataContext.SelectDateAndResourceCommand,
-                                                                  RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                         CommandParameter="{Binding Text, ElementName=ParamText}">
-                                                    <!-- TextBlock both displays and produces the string -->
-                                                    <TextBlock x:Name="ParamText">
-                                                        <TextBlock.Text>
-                                                            <MultiBinding StringFormat="{}{0:yyyy-MM-dd}|{1}">
-                                                                <Binding Path="Tag" RelativeSource="{RelativeSource AncestorType=DockPanel}" />
-                                                                <Binding Path="Id" />
-                                                            </MultiBinding>
-                                                        </TextBlock.Text>
-                                                    </TextBlock>
+
+                                                    <Grid>
+                                                        <!-- DETTE ER DET, BRUGEREN SER I CELLEN -->
+                                                        <TextBlock Text=""
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center" />
+
+                                                        <!-- DETTE ER KUN TIL COMMANDPARAMETER (SKJULT) -->
+                                                        <TextBlock x:Name="ParamText" Visibility="Collapsed">
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="{}{0:yyyy-MM-dd}|{1}">
+                                                                    <Binding Path="Tag"
+                                                                             RelativeSource="{RelativeSource AncestorType=DockPanel}" />
+                                                                    <Binding Path="Id" />
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                    </Grid>
                                                 </Button>
+
                                             </Border>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
