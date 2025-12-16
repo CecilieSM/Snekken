@@ -17,16 +17,18 @@
             <TextBox Margin="20,0,20,10" 
                      Width="260" 
                      HorizontalAlignment="Left" 
+                     VerticalContentAlignment="Center"
                      Height="30" 
                      Text="{Binding TypeFormTitle, UpdateSourceTrigger=PropertyChanged}"/>
 
             <TextBlock Text="Enhed" Margin="20,0,0,5"/>
             <ComboBox Margin="20,0,20,10" 
-                          HorizontalAlignment="Left"
-                          Width="260"
-                          Height="30"
-                          ItemsSource="{Binding TimeUnitOptions}"
-                          SelectedItem="{Binding TypeFormUnit}"/>
+                      HorizontalAlignment="Left"
+                      VerticalContentAlignment="Center"
+                      Width="260"
+                      Height="30"
+                      ItemsSource="{Binding TimeUnitOptions}"
+                      SelectedItem="{Binding TypeFormUnit}"/>
 
             <TextBlock Text="Krav" 
                        Margin="20,0,0,5"/>

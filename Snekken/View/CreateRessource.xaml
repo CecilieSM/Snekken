@@ -17,6 +17,7 @@
             <TextBox Margin="20,0,10,10" 
                      Width="260" 
                      HorizontalAlignment="Left" 
+                     VerticalContentAlignment="Center"
                      Height="30" 
                      Text="{Binding ResourceFormTitle, UpdateSourceTrigger=PropertyChanged }"/>
             
@@ -24,7 +25,8 @@
             
             <StackPanel Orientation="Horizontal">
                 <ComboBox Margin="20,0,10,0" 
-                          HorizontalAlignment="Left" 
+                          HorizontalAlignment="Left"
+                          VerticalContentAlignment="Center"
                           Width="200" 
                           Height="30"
                           ItemsSource="{Binding ResourceTypes}"
@@ -45,6 +47,7 @@
             <TextBox Margin="20,0,10,10" 
                      Width="260" 
                      HorizontalAlignment="Left" 
+                     VerticalContentAlignment="Center"
                      Height="30" 
                      Text="{Binding ResourceFormUnitPrice}"/>
 
