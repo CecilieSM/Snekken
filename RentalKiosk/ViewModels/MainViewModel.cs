@@ -440,35 +440,59 @@ namespace RentalKiosk.ViewModels
         }
 
         private void PopulateTimeSlots()
+
         {
-            var random = new Random();//kan slettes efter random test
+
             if (SelectedResource == null)
+
                 return;
 
             TimeSlots.Clear();
+
             var date = SelectedDate;
 
+            var bookingsForResourceAndDate = Bookings.Where(b => b.ResourceId == SelectedResource.Id && b.StartTime.Date == date.Date).ToList();
+
+
             for (int hour = 7; hour <= 22; hour++)
+
+            {
+
+                bool availability = !bookingsForResourceAndDate.Any(b => (b.StartTime.Hour <= (hour + 1) && b.EndTime.Hour > hour));
+
                 TimeSlots.Add(new TimeSlot
                 {
+
                     ResourceId = SelectedResource.Id,
+
                     StartTime = new DateTime(date.Year, date.Month, date.Day, hour, 0, 0),
-                    //Laver random IsAvailable = falsk til test
-                    IsAvailable = random.Next(0, 5) != 0 // 20% chance of being unavailable
+
+                    IsAvailable = availability
+
                 });
-        }
 
-        public void LoadAvailableSlots(int resourceId, DateTime date)
-        {
-            AvailableTimeSlots.Clear();
-
-            foreach (var slot in TimeSlots)
-            {
-                slot.IsAvailable = slot.ResourceId == resourceId && slot.StartTime.Date == date.Date;
             }
 
-            OnPropertyChanged(nameof(TimeSlots));
         }
+
+        public void LoadAvailableSlots(int resourceId, DateTime date) // Bliver denne metode brugt til noget?
+
+        {
+
+            AvailableTimeSlots.Clear();
+
+            //foreach (var slot in TimeSlots)
+
+            //{
+
+            //    slot.IsAvailable = slot.ResourceId == resourceId && slot.StartTime.Date == date.Date;
+
+            //}
+
+            OnPropertyChanged(nameof(TimeSlots));
+
+        }
+
 
         public void ExecuteSelectTimeSlotCommand(object parameter)
         {
@@ -514,22 +538,9 @@ namespace RentalKiosk.ViewModels
                     EndSlot = clicked;
             }
 
-
-            //OnPropertyChanged(nameof(SelectedBookingHeader));
             NormalizeAnchors();
             RebuildRange();
 
-
-            //if (parameter is not TimeSlot slot)
-            //    return;
-
-            //if (SelectedTimeSlots.Contains(slot))
-            //    SelectedTimeSlots.Remove(slot);
-            //else
-            //    SelectedTimeSlots.Add(slot);
-
-            //OnPropertyChanged(nameof(SelectedBookingHeader));
-            //UpdateCalculatedPrice();
         }
 
         //helpermetoder til ExecuteSelectTimeSlotCommand
