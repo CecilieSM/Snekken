@@ -288,6 +288,12 @@ public class BookingViewModel : BaseViewModel
             return;
         }
 
+        //bekræftelse til udlevering
+        if (IsCheckedOut == true)
+        {
+            MessageService.Show($"{ResourceTitle} til {FormName} er udleveret.");
+        }
+
         // update selected booking and person from form fields
         if (SelectedBooking == null) return;
         Person person = Persons.FirstOrDefault(p => p.Id == SelectedBooking.PersonId)!;
