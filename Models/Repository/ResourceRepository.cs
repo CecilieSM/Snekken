@@ -57,8 +57,9 @@ public class ResourceRepository : IRepository<Resource>
                         (string)reader["Title"],
                         Convert.ToDouble(reader["Price"]),
                         (int)reader["ResourceTypeId"],
-                        (string)reader["Description"],
+                        reader["Description"] == DBNull.Value ? "": (string)reader["Description"],
                         (bool)reader["isActive"]
+
                      ));
                 }
             }
