@@ -188,7 +188,7 @@ namespace RentalKiosk.ViewModels
 
                 //var hours = SelectedTimeSlots.Count;
                 var duration = EndSlot.StartTime - StartSlot.StartTime;
-                var hours = (int)Math.Ceiling(duration.TotalHours) + 1;
+                var hours = (int)Math.Ceiling(duration.TotalHours);
 
                 return $"{StartSlot.StartTime:HH:mm} – {EndSlot.StartTime:HH:mm} ({hours} hour{(hours > 1 ? "s" : "")})";
 
@@ -584,7 +584,7 @@ namespace RentalKiosk.ViewModels
                 .Where(ts =>
                     ts.IsAvailable &&
                     ts.StartTime >= min &&
-                    ts.StartTime <= max)
+                    ts.StartTime < max)
                 .OrderBy(ts => ts.StartTime);
 
             foreach (var slot in range)
