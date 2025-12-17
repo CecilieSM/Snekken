@@ -44,17 +44,23 @@
             <!-- Search label -->
             <TextBlock Text="Søg:" FontSize="14" FontWeight="Regular" Margin="1,0,12,8" Grid.Row="2" Grid.ColumnSpan="2"/>
 
-            <!-- Search field -->
-            <TextBox Grid.Row="2" Height="20" Margin="0,30,0,8"
-             FontSize="14"
-             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="2" Grid.ColumnSpan="2"/>
+            <!-- Search field (kun én TextBox) -->
+            <TextBox Grid.Row="3"
+                     Height="20"
+                     Margin="0,0,0,8"
+                     FontSize="14"
+                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                     Grid.ColumnSpan="2"/>
 
             <!-- List of bookings -->
             <ListView Grid.Row="4"
-              ItemsSource="{Binding Bookings}"
-              SelectedItem="{Binding SelectedBooking}"
-              BorderThickness="1"
-              BorderBrush="#DDD" Margin="0,3,0,60" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                      ItemsSource="{Binding FilteredBookings}"
+                      SelectedItem="{Binding SelectedBooking}"
+                      BorderThickness="1"
+                      BorderBrush="#DDD"
+                      Margin="0,3,0,60"
+                      Grid.ColumnSpan="2"
+                      Grid.RowSpan="2">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="5">
@@ -257,7 +263,6 @@
                             Background="Salmon"
                             Command="{Binding UpdateBookingCommand}"/>
                 </Grid>
-
 
             </StackPanel>
         </Border>

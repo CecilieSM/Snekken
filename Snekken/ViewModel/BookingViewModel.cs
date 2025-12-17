@@ -51,33 +51,36 @@ public class BookingViewModel : BaseViewModel
             if (_searchText == value) return;
             _searchText = value;
             OnPropertyChanged();
-            OnPropertyChanged(nameof(FilteredBookings)); // <— add this
-            // Optionally, implement search filtering logic here
+            OnPropertyChanged(nameof(FilteredBookings)); // gør at ListView opdaterer
         }
-
-
     }
 
     public ObservableCollection<Booking> FilteredBookings
     {
         get
         {
+            // Hvis ingen søgetekst, vis alle
+            if (string.IsNullOrWhiteSpace(SearchText))
+                return Bookings;
 
-            MessageService.Show("no search text");
-            return Bookings;
-            //if (string.IsNullOrWhiteSpace(SearchText))
-            //{
-            //    return Bookings;
-            //}
+            string q = SearchText.Trim();
 
-            //var filtered = Bookings.Where(b => 
-            //    b.BookingId.ToString().Contains(SearchText, StringComparison.OrdinalIgnoreCase) // This does not search the correct fields, adjust as necessary
-            //                                                                             // Add other properties to search through as needed
-            //);
-            //return new ObservableCollection<Booking>(filtered);
+            // Filtrér på felter du faktisk har (tilpas efter jeres Booking-model)
+            var filtered = Bookings.Where(b =>
+                   b.BookingId.ToString().Contains(q, StringComparison.OrdinalIgnoreCase)
+                || b.ResourceId.ToString().Contains(q, StringComparison.OrdinalIgnoreCase)
+                || b.PersonId.ToString().Contains(q, StringComparison.OrdinalIgnoreCase)
+                // hvis I har PersonName på Booking:
+                || (!string.IsNullOrWhiteSpace(b.PersonName) && b.PersonName.Contains(q, StringComparison.OrdinalIgnoreCase))
+                // dato/klokkeslæt som tekst
+                || b.StartTime.ToString("dd-MM-yyyy HH:mm").Contains(q, StringComparison.OrdinalIgnoreCase)
+                || b.EndTime.ToString("dd-MM-yyyy HH:mm").Contains(q, StringComparison.OrdinalIgnoreCase)
+            );
+
+            return new ObservableCollection<Booking>(filtered);
         }
-        
     }
+
 
     #region formfields
     // bruger fields
