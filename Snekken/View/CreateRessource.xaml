@@ -13,7 +13,7 @@
                        FontWeight="Bold" 
                        Margin="20"/>
 
-            <TextBlock Text="Title" Margin="20,0,20,5"/>
+            <TextBlock Text="Titel" Margin="20,0,20,5"/>
             <TextBox Margin="20,0,10,10" 
                      Width="260" 
                      HorizontalAlignment="Left" 

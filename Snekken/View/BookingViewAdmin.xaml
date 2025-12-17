@@ -150,13 +150,13 @@
 
                 <!-- Booking start (dynamic) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
-                    <TextBlock Text="Bookingstart:" FontWeight="SemiBold" Width="100"/>
+                    <TextBlock Text="Starttid:" FontWeight="SemiBold" Width="100"/>
                     <TextBox Text="{Binding FormStart, StringFormat='{}{0:dd-MM-yyyy HH:mm}'}" Width="300"/>
                 </StackPanel>
 
                 <!-- Booking end (dynamic) -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
-                    <TextBlock Text="Bookingslut:" FontWeight="SemiBold" Width="100"/>
+                    <TextBlock Text="Sluttid:" FontWeight="SemiBold" Width="100"/>
                     <TextBox Text="{Binding FormEnd, StringFormat='{}{0:dd-MM-yyyy HH:mm}'}" Width="300"/>
                 </StackPanel>
 

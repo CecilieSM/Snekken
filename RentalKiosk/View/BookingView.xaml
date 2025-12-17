@@ -15,7 +15,7 @@
 
             <!-- Ressourcetype -->
             <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-                <TextBlock Text="Vælg ressource type:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBlock Text="Vælg ressourcetype:" VerticalAlignment="Center" Margin="0,0,10,0"/>
                 <ComboBox Width="200" Height="30"
                           ItemsSource="{Binding ResourceTypes}"
                           DisplayMemberPath="Title"
