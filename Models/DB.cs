@@ -86,9 +86,9 @@ public class DB
         _resourceRepository.Add(new Resource("Jolle", 400.00, 1, "SS1 16 fod"));
         _personRepository.Add(new Person("Claus Hansen", "claus@hotmil.com"));
         _personRepository.Add(new Person("Dorte Jensen", "dorte@gmail.com"));
-        _bookingRepository.Add(new Booking(1, 1, DateTime.Now.AddDays(1), DateTime.Now.AddDays(1).AddHours(2)));
-        _bookingRepository.Add(new Booking(2, 2, DateTime.Now.AddDays(3), DateTime.Now.AddDays(3).AddHours(5)));
-        _bookingRepository.Add(new Booking(3, 1, DateTime.Now.AddDays(6), DateTime.Now.AddDays(6).AddHours(1)));
+        _bookingRepository.Add(new Booking(1, 1, DateTime.Now.AddDays(1), DateTime.Now.AddDays(1).AddHours(2), 400));
+        _bookingRepository.Add(new Booking(2, 2, DateTime.Now.AddDays(3), DateTime.Now.AddDays(3).AddHours(5), 800));
+        _bookingRepository.Add(new Booking(3, 1, DateTime.Now.AddDays(6), DateTime.Now.AddDays(6).AddHours(1), 1000));
 
         return $"Seeding completed";
     }

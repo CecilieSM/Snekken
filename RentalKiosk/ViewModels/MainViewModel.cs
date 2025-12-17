@@ -229,8 +229,10 @@ namespace RentalKiosk.ViewModels
             _resourceRepository = resourceRepository;
             _personRepository = personRepository;
 
+
             try
             {
+                //Bookings.Clear();
                 Bookings = new ObservableCollection<Booking>(_bookingRepository.GetAll());
             }
             catch (Exception)
@@ -272,6 +274,7 @@ namespace RentalKiosk.ViewModels
             CurrentWeekStart = today.AddDays(-diff);
         }
 
+
         // Clear All logik - nulstiller hele kiosken
         private void ExecuteClearAll()
         {
@@ -312,6 +315,8 @@ namespace RentalKiosk.ViewModels
             OnPropertyChanged(nameof(SelectedResourceType));
         }
 
+        
+
         public void ExecuteAddBooking(object parameter)
         {
             if (SelectedResource == null || SelectedTimeSlots == null || SelectedTimeSlots.Count == 0)
@@ -341,16 +346,22 @@ namespace RentalKiosk.ViewModels
                 DateTime start = SelectedTimeSlots.Min(s => s.StartTime);
                 DateTime end = SelectedTimeSlots.Max(s => s.StartTime).AddHours(1); // assuming 1-hour slots
 
+                decimal price = (decimal)CalculatedPrice;
+
                 Booking newBooking = new Booking(
                         resourceId: SelectedResource.Id,
                         personId: personId,
                         startTime: start,
                         endTime: end,
+                        totalPrice: price,
                         requirementFulfilled: false,
                         isPaid: false
                     );
 
+
                 int newId = _bookingRepository.Add(newBooking);
+
+                Bookings.Add(newBooking);
 
                 MessageService.Show($"Booking #{newId} til {Name} oprettet!");
 

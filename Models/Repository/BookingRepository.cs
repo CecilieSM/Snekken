@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
+using WPFLib.Services;
 
 namespace Models.Repository;
 
@@ -21,9 +22,9 @@ public class BookingRepository : IRepository<Booking>
     {
         string query = @"
                 INSERT INTO Booking
-                    (ResourceId, PersonId, StartTime, EndTime, RequirementFulfilled, IsPaid)
+                    (ResourceId, PersonId, StartTime, EndTime, TotalPrice, RequirementFulfilled, IsPaid)
                 VALUES
-                    (@ResourceId, @PersonId, @StartTime, @EndTime, @RequirementFulfilled, @IsPaid);
+                    (@ResourceId, @PersonId, @StartTime, @EndTime, @TotalPrice, @RequirementFulfilled, @IsPaid);
                 SELECT CAST(SCOPE_IDENTITY() AS int);";
 
         using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -33,6 +34,7 @@ public class BookingRepository : IRepository<Booking>
             command.Parameters.AddWithValue("@PersonId", entity.PersonId);
             command.Parameters.AddWithValue("@StartTime", entity.StartTime);
             command.Parameters.AddWithValue("@EndTime", entity.EndTime);
+            command.Parameters.AddWithValue("@TotalPrice", entity.TotalPrice);
             command.Parameters.AddWithValue("@RequirementFulfilled", entity.RequirementFulfilled);
             command.Parameters.AddWithValue("@IsPaid", entity.IsPaid);
 
@@ -62,6 +64,7 @@ public class BookingRepository : IRepository<Booking>
                     (int)reader["PersonId"],
                     (DateTime)reader["StartTime"],
                     (DateTime)reader["EndTime"],
+                    (decimal)reader["TotalPrice"],
                     (bool)reader["RequirementFulfilled"],
                     (bool)reader["IsPaid"],
                     reader["HandedOutAt"] == DBNull.Value ? (DateTime?)null : (DateTime)reader["HandedOutAt"],
@@ -87,6 +90,7 @@ public class BookingRepository : IRepository<Booking>
             SET 
                 StartTime = @StartTime,
                 EndTime = @EndTime,
+                TotalPrice = @TotalPrice,
                 RequirementFulfilled = @RequirementFulfilled,
                 IsPaid = @IsPaid,
                 HandedOutAt = @HandedOutAt,
@@ -97,6 +101,7 @@ public class BookingRepository : IRepository<Booking>
         {
             command.Parameters.AddWithValue("@StartTime", entity.StartTime);
             command.Parameters.AddWithValue("@EndTime", entity.EndTime);
+            command.Parameters.AddWithValue("@TotalPrice", entity.TotalPrice);
             command.Parameters.AddWithValue("@RequirementFulfilled", entity.RequirementFulfilled);
             command.Parameters.AddWithValue("@IsPaid", entity.IsPaid);
             command.Parameters.AddWithValue("@HandedOutAt", (object?)entity.HandedOutAt ?? DBNull.Value);
