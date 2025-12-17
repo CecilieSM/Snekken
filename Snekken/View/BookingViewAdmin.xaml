@@ -60,8 +60,11 @@
                         <StackPanel Margin="5">
                             <TextBlock Text="Booking #" FontWeight="Bold"/>
                             <TextBlock Text="{Binding BookingId}" />
-                            <TextBlock Text="{Binding StartTime, StringFormat='Start: {0:dd-MM-yyyy HH:mm}'}"/>
-                            <TextBlock Text="{Binding EndTime, StringFormat='Slut:  {0:dd-MM-yyyy HH:mm}'}"/>
+                            <TextBlock>
+                                <Run Text="{Binding StartTime}"/>
+                                <Run Text="  →  "/>
+                                <Run Text="{Binding EndTime}"/>
+                            </TextBlock>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
