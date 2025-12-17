@@ -27,6 +27,7 @@ CREATE TABLE BOOKING (
 	BookingId int IDENTITY(1,1) PRIMARY KEY,
 	StartTime datetime2 NOT NULL,
 	EndTime datetime2 NOT NULL,
+	TotalPrice decimal NOT NULL,
 	RequirementFulfilled bit NOT NULL DEFAULT 0,
 	IsPaid bit NOT NULL DEFAULT 0,
 	HandedOutAt datetime2,

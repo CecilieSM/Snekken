@@ -71,6 +71,12 @@ public class Booking
         set { _personId = value; }
     }
 
+    private decimal _totalPrice;
+    public decimal TotalPrice
+    {
+        get { return _totalPrice; }
+        set { _totalPrice = value; }
+    }
 
     //properties til Person, så databasen opdaterer UI'et
     private string _personName = "";
@@ -95,23 +101,25 @@ public class Booking
     }
 
 
-    public Booking(int resourceId, int personId, DateTime startTime, DateTime endTime, bool requirementFulfilled = false, bool isPaid = false)
+    public Booking(int resourceId, int personId, DateTime startTime, DateTime endTime, decimal totalPrice, bool requirementFulfilled = false, bool isPaid = false)
     {
         this.ResourceId = resourceId;
         this.PersonId = personId;
         this.StartTime = startTime;
         this.EndTime = endTime;
+        this.TotalPrice = totalPrice;
         this.RequirementFulfilled = requirementFulfilled;
         this.IsPaid = isPaid;
     }
 
-    public Booking(int bookingId,int resourceId, int personId, DateTime startTime, DateTime endTime, bool requirementFulfilled = false, bool isPaid = false, DateTime? issued = null, DateTime? returned = null)
+    public Booking(int bookingId,int resourceId, int personId, DateTime startTime, DateTime endTime, decimal totalPrice, bool requirementFulfilled = false, bool isPaid = false, DateTime? issued = null, DateTime? returned = null)
     {
         this.BookingId = bookingId;
         this.ResourceId = resourceId;
         this.PersonId = personId;
         this.StartTime = startTime;
         this.EndTime = endTime;
+        this.TotalPrice = totalPrice;
         this.RequirementFulfilled = requirementFulfilled;
         this.IsPaid = isPaid;
         this.HandedOutAt = issued;
