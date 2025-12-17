@@ -232,7 +232,6 @@ namespace RentalKiosk.ViewModels
 
             try
             {
-                //Bookings.Clear();
                 Bookings = new ObservableCollection<Booking>(_bookingRepository.GetAll());
             }
             catch (Exception)
