@@ -32,6 +32,8 @@ namespace RentalKiosk.ViewModels
         public ObservableCollection<TimeSlot> AvailableTimeSlots { get; } = new ObservableCollection<TimeSlot>();
         public ObservableCollection<TimeSlot> SelectedTimeSlots { get; } = new ObservableCollection<TimeSlot>();
 
+        #region formields
+
         private DateTime _currentWeekStart;
         public DateTime CurrentWeekStart
         {
@@ -174,7 +176,7 @@ namespace RentalKiosk.ViewModels
             }
         }
 
-
+        #endregion
 
         public string SelectedBookingHeader
         {
@@ -186,33 +188,14 @@ namespace RentalKiosk.ViewModels
                 if (EndSlot == null)
                     return $"Fra {StartSlot.StartTime:HH:mm}";
 
-                //var hours = SelectedTimeSlots.Count;
                 var duration = EndSlot.StartTime - StartSlot.StartTime;
                 var hours = (int)Math.Ceiling(duration.TotalHours);
 
                 return $"Ressource: {SelectedResource.Title}\nDato: {SelectedDate.Day}/{SelectedDate.Month}/{SelectedDate.Year}\n{StartSlot.StartTime:HH:mm} – {EndSlot.StartTime:HH:mm} ({hours} time{(hours > 1 ? "r" : "")})";
 
-                //if (SelectedResource == null || SelectedTimeSlots == null || SelectedTimeSlots.Count == 0)
-                //    return "Valg ressource og tidspunkt";
-
-                //// Earliest and latest selected times
-                //var start = SelectedTimeSlots.Min(s => s.StartTime);
-                //var end = SelectedTimeSlots.Max(s => s.StartTime).AddHours(1);
-
-                //return $"{SelectedResource.Title} " +
-                //       $"{SelectedDate:dd.MM.yyyy} kl. {start:HH:mm}-{end:HH:mm}";
             }
         }
 
-        public DateTime? BookingStart =>
-            SelectedTimeSlots.Any()
-                ? SelectedTimeSlots.Min(s => s.StartTime)
-                : null;
-
-        public DateTime? BookingEnd =>
-            SelectedTimeSlots.Any()
-                ? SelectedTimeSlots.Max(s => s.StartTime).AddHours(1)
-                : null;
 
         public ICommand AddBookingCommand { get; }
         public ICommand AddPersonCommand { get; }
@@ -485,22 +468,13 @@ namespace RentalKiosk.ViewModels
 
         }
 
-        public void LoadAvailableSlots(int resourceId, DateTime date) // Bliver denne metode brugt til noget?
+        public void LoadAvailableSlots(int resourceId, DateTime date) 
 
         {
 
             AvailableTimeSlots.Clear();
 
-            //foreach (var slot in TimeSlots)
-
-            //{
-
-            //    slot.IsAvailable = slot.ResourceId == resourceId && slot.StartTime.Date == date.Date;
-
-            //}
-
             OnPropertyChanged(nameof(TimeSlots));
-
         }
 
 
