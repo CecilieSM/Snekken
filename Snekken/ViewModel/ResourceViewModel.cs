@@ -58,9 +58,9 @@ public class ResourceViewModel : BaseViewModel
     private string _typeFormTitle;
     public string TypeFormTitle { get => _typeFormTitle; set { _typeFormTitle = value; OnPropertyChanged(); } }
 
-    private TimeUnit _typeFormUnit; //_typeFormUnit = privat felt, der indeholder værdien.
+    private TimeUnit _typeFormUnit; 
 
-    public TimeUnit TypeFormUnit //TypeFormUnit er den offentlige property (med get/set og OnPropertyChanged)
+    public TimeUnit TypeFormUnit
     {
         get => _typeFormUnit;
         set
@@ -69,8 +69,6 @@ public class ResourceViewModel : BaseViewModel
             OnPropertyChanged();
         }
     }
-
-    public Array TimeUnitOptions => Enum.GetValues(typeof(TimeUnit));
 
     private string? _typeFormRequirement;
     public string? TypeFormRequirement { get => _typeFormRequirement; set { _typeFormRequirement = value; OnPropertyChanged(); } }
@@ -87,23 +85,13 @@ public class ResourceViewModel : BaseViewModel
         }
     }
   
-    //ObservableCollection Resource
-    public ObservableCollection<Resource> Resources { get; set; }
-
-    //ObservableCollection ResourceType
     public ObservableCollection<ResourceType> ResourceTypes { get; set; }
 
     //Relaycommands Ressource
     public ICommand AddResourceCommand { get; }
-    public ICommand UpdateResourceCommand { get; }
-    public ICommand DeleteResourceCommand { get; }
-    public ICommand DeselectResourceCommand { get; }
 
     //Relaycommands ResourceType
     public ICommand AddResourceTypeCommand { get; }
-    public ICommand UpdateResourceTypeCommand { get; }
-    public ICommand DeleteResourceTypeCommand { get; }
-    public ICommand DeselectResourceTypeCommand { get; }
 
     //CONSTRUCTOR
     public ResourceViewModel(IRepository<Resource> resourceRepository, IRepository<ResourceType> resourceTypeRepository)
@@ -135,14 +123,11 @@ public class ResourceViewModel : BaseViewModel
             int newId = _resourceRepository.Add(newResource);
             ClearResourceForm();
             CloseWindowRequested("AddResource");
-            //RequestClose?.Invoke(this, "AddResource");
         }
         catch (Exception)
         {
             MessageService.Show("Der opstod en fejl ved oprettelse af ressource? Måske findes der allerede en ressource med samme navn.");
         }
-        //newResource.ResourceId = newId;
-        //Resources.Add(newResource);
         
     }
 
@@ -152,12 +137,8 @@ public class ResourceViewModel : BaseViewModel
         if (string.IsNullOrWhiteSpace(ResourceFormTitle))
             return false;
 
-        if (ResourceFormType == null) // enum eller objekt
+        if (ResourceFormType == null)
             return false;
-
-
-        //if (ResourceFormUnitPrice < 0)
-        //    return false;
 
         // Hvis alle checks er OK
         return true;
@@ -173,7 +154,6 @@ public class ResourceViewModel : BaseViewModel
             newResourceType.Id = newId;
             this.ResourceTypes.Add(newResourceType);
             CloseWindowRequested("AddResourceType");
-            //this.RequestClose?.Invoke(this, "AddResourceType");
         }
         catch (Exception)
         {
@@ -187,17 +167,12 @@ public class ResourceViewModel : BaseViewModel
         if (string.IsNullOrWhiteSpace(TypeFormTitle))
             return false;
 
-        //    if (TypeFormUnit == TimeUnit.None)
-        //        return false;
-
-
         //    // Hvis alle checks er OK
         return true;
     }
 
     private void ClearResourceForm()
     {
-        // Ryd Resource-form
         ResourceFormTitle = string.Empty;
         ResourceFormType = null;
         ResourceFormUnitPrice = 0;
@@ -208,7 +183,6 @@ public class ResourceViewModel : BaseViewModel
 
     private void ClearResourceTypeForm()
     {
-        // Ryd ResourceType-form
         TypeFormTitle = string.Empty;
         TypeFormUnit = TimeUnit.None;
         TypeFormRequirement = string.Empty;
