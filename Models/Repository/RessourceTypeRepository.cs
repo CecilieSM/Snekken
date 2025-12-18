@@ -16,7 +16,6 @@ public class ResourceTypeRepository : IRepository<ResourceType>
         _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
     }
 
-    // CREATE - Opret ResourceType)
     public int Add(ResourceType entity)
     {
         string query = @"
@@ -39,7 +38,6 @@ public class ResourceTypeRepository : IRepository<ResourceType>
         }
     }
 
-    // READ ALL - bygges senere
     public IEnumerable<ResourceType> GetAll()
     {
         var resourceTypes = new List<ResourceType>();
@@ -65,19 +63,16 @@ public class ResourceTypeRepository : IRepository<ResourceType>
         return resourceTypes;
     }
 
-    // READ BY ID - bygges senere
     public ResourceType GetById(int id)
     {
         throw new NotImplementedException();
     }
 
-    // UPDATE - bygges senere
     public void Update(ResourceType entity)
     {
         throw new NotImplementedException();
     }
 
-    // DELETE - bygges senere
     public void Delete(int id)
     {
         throw new NotImplementedException();
