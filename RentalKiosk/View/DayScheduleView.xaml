@@ -32,29 +32,9 @@
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <!-- fixed time column -->
-                    <!--<ColumnDefinition Width="*"/>-->
+
                     <!-- container for dynamic resource columns -->
                 </Grid.ColumnDefinitions>
-
-                <!-- LEFT: FIXED TIME COLUMN -->
-                <!--<ItemsControl Grid.Column="0"
-                  ItemsSource="{Binding TimeSlots}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderBrush="Gray" BorderThickness="0,0,0,1" Padding="4,2">
-                                <TextBlock Text="{Binding StartTime, StringFormat=HH\\:mm}"/>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>-->
-
 
                 <!-- RIGHT: RESOURCE COLUMNS (DYNAMIC) -->
                 <ItemsControl Grid.Column="1"
