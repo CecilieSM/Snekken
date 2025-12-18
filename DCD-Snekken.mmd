@@ -1,0 +1,125 @@
+classDiagram
+    TimeUnit -- ResourceType
+    ResourceType "1" -- "1..*" Resource
+    Resource "1" -- "0..*" Booking
+    Booking "1" -- "1..*" Person
+
+    Person -- PersonRepository
+    Booking -- BookingRepository
+    ResourceType -- ResourceTypeRepository
+    Resource -- ResourceRepository
+
+    BookingViewModel -- PersonRepository
+    BookingViewModel -- BookingRepository
+    BookingViewModel -- ResourceRepository
+    BookingViewModel -- ResourceTypeRepository
+
+    ResourceViewModel -- ResourceRepository
+    ResourceViewModel -- ResourceTypeRepository
+
+    PersonRepository --|> IRepository
+    BookingRepository --|> IRepository
+    ResourceRepository --|> IRepository
+    ResourceTypeRepository --|> IRepository
+    
+    class TimeUnit{
+      +None
+      +Day
+      +Hour
+    }
+    class ResourceType{
+      +Id: Int
+      +Title: String
+      +Unit: TimeUnit
+      +Requiremen: String
+    }
+    class Resource{
+      +Id: Int
+      +Title: String
+      +Price: Double
+      +Description: String
+      IsActive: Bool
+    }
+    class Booking{
+      +Id: Int
+      +StartTime: DateTime
+      +EndTime: DateTime
+      +RequirementFullfilled: Bool
+      +IsPaid: Bool
+      HandedOutAt: DateTime?
+      ReturnedAt: DateTime?
+    }
+    class Person{
+      +Id: int
+      +Name: String
+      +Email: String
+      +Phone: int
+    }
+
+class IRepository
+<<interface>> IRepository
+IRepository: +Add()
+IRepository: +GetAll()
+IRepository: +GetById()
+IRepository: +Update()
+IRepository: +Delete()
+
+class PersonRepository{
+
+}
+
+class BookingRepository{
+
+}
+
+class ResourceRepository{
+
+}
+
+class ResourceTypeRepository{
+
+}
+
+
+class BookingViewModel{
+    +Bookings: List
+    +Persons: List
+    +Resources: List
+    +ResourceTypes: List
+    +SelectedBooking: Booking
+    +SerchText: String
+    +FormName: String
+    +FormEmail: String
+    +FormPhone: String
+    +FormStart: DateTime
+    +FormEnd: DateTime
+    +FormIsPaid: Bool
+    +FormRequirementsFullfilled: Bool
+    +FormIsCheckedOut: Bool
+    +FormIsReturned: Bool
+    +AddBooking()
+    +UpdateBooking()
+    +DeleteBooking()
+    +RefreshBookings()
+    -SetFields()
+    -ClearForm()
+}
+
+class ResourceViewModel{
+    +ResourceFormTitle: String
+    +ResourceFormType: ResourceType
+    +ResourceFormUnitPrice: Double
+    +ResourceFormDescription: String
+    +TypeFormTitle: String
+    +TypeFormUnit: TimeUnit
+    +TypeFormRequirement: String
+    +SelectedResourceType: ResourceType
+    +AddResource()
+    +UpdateResource()
+    +DeleteResource()
+    +AddResourceType()
+    +UpdateResourceType()
+    +DeleteResourceType()
+    -ClearResourceForm()
+    -ClearResourceTypeForm()
+}
