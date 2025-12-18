@@ -181,16 +181,16 @@ namespace RentalKiosk.ViewModels
             get
             {
                 if (StartSlot == null)
-                    return "Select a time range";
+                    return "Vælg en starttid";
 
                 if (EndSlot == null)
-                    return $"From {StartSlot.StartTime:HH:mm}";
+                    return $"Fra {StartSlot.StartTime:HH:mm}";
 
                 //var hours = SelectedTimeSlots.Count;
                 var duration = EndSlot.StartTime - StartSlot.StartTime;
                 var hours = (int)Math.Ceiling(duration.TotalHours);
 
-                return $"Resource: {SelectedResource.Title}\nDato: {SelectedDate.Day}/{SelectedDate.Month}/{SelectedDate.Year}\n{StartSlot.StartTime:HH:mm} – {EndSlot.StartTime:HH:mm} ({hours} time{(hours > 1 ? "r" : "")})";
+                return $"Ressource: {SelectedResource.Title}\nDato: {SelectedDate.Day}/{SelectedDate.Month}/{SelectedDate.Year}\n{StartSlot.StartTime:HH:mm} – {EndSlot.StartTime:HH:mm} ({hours} time{(hours > 1 ? "r" : "")})";
 
                 //if (SelectedResource == null || SelectedTimeSlots == null || SelectedTimeSlots.Count == 0)
                 //    return "Valg ressource og tidspunkt";
