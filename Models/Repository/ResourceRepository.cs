@@ -15,7 +15,6 @@ public class ResourceRepository : IRepository<Resource>
         _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
     }
 
-    // CREATE "Opret ressource"
     public int Add(Resource entity)
     {
         string query = @"
@@ -38,7 +37,6 @@ public class ResourceRepository : IRepository<Resource>
         }
     }
 
-    // bygges senere
     public IEnumerable<Resource> GetAll()
     {
         var resource = new List<Resource>();
@@ -67,19 +65,16 @@ public class ResourceRepository : IRepository<Resource>
         return resource;
     }
 
-    // bygges senere
     public Resource GetById(int id)
     {
         throw new NotImplementedException();
     }
 
-    // bygges senere
     public void Update(Resource entity)
     {
         throw new NotImplementedException();
     }
 
-    // bygges senere
     public void Delete(int id)
     {
         throw new NotImplementedException();
