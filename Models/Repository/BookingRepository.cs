@@ -17,7 +17,6 @@ public class BookingRepository : IRepository<Booking>
 
     }
 
-    // CREATE - Opret booking
     public int Add(Booking entity)
     {
         string query = @"
@@ -44,7 +43,6 @@ public class BookingRepository : IRepository<Booking>
         }
     }
 
-    // READ ALL - bygges senere
     public IEnumerable<Booking> GetAll()
     {
         List<Booking> booking = new List<Booking>();
@@ -76,13 +74,11 @@ public class BookingRepository : IRepository<Booking>
         return booking;
     }
 
-    // READ BY ID - bygges senere
     public Booking GetById(int id)
     {
         throw new NotImplementedException();
     }
 
-    // UPDATE - bygges senere
     public void Update(Booking entity)
     {
         string query = @"
@@ -112,7 +108,6 @@ public class BookingRepository : IRepository<Booking>
         }
     }
 
-    // DELETE - bygges senere
     public void Delete(int id)
     {
         string query = "DELETE FROM Booking WHERE BookingId = @BookingId;";
