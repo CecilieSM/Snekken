@@ -44,7 +44,7 @@
             <!-- Search label -->
             <TextBlock Text="Søg:" FontSize="14" FontWeight="Regular" Margin="1,0,12,8" Grid.Row="2" Grid.ColumnSpan="2"/>
 
-            <!-- Search field (kun én TextBox) -->
+            <!-- Search field -->
             <TextBox Grid.Row="3"
                      Height="20"
                      Margin="0,0,0,8"
@@ -118,7 +118,7 @@
                 Background="White" Grid.ColumnSpan="2">
             <StackPanel>
 
-                <!-- Bookingno. (locked) -->
+                <!-- Bookingno. -->
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 8" >
                     <TextBlock Text="Bookingnr:" FontWeight="SemiBold" Width="100"/>
                     <TextBox Text="{Binding SelectedBooking.BookingId}" IsReadOnly="True"  Width="300" Background="LightGray"/>
