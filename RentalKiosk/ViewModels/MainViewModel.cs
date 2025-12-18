@@ -186,12 +186,12 @@ namespace RentalKiosk.ViewModels
                     return "Vælg en starttid";
 
                 if (EndSlot == null)
-                    return $"Fra {StartSlot.StartTime:HH:mm}";
+                    return $"Fra {StartSlot.Time:HH:mm}";
 
-                var duration = EndSlot.StartTime - StartSlot.StartTime;
+                var duration = EndSlot.Time - StartSlot.Time;
                 var hours = (int)Math.Ceiling(duration.TotalHours);
 
-                return $"Ressource: {SelectedResource.Title}\nDato: {SelectedDate.Day}/{SelectedDate.Month}/{SelectedDate.Year}\n{StartSlot.StartTime:HH:mm} – {EndSlot.StartTime:HH:mm} ({hours} time{(hours > 1 ? "r" : "")})";
+                return $"Ressource: {SelectedResource.Title}\nDato: {SelectedDate.Day}/{SelectedDate.Month}/{SelectedDate.Year}\n{StartSlot.Time:HH:mm} – {EndSlot.Time:HH:mm} ({hours} time{(hours > 1 ? "r" : "")})";
 
             }
         }
@@ -325,8 +325,8 @@ namespace RentalKiosk.ViewModels
                 Person person = new Person(Name, Email, Phone);
                 int personId = _personRepository.Add(person);
 
-                DateTime start = SelectedTimeSlots.Min(s => s.StartTime);
-                DateTime end = SelectedTimeSlots.Max(s => s.StartTime).AddHours(1); // assuming 1-hour slots
+                DateTime start = SelectedTimeSlots.Min(s => s.Time);
+                DateTime end = SelectedTimeSlots.Max(s => s.Time).AddHours(1); // assuming 1-hour slots
 
                 decimal price = (decimal)CalculatedPrice;
 
@@ -458,7 +458,7 @@ namespace RentalKiosk.ViewModels
 
                     ResourceId = SelectedResource.Id,
 
-                    StartTime = new DateTime(date.Year, date.Month, date.Day, hour, 0, 0),
+                    Time = new DateTime(date.Year, date.Month, date.Day, hour, 0, 0),
 
                     IsAvailable = availability
 
@@ -502,18 +502,18 @@ namespace RentalKiosk.ViewModels
             }
 
             // Range Exists
-            if (clicked.StartTime < StartSlot.StartTime)
+            if (clicked.Time < StartSlot.Time)
             {
                 StartSlot = clicked;
             }
-            else if (clicked.StartTime > EndSlot.StartTime)
+            else if (clicked.Time > EndSlot.Time)
             {
                 EndSlot = clicked;
             }
             else
             {
-            var distToStart = Math.Abs((clicked.StartTime - StartSlot.StartTime).TotalMinutes);
-            var distToEnd = Math.Abs((clicked.StartTime - EndSlot.StartTime).TotalMinutes);
+            var distToStart = Math.Abs((clicked.Time - StartSlot.Time).TotalMinutes);
+            var distToEnd = Math.Abs((clicked.Time - EndSlot.Time).TotalMinutes);
 
                 //Inside range -> move nearest edge
                 if (distToStart <= distToEnd)
@@ -533,7 +533,7 @@ namespace RentalKiosk.ViewModels
             if (_startSlot == null || _endSlot == null)
             return;
 
-            if (_startSlot.StartTime > _endSlot.StartTime)
+            if (_startSlot.Time > _endSlot.Time)
                 (_startSlot, _endSlot) = (_endSlot, _startSlot);
         }
 
@@ -551,15 +551,15 @@ namespace RentalKiosk.ViewModels
                 return;
             }
 
-            var min = _startSlot.StartTime;
-            var max = _endSlot.StartTime;
+            var min = _startSlot.Time;
+            var max = _endSlot.Time;
 
             var range = TimeSlots
                 .Where(ts =>
                     ts.IsAvailable &&
-                    ts.StartTime >= min &&
-                    ts.StartTime < max)
-                .OrderBy(ts => ts.StartTime);
+                    ts.Time >= min &&
+                    ts.Time < max)
+                .OrderBy(ts => ts.Time);
 
             foreach (var slot in range)
                 SelectedTimeSlots.Add(slot);

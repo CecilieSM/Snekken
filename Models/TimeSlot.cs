@@ -13,7 +13,7 @@ namespace Models
     {
         public int ResourceId { get; set; }
 
-        public DateTime StartTime { get; set; }
+        public DateTime Time { get; set; }
 
         public bool IsAvailable { get; set; } = true;
 
