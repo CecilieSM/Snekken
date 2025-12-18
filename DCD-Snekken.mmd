@@ -13,9 +13,11 @@ classDiagram
     BookingViewModel -- BookingRepository
     BookingViewModel -- ResourceRepository
     BookingViewModel -- ResourceTypeRepository
+    BookingViewModel --|> WPFLib
 
     ResourceViewModel -- ResourceRepository
     ResourceViewModel -- ResourceTypeRepository
+    ResourceViewModel --|> WPFLib
 
     PersonRepository --|> IRepository
     BookingRepository --|> IRepository
@@ -122,4 +124,12 @@ class ResourceViewModel{
     +DeleteResourceType()
     -ClearResourceForm()
     -ClearResourceTypeForm()
+}
+
+class WPFLib{
+    +MessageService()
+    +Validator()
+    +RelayCommand()
+    +RequestWindowClose()
+    +OnPropertyChanged()
 }
