@@ -65,12 +65,12 @@ public class BookingViewModel : BaseViewModel
 
             string q = SearchText.Trim();
 
-            // Filtrér på felter du faktisk har (tilpas efter jeres Booking-model)
+            // Filtrér på felter vi faktisk har 
             var filtered = Bookings.Where(b =>
                    b.BookingId.ToString().Contains(q, StringComparison.OrdinalIgnoreCase)
                 || b.ResourceId.ToString().Contains(q, StringComparison.OrdinalIgnoreCase)
                 || b.PersonId.ToString().Contains(q, StringComparison.OrdinalIgnoreCase)
-                // hvis I har PersonName på Booking:
+                // hvis vi har PersonName på Booking:
                 || (!string.IsNullOrWhiteSpace(b.PersonName) && b.PersonName.Contains(q, StringComparison.OrdinalIgnoreCase))
                 // dato/klokkeslæt som tekst
                 || b.StartTime.ToString("dd-MM-yyyy HH:mm").Contains(q, StringComparison.OrdinalIgnoreCase)
