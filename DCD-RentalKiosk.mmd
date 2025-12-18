@@ -1,0 +1,105 @@
+classDiagram
+    TimeUnit -- ResourceType
+    ResourceType "1" -- "1..*" Resource
+    Resource "1" -- "0..*" Booking
+    Booking "1" -- "1..*" Person
+
+    Person -- PersonRepository
+    Booking -- BookingRepository
+    ResourceType -- ResourceTypeRepository
+    Resource -- ResourceRepository
+
+    PersonRepository --|> IRepository
+    BookingRepository --|> IRepository
+    ResourceRepository --|> IRepository
+    ResourceTypeRepository --|> IRepository
+
+
+    KioskViewModel -- PersonRepository
+    KioskViewModel -- BookingRepository
+    KioskViewModel -- ResourceRepository
+    KioskViewModel -- ResourceTypeRepository
+    KioskViewModel -- WPFLib
+    
+    class TimeUnit{
+      +None
+      +Day
+      +Hour
+    }
+    class ResourceType{
+      +Id: Int
+      +Title: String
+      +Unit: TimeUnit
+      +Requiremen: String
+    }
+    class Resource{
+      +Id: Int
+      +Title: String
+      +Price: Double
+      +Description: String
+      IsActive: Bool
+    }
+    class Booking{
+      +Id: Int
+      +StartTime: DateTime
+      +EndTime: DateTime
+      +RequirementFullfilled: Bool
+      +IsPaid: Bool
+      HandedOutAt: DateTime?
+      ReturnedAt: DateTime?
+    }
+    class Person{
+      +Id: int
+      +Name: String
+      +Email: String
+      +Phone: int
+    }
+
+class IRepository
+<<interface>> IRepository
+IRepository: +Add()
+IRepository: +GetAll()
+IRepository: +GetById()
+IRepository: +Update()
+IRepository: +Delete()
+
+class PersonRepository{
+
+}
+
+class BookingRepository{
+
+}
+
+class ResourceRepository{
+
+}
+
+class ResourceTypeRepository{
+
+}
+
+class KioskViewModel{
+    +Bookings: List
+    +Persons: List
+    +Resources: List
+    +ResourceTypes: List
+    +BookingStart: DateTime
+    +BookingEnd: DateTime
+    +Name: String
+    +Email: String
+    +Phone: String
+    +CalculatedPrice: Double
+    +AddBooking()
+    +AddPerson()
+    +UpdatePrice()
+    +LoadAvailableSlots()
+}
+
+class WPFLib{
+    +MessageService()
+    +Validator()
+    +RelayCommand()
+    +RequestWindowClose()
+    +OnPropertyChanged()
+}
